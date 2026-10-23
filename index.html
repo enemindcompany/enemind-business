@@ -510,6 +510,30 @@
   <meta property="og:type" content="website" />
   <meta property="og:image" content="./icons/enemind-512.png" />
   <meta name="twitter:card" content="summary_large_image" />
+
+  <style id="enemind-store-layout-fix">
+    /* Keep the public storefront wide and responsive on the custom domain. */
+    html, body { min-width: 320px; width: 100%; }
+    body { padding: 0; align-items: stretch; justify-content: stretch; }
+    main.page { width: 100%; max-width: none; min-height: 100vh; margin: 0; padding: 0; text-align: left; }
+    #publicStore.storefront { display: block; position: relative; width: min(calc(100% - 32px), 1200px); max-width: 1200px; margin: 28px auto 34px; padding: clamp(20px, 3vw, 42px); box-sizing: border-box; }
+    #publicStore .store-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    #publicStore .store-top > div:first-child { min-width: 0; }
+    #publicStore .store-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    #publicStore .store-products { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 18px; }
+    #publicStore .store-status { display: block; }
+    @media (max-width: 760px) {
+      #publicStore.storefront { width: calc(100% - 20px); margin: 10px auto 24px; padding: 20px 14px; }
+      #publicStore .store-top { align-items: flex-start; flex-direction: column; }
+      #publicStore .store-top-actions { width: 100%; justify-content: flex-start; }
+      #publicStore .store-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      #publicStore .store-products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+    }
+    @media (max-width: 520px) {
+      #publicStore .store-products { grid-template-columns: minmax(0, 1fr); }
+      #publicStore .store-top-actions > * { flex: 1 1 auto; }
+    }
+  </style>
 </head>
 <body>
   <main class="page">
