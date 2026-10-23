@@ -1,8 +1,10 @@
+
 name: Build and deploy Enemind to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -20,26 +22,33 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+
       - name: Install dependencies
         run: npm ci
+
       - name: Build website
         run: npm run build
-      - name: Verify built site
+
+      - name: Verify built website
         run: |
           test -f dist/index.html
           test -f dist/CNAME
-          echo "Built site and custom-domain file are present."
+          echo "Website build and custom domain file verified."
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Upload built site
+
+      - name: Upload built website
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
