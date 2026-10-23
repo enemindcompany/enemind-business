@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09131b">
+  <meta name="description" content="Enemind connects people to digital opportunities, online services, and ways to earn online.">
+  <meta name="application-name" content="Enemind">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/jpeg" href="./icons/logo.jpg">
+  <link rel="apple-touch-icon" href="./icons/logo.jpg">
+  <title>Enemind — Find your way to earn online</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08111f;
+      --panel: rgba(255,255,255,.045);
+      --text: #f5f8ff;
+      --muted: #a8b5ca;
+      --line: rgba(255,255,255,.12);
+      --mint: #62f0c0;
+      --focus: #a8ffdf;
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 28px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 12%, rgba(68,118,255,.19), transparent 42%),
+        radial-gradient(ellipse at 12% 88%, rgba(43,218,171,.11), transparent 34%),
+        var(--bg);
+    }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .page { width: 100%; max-width: 540px; text-align: center; }
+    .brand-mark {
+      width: 142px; height: 142px; margin: 0 auto 20px;
+      border-radius: 50%; display: grid; place-items: center;
+      position: relative; overflow: hidden;
+      background: linear-gradient(145deg,#1b3150,#0d182b 70%);
+      border: 1px solid rgba(255,255,255,.2);
+      box-shadow: 0 0 0 8px rgba(255,255,255,.025), 0 18px 60px rgba(0,0,0,.35), 0 0 42px rgba(98,240,192,.12);
+    }
+    .brand-logo { width: 100%; height: 100%; display: block; object-fit: contain; border-radius: 50%; padding: 5px; }
+    .brand-fallback { display: none; font-size: 48px; line-height: 1; font-weight: 850; letter-spacing: -5px; color: var(--mint); }
+    .brand-fallback span { color: white; }
+    .wordmark { margin: 0; font-size: clamp(30px,7vw,39px); font-weight: 850; letter-spacing: .16em; text-indent: .16em; }
+    .tagline { margin: 11px 0 27px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+    .signin, .install-app {
+      width: 100%; max-width: 340px; min-height: 52px; padding: 0 18px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      border: 0; border-radius: 14px; font-weight: 750; cursor: pointer;
+      transition: transform .18s, box-shadow .18s, opacity .18s;
+    }
+    .signin { background: #fff; color: #172033; font-size: 15px; box-shadow: 0 10px 30px #0003; }
+    .install-app { display: none; margin-top: 12px; min-height: 48px; gap: 10px; background: linear-gradient(135deg,#62f0c0,#8baeff); color: #08111f; font-size: 14px; box-shadow: 0 10px 28px #0003; }
+    .signin:hover, .install-app:hover { transform: translateY(-2px); }
+    .signin:disabled { opacity: .65; cursor: wait; transform: none; }
+    .signin:focus-visible, .install-app:focus-visible, .social:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+    .google-g { width: 20px; height: 20px; flex: 0 0 auto; }
+    .install-app svg { width: 19px; height: 19px; fill: currentColor; }
+    .helper { min-height: 20px; margin: 11px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted); overflow-wrap: anywhere; }
+    .divider { display: flex; align-items: center; gap: 14px; margin: 31px 0 18px; color: #8291a9; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+    .divider::before, .divider::after { content: ""; height: 1px; background: var(--line); flex: 1; }
+    .socials { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 12px; }
+    .social {
+      min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 4px 11px; border-radius: 15px; border: 1px solid var(--line);
+      background: var(--panel); color: var(--muted); text-decoration: none; font-size: 11px;
+      transition: transform .18s, background .18s, border-color .18s;
+    }
+    .social:hover { transform: translateY(-3px); background: #ffffff14; border-color: #62f0c060; color: white; }
+    .social svg { width: 23px; height: 23px; fill: currentColor; flex: 0 0 auto; }
+    .binance-id { font-size: 9px; line-height: 1.2; color: #f3ba2f; overflow-wrap: anywhere; }
+    .whatsapp { color: #36d889; } .wechat { color: #7fe6a0; }
+    .instagram { color: #f7a1ca; } .facebook { color: #7baaff; }
+    .youtube { color: #ff6666; } .binance { color: #f3ba2f; } .telegram { color: #68c9ff; }
+    .note { margin: 24px auto 0; max-width: 400px; color: #78879f; font-size: 11px; line-height: 1.7; }
+    .footer { margin-top: 25px; color: #68768b; font-size: 11px; }
+    body.app-open { align-items: flex-start; padding-top: 44px; }
+    .page.app-mode { max-width: 1000px; text-align: left; }
+    .app-view { margin: 0 auto; width: 100%; }
+    .selector-panel, .dashboard-panel {
+      padding: clamp(22px, 5vw, 42px); border: 1px solid var(--line); border-radius: 26px;
+      background: linear-gradient(145deg, rgba(25,43,68,.94), rgba(11,22,39,.96));
+      box-shadow: 0 24px 70px #0005;
+    }
+    .selector-heading, .dashboard-heading { text-align: center; }
+    .selector-brand { display:flex; align-items:center; justify-content:center; gap:13px; margin:0 auto 22px; }
+    .selector-brand-logo { width:62px; height:62px; object-fit:cover; border-radius:18px; border:1px solid rgba(243,186,47,.55); box-shadow:0 8px 28px rgba(243,186,47,.12); background:#0b0e11; }
+    .selector-brand-name { margin:0; font-size:clamp(20px,4vw,27px); font-weight:900; letter-spacing:.08em; color:#f5f5f5; text-align:left; }
+    .selector-brand-name span { color:#f3ba2f; }
+    .selector-panel { border-color:rgba(243,186,47,.28); background:radial-gradient(ellipse at 50% 0%,rgba(243,186,47,.10),transparent 45%),linear-gradient(145deg,#171a20,#0b0e11 75%); }
+    .selector-panel .eyebrow { color:#f3ba2f; }
+    .selector-panel .account-option { background:rgba(255,255,255,.025); border-color:rgba(255,255,255,.12); }
+    .selector-panel .account-option:hover { border-color:rgba(243,186,47,.7); background:rgba(243,186,47,.06); }
+    .selector-panel .account-option[aria-pressed="true"] { border-color:#f3ba2f; background:rgba(243,186,47,.10); box-shadow:0 0 0 2px rgba(243,186,47,.12); }
+    .selector-panel .primary-action { background:#f3ba2f; color:#181a20; box-shadow:0 8px 24px rgba(243,186,47,.13); }
+    .selector-panel .primary-action:hover { background:#ffcf55; }
+    .selector-panel .secondary-action { border-color:rgba(243,186,47,.35); }
+    .selector-panel .account-badge { border-color:rgba(243,186,47,.4); color:#f3ba2f; background:rgba(243,186,47,.07); }
+    .eyebrow { margin: 0 0 10px; color: var(--mint); font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .view-title { margin: 0; font-size: clamp(27px, 5vw, 40px); letter-spacing: -.04em; }
+    .view-copy { margin: 12px auto 0; max-width: 590px; color: var(--muted); line-height: 1.65; }
+    .account-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 30px 0 24px; }
+    .account-option {
+      min-height: 178px; padding: 20px 15px; text-align: left; color: var(--text); cursor: pointer;
+      border: 1px solid var(--line); border-radius: 18px; background: #ffffff08;
+      transition: transform .18s, border-color .18s, background .18s, box-shadow .18s;
+    }
+    .account-option:hover { transform: translateY(-3px); border-color: #62f0c080; background: #ffffff10; }
+    .account-option[aria-pressed="true"] { border-color: var(--mint); background: #62f0c014; box-shadow: 0 0 0 2px #62f0c025; }
+    .account-option:focus-visible, .primary-action:focus-visible, .secondary-action:focus-visible, .starter-action:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .option-icon { display: block; margin-bottom: 15px; font-size: 28px; }
+    .option-title { display: block; margin-bottom: 7px; font-size: 16px; font-weight: 800; }
+    .option-copy { display: block; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .selector-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .primary-action, .secondary-action {
+      min-height: 48px; padding: 0 24px; border: 0; border-radius: 14px; font: inherit; font-weight: 800; cursor: pointer;
+    }
+    .primary-action { background: linear-gradient(135deg, #62f0c0, #8baeff); color: #08111f; }
+    .secondary-action { border: 1px solid var(--line); background: transparent; color: var(--text); }
+    .primary-action:disabled { opacity: .55; cursor: not-allowed; }
+    .view-status { min-height: 22px; margin: 16px 0 0; color: var(--muted); text-align: center; font-size: 13px; }
+    .view-status[data-state="error"] { color: #ff9b9b; }
+    .view-status[data-state="success"] { color: var(--mint); }
+    .dashboard-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+    .dashboard-heading { text-align: left; }
+    .account-badge { display: inline-flex; margin-top: 14px; padding: 7px 12px; border: 1px solid #62f0c055; border-radius: 999px; color: var(--mint); background: #62f0c010; font-size: 12px; font-weight: 800; }
+    .starter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 30px; }
+    .starter-action { display: block; min-height: 140px; padding: 21px; border: 1px solid var(--line); border-radius: 18px; color: var(--text); background: #ffffff08; text-align: left; }
+    .starter-action-icon { font-size: 25px; }
+    .starter-action strong { display: block; margin: 13px 0 7px; font-size: 16px; }
+    .starter-action span:last-child { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    [hidden] { display: none !important; }
+    @media (min-width: 801px) { .account-options { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 800px) { .account-options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 480px) {
+      body.app-open { padding: 22px 12px; }
+      .account-options { gap: 9px; margin-top: 22px; }
+      .account-option { min-height: 160px; padding: 15px 12px; }
+      .dashboard-top { display: block; }
+      .dashboard-top .secondary-action { margin-top: 18px; }
+    }
+    @media (max-width: 390px) {
+      body { padding: 24px 14px; }
+      .brand-mark { width: 124px; height: 124px; }
+      .socials { gap: 8px; }
+      .social { padding: 11px 2px 9px; font-size: 10px; }
+      .social svg { width: 21px; height: 21px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+    :root {
+      color-scheme: dark;
+      --bg: #09131b;
+      --panel: #111f29;
+      --text: #f3f8f8;
+      --muted: #a6b8bd;
+      --line: #29404a;
+      --mint: #45d6b0;
+      --focus: #8af2d4;
+    }
+    body {
+      background:
+        radial-gradient(ellipse at 50% 8%, rgba(26,101,94,.2), transparent 43%),
+        radial-gradient(ellipse at 10% 90%, rgba(24,91,77,.13), transparent 38%),
+        var(--bg);
+    }
+    .page { max-width: 580px; padding: 38px; border: 1px solid var(--line); border-radius: 28px; background: #0d1a23; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+    .brand-mark { background: #142630; border-color: #38515b; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+    .brand-fallback span { color: var(--text); }
+    .signin { background: #f8fbfb; color: #152a30; box-shadow: 0 8px 22px rgba(0,0,0,.24); }
+    .install-app { background: #155e50; color: #f2fffb; box-shadow: 0 8px 22px rgba(0,0,0,.24); }
+    .divider { color: #9bafb3; }
+    .social { background: #111f29; }
+    .social:hover { background: #1a3039; border-color: #45d6b080; color: var(--text); }
+    .note { color: #9bafb3; }
+    .footer { color: #83989d; }
+    .selector-panel, .dashboard-panel { background: #101e27; box-shadow: 0 18px 50px rgba(0,0,0,.3); }
+    .account-option { background: #14232d; box-shadow: 0 5px 16px rgba(0,0,0,.16); }
+    .account-option:hover { border-color: #45d6b080; background: #192d35; }
+    .account-option[aria-checked="true"] { border-color: var(--mint); background: #12352f; box-shadow: 0 0 0 2px #45d6b02b; }
+    .account-option:focus-visible, .primary-action:focus-visible, .secondary-action:focus-visible, .starter-action:focus-visible, .profile-field input:focus-visible, .profile-field select:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .primary-action { background: #18a982; color: #041b17; box-shadow: 0 8px 18px rgba(24,169,130,.2); }
+    .secondary-action { background: #14232d; border-color: #38515b; color: var(--text); }
+    .primary-action:disabled, .secondary-action:disabled { opacity: .55; cursor: wait; }
+    .view-status[data-state="error"] { color: #ff9b9b; }
+    .view-status[data-state="success"] { color: #72e5bf; }
+    .account-badge { border-color: #45d6b055; color: #7ce9c7; background: #12352f; }
+    .starter-action { background: #14232d; box-shadow: 0 5px 16px rgba(0,0,0,.16); }
+    .profile-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; margin-top: 25px; }
+    .profile-field { display: grid; gap: 7px; color: var(--text); font-size: 13px; font-weight: 750; }
+    .profile-field input, .profile-field select { width: 100%; min-height: 46px; padding: 11px 13px; border: 1px solid #38515b; border-radius: 12px; background: #0a171f; color: var(--text); font: inherit; font-weight: 450; }
+    .profile-field input::placeholder { color: #8da2a7; }
+    .profile-help { margin: 0; color: var(--muted); font-size: 12px; font-weight: 450; line-height: 1.5; }
+    .privacy-note { margin: 22px 0 0; padding: 15px 17px; border: 1px solid #294a48; border-radius: 14px; background: #132a2a; color: #c0d6d1; font-size: 12px; line-height: 1.65; }
+    .profile-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+    .profile-label { display: flex; align-items: center; gap: 9px; }
+    .brand-icon { width: 21px; height: 21px; display: inline-grid; place-items: center; flex: 0 0 auto; }
+    .brand-icon svg { width: 100%; height: 100%; display: block; }
+    .brand-whatsapp { color: #25d366; }
+    .brand-facebook { color: #0866ff; }
+    .brand-wechat { color: #07c160; }
+    .brand-instagram { color: #e1306c; }
+    .brand-x { color: #f3f5f5; }
+    .brand-paypal { color: #009cde; }
+    .brand-binance { color: #f0b90b; }
+    .profile-summary { margin-top: 24px; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: #0e1b24; }
+    .profile-summary h3 { margin: 0 0 15px; font-size: 16px; }
+    .profile-summary-list { display: flex; gap: 10px; flex-wrap: wrap; }
+    .profile-summary-link, .profile-summary-item { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; padding: 9px 12px; border: 1px solid #2b444d; border-radius: 12px; background: #14232d; color: #eaf5f3; font-size: 13px; text-decoration: none; overflow-wrap: anywhere; }
+    .profile-summary-link:hover { border-color: #45d6b0; }
+    .profile-summary-link .brand-icon, .profile-summary-item .brand-icon { width: 18px; height: 18px; }
+    @media (max-width: 700px) { .page { padding: 25px 18px; } .profile-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 390px) { .page { padding: 20px 14px; } }
+
+    /* Enemind service hub */
+    .service-hub { margin-top: 28px; padding-top: 25px; border-top: 1px solid var(--line); }
+    .section-heading { margin: 0 0 8px; font-size: 22px; letter-spacing: -.02em; }
+    .section-copy { margin: 0 0 18px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .service-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+    .service-card { position:relative; overflow:hidden; padding:20px; border:1px solid rgba(243,186,47,.20); border-radius:18px; background:linear-gradient(150deg,rgba(255,255,255,.055),rgba(255,255,255,.018)); transition:transform .18s,border-color .18s,box-shadow .18s; }
+    .service-card:hover { transform:translateY(-3px); border-color:rgba(243,186,47,.55); box-shadow:0 15px 35px #0003; }
+    .service-card h4 { margin:9px 0 7px; font-size:16px; }
+    .service-card p { margin:0 0 13px; color:var(--muted); font-size:12px; line-height:1.6; }
+    .service-icon { display:inline-grid; place-items:center; width:43px; height:43px; border-radius:13px; background:rgba(243,186,47,.10); border:1px solid rgba(243,186,47,.22); font-size:23px; }
+    .service-card button { margin:3px 4px 0 0; }
+    .service-card button:first-of-type { background:#f3ba2f; color:#17191e; border-color:#f3ba2f; }
+    .buyer-workspace { margin-top:22px; padding:20px; border:1px solid rgba(243,186,47,.28); border-radius:20px; background:radial-gradient(ellipse at 0 0,rgba(243,186,47,.09),transparent 50%),#0c1218; }
+    .buyer-workspace-head { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:16px; }
+    .buyer-workspace h3 { margin:0 0 7px; font-size:19px; }
+    .buyer-workspace p { margin:0; max-width:700px; color:var(--muted); font-size:12px; line-height:1.6; }
+    .buyer-feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:11px; }
+    .buyer-feature { padding:15px; border:1px solid var(--line); border-radius:14px; background:#ffffff04; }
+    .buyer-feature strong { display:block; margin:7px 0 5px; font-size:13px; }
+    .buyer-feature span { display:block; color:var(--muted); font-size:11px; line-height:1.55; }
+    .feature-mark { color:#f3ba2f; font-size:20px; }
+    .addon-checks { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; margin:12px 0; }
+    .addon-check { display:flex !important; align-items:flex-start; gap:9px; margin:0 !important; padding:12px; border:1px solid var(--line); border-radius:12px; background:#ffffff04; }
+    .addon-check input { width:auto !important; margin:3px 0 0 !important; accent-color:#f3ba2f; }
+    .addon-check strong { display:block; color:var(--text); font-size:12px; margin-bottom:4px; }
+    .addon-check small { display:block; color:var(--muted); font-size:11px; line-height:1.5; }
+    .service-price { color:var(--mint); font-size:13px; font-weight:800; margin:0 0 12px; }
+    .service-card button, .mini-action { min-height:39px; padding:8px 13px; border-radius:10px; border:1px solid var(--line); background:#17352f; color:var(--text); font:inherit; font-size:12px; font-weight:800; cursor:pointer; }
+    .payment-box { margin-top:20px; padding:18px; border:1px solid #d9ad2c66; border-radius:17px; background:linear-gradient(135deg,#3a3016aa,#17252a); }
+    .payment-destination { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:12px 0; }
+    .payment-id { color:#f3ba2f; font-size:22px; font-weight:900; letter-spacing:.02em; overflow-wrap:anywhere; }
+    .payment-hint { color:var(--muted); font-size:12px; line-height:1.55; }
+    .service-form { margin-top:16px; padding:18px; border:1px solid var(--line); border-radius:16px; background:#08151b; }
+    .service-form h4 { margin:0 0 12px; }
+    .form-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
+    .service-form label { display:block; margin:10px 0; color:var(--muted); font-size:12px; }
+    .service-form input,.service-form select,.service-form textarea { width:100%; margin-top:6px; padding:11px 12px; color:var(--text); background:#13242c; border:1px solid var(--line); border-radius:9px; font:inherit; }
+    .service-form textarea { min-height:85px; resize:vertical; }
+    .service-status { min-height:20px; margin:10px 0 0; color:var(--muted); font-size:12px; line-height:1.5; }
+    .service-status[data-state="error"] { color:#ff9b9b; } .service-status[data-state="success"] { color:var(--mint); }
+    .records-list { margin-top:14px; display:grid; gap:8px; }
+    .record-row { padding:11px 12px; border:1px solid var(--line); border-radius:10px; color:var(--muted); font-size:12px; line-height:1.5; }
+    .referral-links { display:grid; gap:8px; margin-top:10px; }
+    .referral-line { display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center; }
+    .referral-line code { overflow-wrap:anywhere; white-space:normal; color:var(--mint); font-size:11px; }
+    .privacy-inline { color:var(--muted); font-size:11px; line-height:1.5; }
+
+    /* Buyer dashboard: Binance-inspired dark surfaces with restrained gold accents */
+    .dashboard-panel { border-color:rgba(243,186,47,.22); background:radial-gradient(ellipse at 100% 0,rgba(243,186,47,.07),transparent 34%),linear-gradient(145deg,#111820,#090d12 80%); }
+    .dashboard-brandline { display:flex; align-items:center; gap:12px; margin-bottom:22px; padding-bottom:17px; border-bottom:1px solid rgba(243,186,47,.16); }
+    .dashboard-logo { width:46px;height:46px;object-fit:cover;border-radius:14px;border:1px solid rgba(243,186,47,.45);background:#090d12; }
+    .dashboard-brandname { margin:0;font-size:16px;letter-spacing:.12em;font-weight:900; }
+    .dashboard-brandname span { color:#f3ba2f; }
+    .dashboard-brandline small { display:block;margin-top:4px;color:var(--muted);font-size:11px; }
+    .dashboard-top { padding:21px;border:1px solid rgba(243,186,47,.17);border-radius:20px;background:linear-gradient(125deg,rgba(243,186,47,.075),rgba(255,255,255,.015)); }
+    .dashboard-heading .view-title { overflow-wrap:anywhere; }
+    .account-badge { border-color:rgba(243,186,47,.42);color:#f3ba2f;background:rgba(243,186,47,.07); }
+    .buyer-workspace { margin-top:22px;padding:clamp(16px,3vw,25px);border-color:rgba(243,186,47,.32);background:radial-gradient(ellipse at 0 0,rgba(243,186,47,.1),transparent 42%),linear-gradient(145deg,#131920,#0b1016); }
+    .buyer-hero { display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:18px;margin-bottom:20px; }
+    .buyer-hero h3 { font-size:clamp(21px,4vw,28px);letter-spacing:-.035em;margin:0 0 8px; }
+    .buyer-hero p { max-width:650px; }
+    .buyer-hero-mark { width:70px;height:70px;display:grid;place-items:center;border-radius:22px;border:1px solid rgba(243,186,47,.32);background:rgba(243,186,47,.09);font-size:36px; }
+    .buyer-quick-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0; }
+    .buyer-quick { padding:13px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(255,255,255,.025); }
+    .buyer-quick b { display:block;color:#f3ba2f;font-size:19px;margin-bottom:5px; }
+    .buyer-quick span { color:var(--muted);font-size:11px;line-height:1.4; }
+    .buyer-feature-grid { grid-template-columns:repeat(auto-fit,minmax(205px,1fr)); }
+    .buyer-feature { background:linear-gradient(140deg,rgba(255,255,255,.035),rgba(255,255,255,.012)); }
+    .buyer-tools { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px;margin-top:16px; }
+    .buyer-tool { display:flex;align-items:flex-start;gap:12px;padding:15px;border:1px solid rgba(243,186,47,.18);border-radius:15px;background:#ffffff03; }
+    .buyer-tool-icon { width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;border-radius:12px;background:rgba(243,186,47,.1);color:#f3ba2f;font-size:20px; }
+    .buyer-tool strong { display:block;font-size:13px;margin:1px 0 5px; }
+    .buyer-tool p { margin:0;color:var(--muted);font-size:11px;line-height:1.55; }
+    .buyer-panel-head { display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px; }
+    .buyer-panel-head h4 { margin:0; }
+    .buyer-list { display:grid;gap:9px;margin-top:12px; }
+    .buyer-item { padding:14px;border:1px solid rgba(243,186,47,.16);border-radius:13px;background:rgba(255,255,255,.025); }
+    .buyer-item-top { display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap; }
+    .buyer-item strong { font-size:13px; }
+    .buyer-item p { margin:6px 0 0;color:var(--muted);font-size:11px;line-height:1.55; }
+    .buyer-status-pill { display:inline-flex;padding:5px 8px;border-radius:999px;border:1px solid rgba(243,186,47,.28);color:#f3ba2f;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em; }
+    .buyer-item-actions { display:flex;gap:7px;flex-wrap:wrap;margin-top:12px; }
+    .buyer-empty { padding:18px;border:1px dashed rgba(243,186,47,.25);border-radius:13px;color:var(--muted);font-size:12px;line-height:1.6; }
+    .buyer-tabs { display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 10px; }
+    .buyer-tabs button { border:1px solid rgba(243,186,47,.2);border-radius:999px;padding:9px 13px;background:#111820;color:var(--muted);font:inherit;font-size:11px;font-weight:800;cursor:pointer; }
+    .buyer-tabs button[aria-pressed="true"] { background:#f3ba2f;color:#17191e;border-color:#f3ba2f; }
+    @media(max-width:640px){.buyer-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.buyer-hero{grid-template-columns:1fr}.buyer-hero-mark{display:none}.dashboard-top{padding:16px}}
+
+    @media(max-width:480px){ .payment-id{font-size:18px}.service-card{padding:15px}.referral-line{grid-template-columns:1fr} }
+
+  
+    .bwrite-only-options { grid-template-columns: minmax(0, 1fr); max-width: 520px; margin-inline: auto; }
+    .bwrite-only-options .account-option { min-height: 150px; border-color: rgba(240,185,11,.5); }
+    .bwrite-profile-grid { grid-template-columns: minmax(0, 1fr); max-width: 640px; margin-inline: auto; }
+    .bwrite-profile-grid .profile-field { padding: 18px; border: 1px solid rgba(240,185,11,.22); border-radius: 16px; background: rgba(255,255,255,.025); }
+
+
+    /* Bwrite-only workspace: keep unrelated Enemind services out of this page. */
+    #serviceHub > .section-copy { display: none !important; }
+    #buyerMarketplace { display: none !important; }
+    #serviceHub .service-grid > .service-card:not(:nth-child(4)) { display: none !important; }
+    #paymentSubmissionPanel, #workerTaskPanel, #withdrawalPanel, #csvRequestPanel,
+    #referralPanel, #learningResourcesPanel, #adminEarningsPanel, #adminLearningPanel,
+    #adminReviewPanel { display: none !important; }
+
+    /* Full-screen Enemind landing experience */
+    html, body { width:100%; min-height:100%; }
+    body { padding:0; align-items:stretch; justify-content:stretch; }
+    .page { width:100%; max-width:none; text-align:center; }
+    .auth-screen {
+      min-height:100svh; width:100%; padding:clamp(28px,6vh,72px) clamp(18px,5vw,64px) 30px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; isolation:isolate;
+      overflow:hidden; background:
+        radial-gradient(ellipse at 18% 18%,rgba(98,240,192,.13),transparent 34%),
+        radial-gradient(ellipse at 82% 28%,rgba(91,135,255,.22),transparent 38%),
+        linear-gradient(145deg,#07101e 0%,#0b1830 52%,#07111d 100%);
+    }
+    .auth-screen::before,.auth-screen::after { content:""; position:absolute; z-index:-1; border-radius:50%; pointer-events:none; filter:blur(1px); }
+    .auth-screen::before { width:min(52vw,650px); aspect-ratio:1; border:1px solid rgba(255,255,255,.055); right:-15%; top:-32%; box-shadow:0 0 0 55px rgba(255,255,255,.012),0 0 0 110px rgba(255,255,255,.009); }
+    .auth-screen::after { width:min(40vw,480px); aspect-ratio:1; border:1px solid rgba(98,240,192,.09); left:-17%; bottom:-35%; }
+    .brand-mark { width:clamp(96px,14vw,142px); height:clamp(96px,14vw,142px); margin:0 auto 22px; }
+    .wordmark { font-size:clamp(34px,5vw,54px); letter-spacing:.2em; }
+    .tagline { max-width:560px; font-size:clamp(14px,1.6vw,17px); margin:15px auto 28px; }
+    .signin { width:min(100%,390px); max-width:390px; min-height:58px; border-radius:16px; font-size:15px; box-shadow:0 12px 35px rgba(0,0,0,.25),0 0 0 1px rgba(255,255,255,.65) inset; }
+    .signin:hover { box-shadow:0 16px 38px rgba(0,0,0,.35),0 0 0 2px rgba(98,240,192,.35); }
+    .helper { max-width:460px; min-height:22px; }
+    .divider { width:min(100%,390px); margin:28px 0 16px; }
+    .socials { width:min(100%,390px); grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .social { min-height:62px; flex-direction:row; padding:15px; font-size:13px; border-radius:15px; }
+    .note { max-width:500px; margin-top:25px; }
+    .footer { margin-top:24px; }
+    .storefront { width:100%; max-width:none; min-height:100svh; margin:0; padding:clamp(24px,4vw,58px); border-radius:0; border-left:0; border-right:0; }
+    .store-products { grid-template-columns:repeat(auto-fit,minmax(245px,1fr)); }
+    body.app-open { padding:0; }
+    body.app-open .page { padding:clamp(18px,3vw,40px); }
+    @media(max-width:480px) {
+      .auth-screen { padding:28px 20px 24px; }
+      .brand-mark { margin-bottom:18px; }
+      .tagline { margin:12px auto 24px; }
+      .socials { max-width:390px; }
+      .storefront { padding:24px 16px; }
+      body.app-open .page { padding:14px; }
+    }
+    .browse-products-cta { display:inline-flex; align-items:center; justify-content:center; gap:10px; text-decoration:none; cursor:pointer; }
+    .browse-products-cta span { font-size:20px; line-height:1; }
+  </style>
+
+<style>
+/* Enemind public digital-products storefront */
+#dashboard .service-hub{display:none!important}
+#dashboard .starter-grid{display:none!important}
+#dashboard .profile-summary{display:none!important}
+#dashboard .payment-panel{display:none!important}
+.storefront{width:min(100%,1060px);margin:32px auto 0;padding:26px 22px 30px;border:1px solid rgba(125,151,190,.22);border-radius:24px;background:linear-gradient(145deg,rgba(18,29,49,.97),rgba(9,15,27,.98));color:#edf3ff;text-align:left;box-sizing:border-box}
+.store-top{display:flex;align-items:flex-start;justify-content:space-between;gap:22px}.store-top>div{max-width:700px}.store-eyebrow{font-size:10px;letter-spacing:.18em;font-weight:800;color:#8dbbff;margin:0 0 9px}.store-top h2{font-size:clamp(24px,4vw,38px);line-height:1.12;letter-spacing:-.04em;margin:0 0 12px}.store-subtitle,.store-muted{color:#aab7cc;line-height:1.6;font-size:13px}.store-whatsapp{white-space:nowrap;color:#c7ffdc;text-decoration:none;border:1px solid rgba(54,216,137,.38);border-radius:12px;padding:11px 14px;font-size:12px;font-weight:750}.store-controls{display:grid;grid-template-columns:auto minmax(160px,1fr) auto minmax(150px,.7fr);gap:10px;align-items:center;margin:22px 0 8px}.store-search-label{font-size:11px;color:#b7c3d8}.store-controls input,.store-controls select,.store-modal input,.store-modal select,.store-modal textarea{width:100%;box-sizing:border-box;color:#edf3ff;background:#0a1220;border:1px solid #293b55;border-radius:10px;padding:12px;font:inherit;font-size:13px;min-width:0}.store-status{font-size:12px;line-height:1.5;color:#aab7cc;min-height:18px}.store-products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}.store-card{border:1px solid #263852;border-radius:17px;overflow:hidden;background:#0d1727;display:flex;flex-direction:column;min-width:0}.store-card-image{height:145px;background:linear-gradient(135deg,#172c48,#101827);display:flex;align-items:center;justify-content:center;overflow:hidden}.store-card-image img{width:100%;height:100%;object-fit:cover}.store-card-placeholder{font-size:42px}.store-card-body{padding:15px;display:flex;flex:1;flex-direction:column;gap:9px}.store-tag{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#8dbbff;font-weight:800}.store-card h3{font-size:16px;line-height:1.3;margin:0}.store-card p{font-size:12px;color:#aab7cc;line-height:1.55;margin:0}.store-price{font-size:20px;font-weight:850;color:#fff;margin-top:auto;padding-top:4px}.store-price small{font-size:10px;color:#9eabc0;font-weight:500}.store-card-actions{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}.store-button{border:0;border-radius:10px;background:#8dbbff;color:#081426;padding:11px 13px;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px}.store-button:hover{filter:brightness(1.07)}.store-button-secondary{background:#17263b;border:1px solid #344967;color:#dce8fb}.store-share{border:1px solid #30445f;background:transparent;color:#c5d8f5;border-radius:10px;padding:9px 10px;font-size:11px;font-weight:700;cursor:pointer}.store-empty{grid-column:1/-1;border:1px dashed #344967;border-radius:14px;padding:28px;text-align:center;color:#aab7cc;font-size:13px}.school-banner{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:24px;padding:20px;border:1px solid #30445f;border-radius:16px;background:linear-gradient(110deg,#14243a,#111a2a)}.school-banner h3{margin:0 0 7px;font-size:16px}.school-banner p{margin:0;color:#aab7cc;font-size:12px;line-height:1.5}.store-trust{display:flex;gap:18px;flex-wrap:wrap;margin-top:17px;color:#a9c6ec;font-size:10px}.store-modal[hidden],.store-admin[hidden]{display:none!important}.store-modal{position:fixed;inset:0;z-index:1000;background:rgba(2,7,15,.82);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}.store-modal-card{position:relative;width:min(100%,480px);max-height:92vh;overflow:auto;background:#101b2c;border:1px solid #344967;border-radius:20px;padding:24px;color:#edf3ff;box-shadow:0 20px 80px #0008}.store-modal-card h3{font-size:24px;margin:0 0 12px}.store-modal-card form{display:grid;gap:13px}.store-modal-card label{display:grid;gap:7px;font-size:11px;color:#c2cee0;font-weight:650}.store-modal-card .store-consent{display:flex;align-items:flex-start;gap:8px;line-height:1.5}.store-consent input{width:auto;margin-top:3px}.store-modal-close{position:absolute;right:12px;top:10px;background:transparent;color:#d9e6fa;border:0;font-size:26px;cursor:pointer}.store-reference{padding:15px;background:#07101e;border:1px dashed #6589b7;border-radius:12px;font-size:20px;font-weight:900;letter-spacing:.08em;text-align:center;overflow-wrap:anywhere}.store-payment-choice{display:grid;gap:7px;margin:12px 0;font-size:12px;color:#c2cee0}.store-payment-choice select{width:100%;box-sizing:border-box;color:#edf3ff;background:#0a1220;border:1px solid #293b55;border-radius:10px;padding:12px;font:inherit;font-size:13px}.store-payment{background:#0b1423;border:1px solid #293e59;padding:14px;border-radius:12px;font-size:12px;line-height:1.6;color:#b8c6da;margin:14px 0}.store-payment p{margin:7px 0}.store-payment strong{color:#fff}.store-order-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.store-order-actions>*{flex:1}.store-lookup{border-top:1px solid #2a3a52;margin-top:18px;padding-top:15px}.store-lookup h4{margin:0 0 12px}.store-lookup label{margin-bottom:10px}.store-admin{margin-top:26px;border-top:1px solid #2a3a52;padding-top:22px}.store-admin-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.store-admin h3{margin:0}.admin-order{border:1px solid #30445f;background:#0b1423;border-radius:13px;padding:15px;margin:12px 0}.admin-order h4{margin:0 0 8px}.admin-order p{font-size:12px;line-height:1.5;color:#b6c4d8;margin:5px 0}.admin-order-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.store-admin input,.store-admin select{max-width:100%;padding:9px;background:#101b2c;border:1px solid #30445f;color:#fff;border-radius:8px}.store-admin label{display:inline-grid;gap:5px;font-size:10px;margin:6px 8px 6px 0;color:#aab7cc}.store-admin .store-button{min-height:34px;padding:8px 10px}.store-order-actions a{box-sizing:border-box}.store-card-actions .store-button{flex:1}.store-card-actions .store-share{flex:0 0 auto}
+
+#publicStore .video-learning{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:22px;align-items:center;margin:18px 0 12px;padding:22px;border:1px solid rgba(255,92,92,.22);border-radius:18px;background:linear-gradient(115deg,rgba(40,26,39,.88),rgba(13,25,42,.96))}
+#publicStore .video-learning h3{margin:0 0 8px;font-size:clamp(18px,2.6vw,24px);line-height:1.25;color:#f5f8ff}
+#publicStore .video-learning-copy>p:last-child{margin:0;color:#aab7cc;font-size:13px;line-height:1.65}
+#publicStore .video-learning-form{display:grid;gap:9px;min-width:0}
+#publicStore .video-learning-search{display:flex;gap:8px;min-width:0}
+#publicStore .video-learning-search input{width:100%;min-width:0;height:44px;padding:0 12px;border:1px solid #30445f;border-radius:10px;background:#0a1220;color:#edf3ff;font:inherit;font-size:13px}
+#publicStore .video-learning-search .store-button{white-space:nowrap;background:#ff5a5f;color:#fff}
+#publicStore .video-learning-note{margin:0;color:#8294ad;font-size:11px;line-height:1.5}
+#publicStore .curated-youtube-videos{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:8px}
+#publicStore .curated-video{padding:12px;border:1px solid #30445f;border-radius:10px;background:#0a1220}
+#publicStore .curated-video strong{display:block;color:#edf3ff;font-size:13px;margin-bottom:5px}
+#publicStore .curated-video p{font-size:12px;color:#aab7cc;margin:0 0 8px}
+#publicStore .curated-video a{font-size:12px;color:#ff8b8e}
+@media(max-width:650px){#publicStore .video-learning{grid-template-columns:1fr;padding:17px}#publicStore .video-learning-search{flex-direction:column}#publicStore .video-learning-search .store-button{width:100%;white-space:normal}}
+
+@media(max-width:760px){.store-products{grid-template-columns:repeat(2,minmax(0,1fr))}.store-controls{grid-template-columns:1fr 1fr}.store-controls .store-search-label:nth-of-type(1){grid-column:1/-1}.store-controls input{grid-column:1/-1}.store-top{display:block}.store-whatsapp{display:inline-flex;margin-top:10px}.school-banner{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.storefront{padding:18px 13px;border-radius:18px}.store-products{grid-template-columns:1fr}.store-card-image{height:170px}.store-modal-card{padding:20px 15px}.store-controls{grid-template-columns:1fr}.store-controls .store-search-label,.store-controls input{grid-column:auto}.store-trust{display:grid;gap:8px}}
+
+/* Refined Enemind storefront layout */
+#publicStore.storefront{
+  position:relative;isolation:isolate;overflow:hidden;
+  width:min(100% - 32px,1180px);min-height:0;margin:30px auto 42px;
+  padding:clamp(24px,4vw,52px);border:1px solid rgba(141,187,255,.18);
+  border-radius:28px;background:radial-gradient(ellipse at 90% 0%,rgba(56,112,183,.22),transparent 36%),linear-gradient(145deg,#101c30 0%,#09111f 78%);
+  box-shadow:0 24px 80px rgba(0,0,0,.24)
+}
+#publicStore.storefront:before{content:"";position:absolute;z-index:-1;width:280px;height:280px;right:-110px;top:-135px;border:1px solid rgba(141,187,255,.13);border-radius:50%;box-shadow:0 0 0 28px rgba(141,187,255,.025),0 0 0 58px rgba(141,187,255,.02)}
+#publicStore .store-top{align-items:center;gap:28px;padding:0 0 28px;border-bottom:1px solid rgba(141,187,255,.12)}
+#publicStore .store-top>div{max-width:740px}
+#publicStore .store-eyebrow{display:inline-flex;align-items:center;gap:8px;color:#a8caff;font-size:10px;letter-spacing:.19em;margin-bottom:15px}
+#publicStore .store-eyebrow:before{content:"";display:inline-block;width:22px;height:2px;background:#8dbbff;border-radius:3px}
+#publicStore .store-top h2{max-width:650px;font-size:clamp(32px,5vw,54px);line-height:1.04;letter-spacing:-.045em;margin:0 0 16px}
+#publicStore .store-subtitle{max-width:600px;font-size:15px;line-height:1.75;color:#bac8dc;margin:0}
+#publicStore .store-whatsapp{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:#163b32;color:#c7ffdc;border:1px solid rgba(54,216,137,.38);border-radius:13px;padding:13px 17px;font-size:13px;transition:transform .2s,background .2s}
+#publicStore .store-whatsapp:before{content:"↗";font-size:16px}
+#publicStore .store-whatsapp:hover{background:#1c4a3e;transform:translateY(-2px)}
+#publicStore .store-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px 14px;margin:26px 0 10px;padding:17px;background:rgba(5,12,23,.48);border:1px solid rgba(141,187,255,.12);border-radius:17px}
+#publicStore .store-search-label{font-size:11px;font-weight:750;letter-spacing:.04em;color:#c5d3e7}
+#publicStore .store-controls input{grid-column:1/-1;grid-row:2;height:48px;padding:0 15px 0 42px;border-radius:11px;background:#101d30 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2398aecb' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-4-4'/%3E%3C/svg%3E") no-repeat 14px center;border-color:#30445f}
+#publicStore .store-controls label[for="storeSearch"]{grid-column:1/-1;grid-row:1}
+#publicStore .store-controls label[for="storeCategory"]{grid-column:1;grid-row:3}
+#publicStore .store-controls label[for="storeCurriculum"]{grid-column:2;grid-row:3}
+#publicStore .store-controls label[for="storeClass"]{grid-column:3;grid-row:3}
+#publicStore .store-controls label[for="storeSubject"]{grid-column:4;grid-row:3}
+#publicStore .store-controls select{grid-row:4;height:48px;border-radius:11px;background:#101d30;border-color:#30445f;min-width:0}
+#publicStore .store-controls #storeCategory{grid-column:1}
+#publicStore .store-controls #storeCurriculum{grid-column:2}
+#publicStore .store-controls #storeClass{grid-column:3}
+#publicStore .store-controls #storeSubject{grid-column:4}
+#publicStore .store-controls label[for="storeCareer"]{grid-column:1/-1;grid-row:5}
+#publicStore .store-controls #storeCareer{grid-column:1/-1;grid-row:6}
+#publicStore .store-controls input:focus,#publicStore .store-controls select:focus{outline:2px solid rgba(141,187,255,.65);outline-offset:1px}
+#publicStore .store-status{display:flex;align-items:center;min-height:20px;margin:14px 0 10px;color:#9eafc7;font-size:12px}
+#publicStore .store-products{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),500px));justify-content:center;align-items:stretch;gap:18px;margin-top:16px}
+#publicStore .store-card{width:100%;max-width:500px;height:500px;min-height:0;box-sizing:border-box;justify-self:center}
+#publicStore .store-card-image{height:180px;flex:0 0 180px}
+#publicStore .store-card-body{min-height:0;overflow:auto}
+#publicStore .store-card h3{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#publicStore .store-card-body>p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+#publicStore .store-card{border-color:rgba(141,187,255,.16);border-radius:18px;background:linear-gradient(160deg,#111f33,#0b1423);transition:transform .2s,border-color .2s,box-shadow .2s}
+#publicStore .store-card:hover{transform:translateY(-4px);border-color:rgba(141,187,255,.42);box-shadow:0 14px 34px rgba(0,0,0,.2)}
+#publicStore .store-card-image{height:175px;background:linear-gradient(135deg,#1b3453,#111b2c)}
+#publicStore .store-card-body{padding:18px;gap:11px}
+#publicStore .store-card h3{font-size:17px;line-height:1.35}
+#publicStore .store-card p{font-size:13px;line-height:1.65}
+#publicStore .store-price{font-size:22px}
+#publicStore .store-button{border-radius:11px;min-height:43px}
+#publicStore .store-empty{padding:clamp(30px,6vw,56px) 22px;border:1px dashed #3b5271;border-radius:18px;background:linear-gradient(145deg,rgba(19,35,56,.7),rgba(10,19,32,.7));color:#b9c8dd;font-size:14px;line-height:1.7}
+#publicStore .store-empty .empty-icon{display:grid;place-items:center;width:58px;height:58px;margin:0 auto 16px;border:1px solid rgba(141,187,255,.2);border-radius:17px;background:#172940;color:#a8caff;font-size:26px}
+#publicStore .store-empty h3{font-size:20px;line-height:1.3;color:#f2f6ff;margin:0 0 8px}
+#publicStore .store-empty p{max-width:440px;margin:0 auto 17px;color:#aabbd2}
+#publicStore .store-empty a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 15px;border-radius:11px;background:#8dbbff;color:#081426;text-decoration:none;font-size:12px;font-weight:800}
+#publicStore .school-banner{margin-top:24px;padding:23px;border:1px solid rgba(141,187,255,.16);border-radius:18px;background:linear-gradient(110deg,rgba(24,43,68,.96),rgba(15,25,41,.96))}
+#publicStore .school-banner h3{font-size:17px;margin-bottom:8px}
+#publicStore .school-banner p{max-width:700px;font-size:13px;line-height:1.7}
+#publicStore .store-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px;padding-top:18px;border-top:1px solid rgba(141,187,255,.12);color:#b8c9e0;font-size:11px;line-height:1.5}
+#publicStore .store-trust span{display:flex;align-items:flex-start;gap:8px}
+#publicStore .store-trust span: first-letter{color:#71e1ac}
+@media(max-width:700px){
+ #publicStore.storefront{width:calc(100% - 20px);margin:10px auto 24px;padding:24px 17px;border-radius:21px}
+ #publicStore .store-top{align-items:flex-start;flex-direction:column;gap:18px;padding-bottom:23px}
+ #publicStore .store-top h2{font-size:clamp(32px,8vw,43px)}
+ #publicStore .store-subtitle{font-size:14px}
+ #publicStore .store-whatsapp{width:auto}
+ #publicStore .store-controls{grid-template-columns:1fr 1fr;padding:13px;gap:8px}
+ #publicStore .store-controls label[for="storeSearch"]{grid-column:1/-1;grid-row:1}
+ #publicStore .store-controls input{grid-column:1/-1;grid-row:2}
+ #publicStore .store-controls label[for="storeCategory"]{grid-column:1;grid-row:3}
+ #publicStore .store-controls #storeCategory{grid-column:1;grid-row:4}
+ #publicStore .store-controls label[for="storeCurriculum"]{grid-column:2;grid-row:3}
+ #publicStore .store-controls #storeCurriculum{grid-column:2;grid-row:4}
+ #publicStore .store-controls label[for="storeClass"]{grid-column:1;grid-row:5}
+ #publicStore .store-controls #storeClass{grid-column:1;grid-row:6}
+ #publicStore .store-controls label[for="storeSubject"]{grid-column:2;grid-row:5}
+ #publicStore .store-controls #storeSubject{grid-column:2;grid-row:6}
+ #publicStore .store-controls label[for="storeCareer"]{grid-column:1/-1;grid-row:7}
+ #publicStore .store-controls #storeCareer{grid-column:1/-1;grid-row:8}
+ #publicStore .store-products{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+ #publicStore .store-card-image{height:135px}
+ #publicStore .store-card-body{padding:13px}
+ #publicStore .store-card h3{font-size:15px}
+ #publicStore .store-card p{font-size:12px}
+ #publicStore .store-card-actions{flex-direction:column}
+ #publicStore .store-card-actions .store-button{width:100%;box-sizing:border-box}
+ #publicStore .school-banner{align-items:flex-start;flex-direction:column;padding:18px}
+ #publicStore .store-trust{grid-template-columns:1fr;gap:10px}
+}
+@media(max-width:520px){#publicStore .store-products{grid-template-columns:minmax(0,1fr)}#publicStore .store-card{height:500px;max-width:500px}#publicStore .store-card-image{height:170px;flex-basis:170px}}
+/* Admin catalogue manager */
+.store-admin details>summary{cursor:pointer;padding:4px 0;color:#edf3ff}
+#adminProductForm{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+#adminProductForm>label{display:grid;gap:6px;min-width:0;font-size:11px;color:#c2cee0}
+#adminProductForm input,#adminProductForm select,#adminProductForm textarea{box-sizing:border-box;width:100%;min-width:0;padding:10px;background:#101b2c;border:1px solid #30445f;color:#fff;border-radius:8px;font:inherit;font-size:12px}
+#adminProductForm textarea{resize:vertical}
+#adminProductForm .admin-product-form-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+#adminProductList{margin-top:14px;display:grid;gap:9px}
+.admin-product-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #30445f;border-radius:10px;background:#101b2c}
+.admin-product-row strong{color:#edf3ff;font-size:13px}
+.admin-product-row p{margin:5px 0 0;font-size:11px;color:#aab7cc;line-height:1.5}
+.admin-product-actions{display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
+@media(max-width:600px){#adminProductForm{grid-template-columns:1fr}.admin-product-row{align-items:flex-start;flex-direction:column}.admin-product-actions{width:100%}}
+
+</style>
+
+  <meta property="og:title" content="Enemind Digital Store" />
+  <meta property="og:description" content="Browse digital learning resources for learners, parents, teachers and schools. Guest checkout available." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./icons/enemind-512.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+<body>
+  <main class="page">
+
+    <style>
+      .store-top-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+      #storeAdminLoginStatus:empty{display:none}
+      @media(max-width:640px){.store-top-actions{width:100%;justify-content:flex-start}.store-top-actions>*{flex:1 1 auto;text-align:center}}
+    </style>
+    <section id="publicStore" class="storefront" aria-labelledby="storeTitle">
+      <div class="store-top">
+        <div><p class="store-eyebrow">ENEMIND DIGITAL STORE</p><h2 id="storeTitle">Learning resources made easier.</h2><p class="store-subtitle">Browse revision packs, teacher resources, parent guides and school bundles. No account is needed to browse or buy.</p></div>
+        <div class="store-top-actions">
+          <a class="store-whatsapp" href="https://wa.me/254180752220?text=Hello%20Enemind%2C%20I%20need%20help%20with%20digital%20products." target="_blank" rel="noopener">Ask on WhatsApp</a>
+          <button id="storeAdminLoginButton" class="store-button store-button-secondary" type="button">Admin sign in</button>
+        </div>
+      </div>
+      <p id="storeAdminLoginStatus" class="store-status" role="status" aria-live="polite"></p>
+      <div class="store-controls">
+        <label class="store-search-label" for="storeSearch">Search products</label>
+        <input id="storeSearch" type="search" placeholder="Search revision, teacher, CBE/CBC…" autocomplete="off">
+        <label class="store-search-label" for="storeCategory">Category</label>
+        <select id="storeCategory"><option value="">All resources</option><option value="revision">Revision packs</option><option value="teacher">Teacher resources</option><option value="parent">Parent guides</option><option value="school">School bundles</option><option value="course">Courses</option><option value="ebook">Ebooks</option><option value="template">Templates</option><option value="career">Career development</option><option value="online-earning">Online earning procedures</option><option value="selling-prompts">Selling prompts & scripts</option><option value="other">Other resources</option></select>
+        <label class="store-search-label" for="storeCurriculum">Curriculum</label>
+        <select id="storeCurriculum"><option value="">CBC & 8-4-4</option><option value="cbc">CBC / CBE</option><option value="844">8-4-4</option><option value="early-years">Early years / pre-primary</option></select>
+        <label class="store-search-label" for="storeClass">Class / level</label>
+        <select id="storeClass"><option value="">All classes</option><optgroup label="Early years"><option value="baby-class">Baby Class</option><option value="pp1">PP1</option><option value="pp2">PP2</option></optgroup><optgroup label="CBC / CBE primary"><option value="grade-1">Grade 1</option><option value="grade-2">Grade 2</option><option value="grade-3">Grade 3</option><option value="grade-4">Grade 4</option><option value="grade-5">Grade 5</option><option value="grade-6">Grade 6</option><option value="grade-7">Grade 7</option><option value="grade-8">Grade 8</option><option value="grade-9">Grade 9</option></optgroup><optgroup label="8-4-4 primary"><option value="standard-1">Standard 1</option><option value="standard-2">Standard 2</option><option value="standard-3">Standard 3</option><option value="standard-4">Standard 4</option><option value="standard-5">Standard 5</option><option value="standard-6">Standard 6</option><option value="standard-7">Standard 7</option><option value="standard-8">Standard 8</option></optgroup><optgroup label="Secondary"><option value="form-1">Form 1</option><option value="form-2">Form 2</option><option value="form-3">Form 3</option><option value="form-4">Form 4</option></optgroup></select>
+        <label class="store-search-label" for="storeSubject">Subject</label>
+        <select id="storeSubject"><option value="">All subjects</option><option value="mathematics">Mathematics</option><option value="english">English</option><option value="kiswahili">Kiswahili</option><option value="science">Science</option><option value="integrated-science">Integrated Science</option><option value="social-studies">Social Studies</option><option value="environmental-activities">Environmental Activities</option><option value="creative-arts">Creative Arts</option><option value="agriculture">Agriculture</option><option value="home-science">Home Science</option><option value="business-studies">Business Studies</option><option value="computer-studies">Computer Studies / ICT</option><option value="biology">Biology</option><option value="chemistry">Chemistry</option><option value="physics">Physics</option><option value="geography">Geography</option><option value="history">History & Government</option><option value="religious-education">Religious Education</option><option value="life-skills">Life Skills</option><option value="all-subjects">All-subject revision</option><option value="career-development">Career Development</option></select>
+        <label class="store-search-label" for="storeCareer">Career development / pathways</label>
+        <select id="storeCareer"><option value="">All career resources</option><option value="career-awareness">Career awareness & self-discovery</option><option value="career-pathways">Career pathways & subject choices</option><option value="stem">STEM careers</option><option value="technical-vocational">Technical & vocational careers</option><option value="business-entrepreneurship">Business & entrepreneurship</option><option value="arts-sports">Arts, sports & creative careers</option><option value="university-college">University & college guidance</option><option value="study-skills">Study skills & goal setting</option></select>
+      </div>
+      <section class="video-learning" aria-labelledby="videoLearningTitle">
+        <div class="video-learning-copy"><p class="store-eyebrow">VIDEO LEARNING</p><h3 id="videoLearningTitle">Find a helpful YouTube lesson</h3><p>Enter a topic to search for relevant video lessons. Choose the lesson that best matches your class, subject and curriculum.</p></div>
+        <form id="videoLearningForm" class="video-learning-form">
+          <label class="store-search-label" for="videoTopic">What topic do you want to learn?</label>
+          <div class="video-learning-search"><input id="videoTopic" type="search" maxlength="160" required placeholder="e.g. fractions, photosynthesis, algebra"><button class="store-button" type="submit">Find videos on YouTube ↗</button></div>
+          <p class="video-learning-note">Opens YouTube search results ranked by YouTube. Preview videos before relying on them.</p>
+        </form>
+        <div id="curatedYoutubeVideos" class="curated-youtube-videos" aria-live="polite"></div>
+      </section>
+      <p id="storeStatus" class="store-status" role="status" aria-live="polite">Loading published resources…</p>
+      <div id="storeProducts" class="store-products"><article class="store-empty">Loading the catalogue…</article></div>
+      <div class="school-banner"><div><h3>Buying for a school or group?</h3><p>Request a quotation for multiple teachers, classes or resource licences.</p></div><button id="schoolQuoteOpen" type="button" class="store-button store-button-secondary">Request school quotation</button></div>
+      <div class="store-trust"><span>✓ Manual payment verification</span><span>✓ Download access only after approval</span><span>✓ WhatsApp support</span></div>
+      <div id="storeCheckoutModal" class="store-modal" hidden>
+        <div class="store-modal-card" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+          <button type="button" id="checkoutClose" class="store-modal-close" aria-label="Close checkout">×</button>
+          <p class="store-eyebrow">SECURE ORDER REQUEST</p><h3 id="checkoutTitle">Buy this resource</h3><p id="checkoutProductSummary" class="store-muted"></p>
+          <form id="guestCheckoutForm">
+            <input type="hidden" id="checkoutProductId">
+            <label>Full name<input id="buyerName" required maxlength="120" autocomplete="name" placeholder="Your name"></label>
+            <label>WhatsApp / phone number<input id="buyerPhone" required maxlength="24" autocomplete="tel" placeholder="+254…"></label>
+            <label>Email (optional)<input id="buyerEmail" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com"></label>
+            <label>Delivery preference<select id="buyerDelivery"><option value="download">Activate protected download</option><option value="whatsapp">Send through WhatsApp</option></select></label>
+            <label class="store-consent"><input type="checkbox" id="buyerConsent" required> I agree to the product licence and understand that access is activated only after payment is verified.</label>
+            <button type="submit" class="store-button">Continue to payment instructions</button>
+            <p id="checkoutStatus" class="store-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+      <div id="storeOrderModal" class="store-modal" hidden>
+        <div class="store-modal-card" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+          <button type="button" id="orderClose" class="store-modal-close" aria-label="Close order details">×</button>
+          <p class="store-eyebrow">ORDER CREATED</p><h3 id="orderTitle">Your order reference</h3>
+          <div class="store-reference" id="orderReference"></div><p id="orderSummary" class="store-muted"></p><p class="store-muted">Private order lookup token — save this securely; you need it to check status later.</p><div class="store-reference" id="orderLookupToken"></div>
+          <label class="store-payment-choice">Choose payment method<select id="storePaymentMethod"><option value="mpesa">M-Pesa (Kenya)</option><option value="binance">Binance Pay (international)</option></select></label>
+          <div class="store-payment" id="storePaymentInstructions"><strong>Pay with M-Pesa</strong><p>Send the exact amount to Till Number <strong>6817863</strong>. Keep your M-Pesa transaction code. Do not share your M-Pesa PIN.</p><p>Your order stays pending until Enemind manually verifies the payment.</p></div>
+          <form id="storePaymentSubmissionForm">
+            <input type="hidden" id="paymentOrderRef"><input type="hidden" id="paymentLookupToken">
+            <label id="paymentTransactionLabel">M-Pesa transaction code<input id="paymentTransactionCode" required maxlength="160" autocomplete="off" placeholder="Enter transaction reference"></label>
+            <button class="store-button" type="submit">Submit payment for verification</button>
+          </form>
+          <div class="store-order-actions"><a id="orderWhatsApp" class="store-button" target="_blank" rel="noopener">Message Enemind on WhatsApp</a><button id="copyOrderReference" class="store-button store-button-secondary" type="button">Copy order reference</button></div>
+          <p id="storePaymentStatus" class="store-status" role="status" aria-live="polite"></p>
+          <div class="store-lookup"><h4>Already placed an order?</h4><label>Order reference<input id="lookupReference" placeholder="EN-…"></label><label>Private lookup token<input id="lookupToken" placeholder="Provided when you created the order"></label><button id="lookupOrderButton" class="store-button store-button-secondary" type="button">Check order status</button><p id="lookupResult" class="store-status" role="status" aria-live="polite"></p></div>
+        </div>
+      </div>
+      <div id="schoolQuoteModal" class="store-modal" hidden>
+        <div class="store-modal-card" role="dialog" aria-modal="true" aria-labelledby="quoteTitle">
+          <button type="button" id="quoteClose" class="store-modal-close" aria-label="Close quotation form">×</button>
+          <p class="store-eyebrow">SCHOOLS & INSTITUTIONS</p><h3 id="quoteTitle">Request a quotation</h3>
+          <form id="schoolQuoteForm"><label>School / institution name<input id="quoteSchool" required maxlength="180"></label><label>Contact person<input id="quoteContact" required maxlength="120"></label><label>WhatsApp / phone<input id="quotePhone" required maxlength="24"></label><label>Email (optional)<input id="quoteEmail" type="email" maxlength="254"></label><label>What do you need?<textarea id="quoteNeeds" required maxlength="2000" rows="4" placeholder="Resources, number of teachers/learners, subjects, licence needs…"></textarea></label><button class="store-button" type="submit">Send quotation request</button><p id="quoteStatus" class="store-status" role="status" aria-live="polite"></p></form>
+        </div>
+      </div>
+      <section id="storeAdminPanel" class="store-admin" hidden><div class="store-admin-head"><div><p class="store-eyebrow">ENEMIND ADMIN</p><h3>Catalogue & order management</h3><p class="store-muted">Add resources, edit product details, publish or unpublish listings, and manage customer orders.</p><p id="storeAdminIdentity" class="store-muted" role="status"></p></div><button id="adminRefreshOrders" class="store-button store-button-secondary" type="button">Refresh dashboard</button></div><p class="store-muted">Verify each transaction independently in M-Pesa before approving. Never approve based on a screenshot alone.</p>
+      <details class="admin-order" id="adminCatalogueDetails" open><summary><strong>Catalogue manager — add or edit a product</strong></summary><p class="store-muted">Add a resource title, price, category, curriculum, class, subject, optional career pathway, image/preview links, licence and publication status. Choose Draft to keep it private or Published to show it in the public store.</p><form id="adminProductForm" class="admin-order-actions"><input id="adminProductId" type="hidden" value=""><label>Title<input id="adminProductTitle" required maxlength="180"></label><label>Slug<input id="adminProductSlug" required maxlength="180"></label><label>Category<select id="adminProductCategory"><option value="revision">Revision pack</option><option value="teacher">Teacher resource</option><option value="parent">Parent guide</option><option value="school">School bundle</option><option value="course">Course</option><option value="ebook">Ebook</option><option value="template">Template</option><option value="career">Career development</option><option value="online-earning">Online earning procedure</option><option value="selling-prompts">Selling prompts & scripts</option><option value="other">Other</option></select></label><label>Price (KES)<input id="adminProductPrice" required type="number" min="0" step="0.01"></label><label>Audience<input id="adminProductAudience" maxlength="100" placeholder="Parents, teachers…"></label><label>Curriculum<select id="adminProductCurriculum"><option value="">Not specified / all</option><option value="cbc">CBC / CBE</option><option value="844">8-4-4</option><option value="early-years">Early years / pre-primary</option></select></label><label>Class / level<select id="adminProductClass"><option value="">Not specified / all</option><option value="baby-class">Baby Class</option><option value="pp1">PP1</option><option value="pp2">PP2</option><option value="grade-1">Grade 1</option><option value="grade-2">Grade 2</option><option value="grade-3">Grade 3</option><option value="grade-4">Grade 4</option><option value="grade-5">Grade 5</option><option value="grade-6">Grade 6</option><option value="grade-7">Grade 7</option><option value="grade-8">Grade 8</option><option value="grade-9">Grade 9</option><option value="standard-1">Standard 1</option><option value="standard-2">Standard 2</option><option value="standard-3">Standard 3</option><option value="standard-4">Standard 4</option><option value="standard-5">Standard 5</option><option value="standard-6">Standard 6</option><option value="standard-7">Standard 7</option><option value="standard-8">Standard 8</option><option value="form-1">Form 1</option><option value="form-2">Form 2</option><option value="form-3">Form 3</option><option value="form-4">Form 4</option></select></label><label>Subject<select id="adminProductSubject"><option value="">Not specified / all subjects</option><option value="mathematics">Mathematics</option><option value="english">English</option><option value="kiswahili">Kiswahili</option><option value="science">Science</option><option value="integrated-science">Integrated Science</option><option value="social-studies">Social Studies</option><option value="environmental-activities">Environmental Activities</option><option value="creative-arts">Creative Arts</option><option value="agriculture">Agriculture</option><option value="home-science">Home Science</option><option value="business-studies">Business Studies</option><option value="computer-studies">Computer Studies / ICT</option><option value="biology">Biology</option><option value="chemistry">Chemistry</option><option value="physics">Physics</option><option value="geography">Geography</option><option value="history">History & Government</option><option value="religious-education">Religious Education</option><option value="life-skills">Life Skills</option><option value="all-subjects">All-subject revision</option><option value="career-development">Career Development</option></select></label><label>Career pathway (optional)<select id="adminProductCareer"><option value="">Not a career resource</option><option value="career-awareness">Career awareness & self-discovery</option><option value="career-pathways">Career pathways & subject choices</option><option value="stem">STEM careers</option><option value="technical-vocational">Technical & vocational careers</option><option value="business-entrepreneurship">Business & entrepreneurship</option><option value="arts-sports">Arts, sports & creative careers</option><option value="university-college">University & college guidance</option><option value="study-skills">Study skills & goal setting</option></select></label><label>Upload product image (JPG, PNG, WebP; max 5 MB)<input id="adminProductImageFile" type="file" accept="image/jpeg,image/png,image/webp"><small class="store-muted">If you do not upload an image or enter an image URL, Enemind’s logo will be used automatically.</small><img id="adminProductImagePreview" alt="Product image preview" hidden style="width:110px;height:82px;object-fit:cover;border:1px solid #30445f;border-radius:8px;margin-top:6px"></label><label>Or use a product image URL (optional)<input id="adminProductImage" type="url" placeholder="https://…"></label><label>Free preview URL<input id="adminProductPreview" type="url" placeholder="https://…"></label><label>Licence<select id="adminProductLicense"><option value="single_user">Single user</option><option value="teacher">Teacher licence</option><option value="school">School licence</option></select></label><label>Short description<input id="adminProductShort" maxlength="300" required></label><label>Full description<textarea id="adminProductDescription" rows="3" maxlength="3000"></textarea></label><label>Status<select id="adminProductStatus"><option value="draft">Draft</option><option value="published">Published now</option></select></label><div class="admin-product-form-actions"><button id="adminProductSaveButton" class="store-button" type="submit">Save product</button><button id="adminProductCancelEdit" class="store-button store-button-secondary" type="button" hidden>Cancel edit</button></div></form><p id="adminProductStatusMessage" class="store-status" role="status" aria-live="polite"></p><div id="adminProductList"></div></details>
+      <details class="admin-order" id="adminYoutubeDetails"><summary><strong>YouTube video manager</strong></summary><p class="store-muted">Add a video title, YouTube URL, topic and description. Published videos appear in the public learning section; drafts remain admin-only.</p><form id="adminYoutubeForm" class="admin-order-actions"><input id="adminYoutubeId" type="hidden"><label>Video title<input id="adminYoutubeTitle" required maxlength="180" placeholder="e.g. Introduction to online selling"></label><label>YouTube video URL<input id="adminYoutubeUrl" required type="url" placeholder="https://www.youtube.com/watch?v=…"></label><label>Topic / category<input id="adminYoutubeTopic" maxlength="120" placeholder="Online earning, Mathematics…"></label><label>Description<textarea id="adminYoutubeDescription" rows="2" maxlength="800" placeholder="What will viewers learn?"></textarea></label><label>Display status<select id="adminYoutubeStatus"><option value="draft">Draft</option><option value="published">Published</option></select></label><div class="admin-product-form-actions"><button class="store-button" type="submit" id="adminYoutubeSaveButton">Save video</button><button class="store-button store-button-secondary" type="button" id="adminYoutubeCancel" hidden>Cancel edit</button></div></form><p id="adminYoutubeStatusMessage" class="store-status" role="status" aria-live="polite"></p><div id="adminYoutubeList"></div></details>
+      <div id="adminOrderQueue"></div>
+      <details class="admin-order"><summary><strong>Contributor applications</strong></summary><button id="adminRefreshContributors" type="button" class="store-button store-button-secondary">Refresh applications</button><div id="adminContributorQueue"></div></details>
+      <details class="admin-order"><summary><strong>School quotation requests</strong></summary><button id="adminRefreshQuotes" type="button" class="store-button store-button-secondary">Refresh quotations</button><div id="adminQuoteQueue"></div></details>
+      <details class="admin-order"><summary><strong>Commission and payout ledger</strong></summary><p class="store-muted">Ledger records are admin-managed in Supabase Table Editor for this release. Approve commissions only for eligible completed sales; reverse refunds/chargebacks and record payouts only after they are sent.</p><p class="store-muted">Tables: <code>store_commissions</code> and <code>store_payouts</code>.</p></details><p id="adminStatus" class="store-status" role="status" aria-live="polite"></p></section>
+    </section>
+
+    <div class="brand-mark">
+      <img class="brand-logo" id="brandLogo" src="./icons/logo.jpg" alt="Enemind logo">
+      <div class="brand-fallback" id="brandFallback" aria-hidden="true">e<span>n</span>.</div>
+    </div>
+    <h1 class="wordmark">ENEMIND</h1>
+    <p class="tagline">Discover practical digital learning resources for learners, parents, teachers and schools.</p>
+    <a class="signin browse-products-cta" id="browseProducts" href="#publicStore">Browse digital products <span aria-hidden="true">→</span></a>
+
+<button class="install-app" id="installApp" type="button" aria-label="Install Enemind app">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 18H5v-2H3v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h-2v2ZM13 3h-2v8.17L8.41 8.59 7 10l5 5 5-5-1.41-1.41L13 11.17V3Z"/></svg>
+      Install Enemind App
+    </button>
+
+    <p class="helper" id="authMessage" role="status" aria-live="polite">Browse digital resources and place an order without creating an account.</p>
+    <div class="divider">Connect with Enemind</div>
+
+    <nav class="socials" aria-label="Enemind social media">
+<a class="social" data-social="whatsapp" href="https://wa.me/254180752220" aria-label="Enemind on WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.6 4.1 1.6 5.9L0 24l6.5-1.7a11.8 11.8 0 0 0 5.6 1.4h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.1-3.5-8.4ZM12.2 21.7c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.9 1 1-3.8-.3-.4a9.8 9.8 0 1 1 8.6 4.8Zm5.4-7.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-.3-.1-1.2-.5-2.3-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6s-.7-1.6-1-2.2c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.8s1.2 3.2 1.4 3.4c.2.2 2.4 3.7 5.8 5.1.8.3 1.4.5 1.9.6.8.2 1.5.2 2.1.1.7-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.6-.4Z"/></svg>
+        WhatsApp
+      </a>
+<a class="social" data-social="facebook" href="https://www.facebook.com/Enermindcom" aria-label="Enemind on Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.7 22v-9h3l.5-3.5h-3.5V7.2c0-1 .3-1.7 1.8-1.7h1.9V2.4c-.9-.1-1.9-.2-2.8-.2-2.9 0-4.9 1.8-4.9 5v2.3H6.5V13h3.2v9h4Z"/></svg>
+        Facebook
+      </a>
+</nav>
+
+    <p class="note">Connect with Enemind through WhatsApp or Facebook. By continuing, you agree to the platform’s Terms and Privacy Policy.</p>
+    <div class="footer">© <span id="year"></span> Enemind · The digital opportunity network</div>
+
+
+
+
+
+    <section class="app-view dashboard-panel" id="dashboard" aria-labelledby="dashboardTitle" hidden>
+      <div class="dashboard-brandline"><img class="dashboard-logo" src="./icons/logo.jpg" alt="Enemind logo" onerror="this.style.display='none'"><div><p class="dashboard-brandname">ENE<span>MIND</span></p><small>Digital services · opportunities · marketplace</small></div></div>
+      <div class="dashboard-top">
+        <div class="dashboard-heading">
+          <p class="eyebrow">Your Enemind dashboard</p>
+          <h2 class="view-title" id="dashboardTitle">Welcome</h2>
+          <p class="view-copy" id="dashboardCopy"></p>
+          <span class="account-badge" id="accountBadge">One Enemind account</span>
+        </div>
+        
+      </div>
+      <div class="starter-grid" id="starterActions"></div>
+      <section class="service-hub" id="serviceHub" aria-labelledby="serviceHubTitle">
+        <h3 class="section-heading" id="serviceHubTitle">Your Enemind workspace</h3>
+        <p class="section-copy">Explore Enemind services and programs from one account. More sections will be added as they launch.</p>
+        <div class="buyer-workspace" id="buyerMarketplace">
+          <div class="buyer-hero"><div><p class="eyebrow">BUYER MARKETPLACE</p><h3>Find the right seller. Manage every request.</h3><p>Create a request with your service type, countries, quantity, budget and delivery instructions. Enemind can match it with participating sellers; compare offers and follow order progress here.</p><div class="buyer-item-actions"><button type="button" class="primary-action" id="buyerWorkspaceRequest">＋ Create buyer request</button><button type="button" class="secondary-action" id="buyerRefreshMarketplace">↻ Refresh marketplace</button></div></div><div class="buyer-hero-mark" aria-hidden="true">🛍️</div></div>
+          <div class="buyer-quick-grid"><div class="buyer-quick"><b>01</b><span>Describe what you need</span></div><div class="buyer-quick"><b>02</b><span>Match with opted-in sellers</span></div><div class="buyer-quick"><b>03</b><span>Compare seller offers</span></div><div class="buyer-quick"><b>04</b><span>Track delivery and order status</span></div></div>
+          <div class="buyer-feature-grid">
+            <div class="buyer-feature"><span class="feature-mark">⌕</span><strong>Request and match</strong><span>Specify a buyer-defined service type, country, quantity, budget, timeline and requirements. Sellers must opt in to receive matched requests.</span></div>
+            <div class="buyer-feature"><span class="feature-mark">🌍</span><strong>Country-specific instructions</strong><span>Choose multiple countries and include registration, eligibility, language, delivery format and quality checks.</span></div>
+            <div class="buyer-feature"><span class="feature-mark">▤</span><strong>Consent-based seller CSV</strong><span>Order eligible business contact data in batches of 20 for $10 per batch, subject to admin review and consent.</span></div>
+            <div class="buyer-feature"><span class="feature-mark">▦</span><strong>Google Sheets tracking</strong><span>Add a lead tracker for outreach, status, follow-up dates, outcome and notes. Admin confirms availability and any extra price.</span></div>
+          </div>
+          <div class="buyer-tools"><div class="buyer-tool"><span class="buyer-tool-icon">⇄</span><div><strong>Offer comparison</strong><p>Review matched seller pricing, country coverage, delivery estimate and terms before selecting an offer.</p></div></div><div class="buyer-tool"><span class="buyer-tool-icon">📦</span><div><strong>Orders and delivery</strong><p>Keep accepted offers, order status and delivery notes together. Do not mark a delivery complete until you have checked it.</p></div></div><div class="buyer-tool"><span class="buyer-tool-icon">▦</span><div><strong>Google Sheets workflow</strong><p>Optional tracker for seller research, buyer requests, offer comparisons and sales follow-up. Live Google Sheets sync still requires integration.</p></div></div></div>
+          <div class="buyer-tabs" aria-label="Buyer marketplace sections"><button type="button" data-buyer-tab="requests" aria-pressed="true">My requests</button><button type="button" data-buyer-tab="offers" aria-pressed="false">Matched offers</button><button type="button" data-buyer-tab="orders" aria-pressed="false">My orders</button></div>
+          <section class="service-form" id="buyerRequestsSection"><div class="buyer-panel-head"><h4>My buyer requests</h4><button type="button" class="mini-action" id="buyerLoadRequests">Refresh requests</button></div><p class="payment-hint">Requests show the status set by Enemind admin. Seller matching and offers appear here once an opted-in seller offer is recorded.</p><div id="buyerRequestsList" class="buyer-list"><div class="buyer-empty">Sign in and refresh to load your buyer requests.</div></div><p class="service-status" id="buyerRequestsStatus" role="status" aria-live="polite"></p></section>
+          <section class="service-form" id="buyerOffersSection" hidden><div class="buyer-panel-head"><h4>Matched seller offers</h4><button type="button" class="mini-action" id="buyerLoadOffers">Refresh offers</button></div><p class="payment-hint">Compare price, country, delivery estimate and offer terms. Placing an order records your selection; payment and delivery still require the agreed workflow and admin confirmation.</p><div id="buyerOffersList" class="buyer-list"><div class="buyer-empty">No matched offers loaded yet.</div></div><p class="service-status" id="buyerOffersStatus" role="status" aria-live="polite"></p></section>
+          <section class="service-form" id="buyerOrdersSection" hidden><div class="buyer-panel-head"><h4>My orders</h4><button type="button" class="mini-action" id="buyerLoadOrders">Refresh orders</button></div><p class="payment-hint">Track order status, delivery notes and the seller offer you accepted.</p><div id="buyerOrdersList" class="buyer-list"><div class="buyer-empty">No orders loaded yet.</div></div><p class="service-status" id="buyerOrdersStatus" role="status" aria-live="polite"></p></section>
+        </div>
+        <div class="service-grid" style="margin-top:14px">
+          <article class="service-card"><span class="service-icon">🛍️</span><h4>Buyer marketplace</h4><p>Submit detailed requests, get matched with participating sellers and follow request status from your dashboard.</p><div class="service-price">$10 weekly after 2-day trial</div><button type="button" data-pay-service="buyer_weekly">Activate buyer</button> <button type="button" id="openBuyerRequest">Post a buyer request</button></article>
+          <article class="service-card"><span class="service-icon">💼</span><h4>Worker program</h4><p>Complete research tasks, submit verified leads and request approved earnings weekly.</p><div class="service-price">$10 monthly</div><button type="button" data-pay-service="worker_monthly">Activate worker</button> <button type="button" id="openWithdrawalRequest">Request weekly withdrawal</button></article>
+          <article class="service-card"><span class="service-icon">📚</span><h4>Learner program</h4><p>Follow admin-curated YouTube lessons, complete exercises and assessments.</p><div class="service-price">$10 activation</div><button type="button" data-pay-service="learner_activation">Activate learner</button></article>
+          <article class="service-card"><span class="service-icon">✍️</span><h4>Bwrite publishing</h4><p>Write in Google Docs, share the document with admin, and submit it for review.</p><div class="service-price">$5 activation</div><button type="button" data-pay-service="bwrite_activation">Activate Bwrite</button><button type="button" class="secondary-action" id="openBwriteWorkspace">Open today’s topics</button></article>
+          <article class="service-card"><span class="service-icon">📄</span><h4>Seller-data CSV</h4><p>Request approved, consented seller records by country. Orders are sold in batches of 20.</p><div class="service-price">$10 per 20 records</div><button type="button" id="openCsvRequest">Request CSV data</button></article>
+          <article class="service-card"><span class="service-icon">🔗</span><h4>Referral program</h4><p>Each service has its own referral link. Qualified referrals may earn a fixed $1 after review and budget checks.</p><button type="button" id="showReferralLinks">View my referral links</button></article>
+        </div>
+        <div class="payment-box" aria-label="Enemind payment destination">
+          <strong>Enemind Binance payment destination</strong>
+          <div class="payment-destination"><span class="payment-id" data-admin-binance-id>1236166874</span><button class="mini-action" type="button" id="copyAdminBinance">Copy Binance Pay ID</button></div>
+          <p class="payment-hint">Use this ID for Enemind activation fees and CSV purchases. Enter the exact amount and include your Enemind email or request ID in the Binance payment note when supported. Never send passwords, OTPs, private keys or recovery phrases.</p>
+        </div>
+        <section class="service-form" id="paymentSubmissionPanel" hidden>
+          <h4 id="paymentFormTitle">Submit payment for verification</h4>
+          <p class="payment-hint" id="paymentFormDescription"></p>
+          <form id="paymentSubmissionForm">
+            <input type="hidden" id="paymentServiceCode" name="service_code">
+            <div class="form-row"><label>Amount (USD)<input id="paymentAmount" name="amount_usd" type="number" min="1" step="0.01" required readonly></label><label>Binance transaction/order reference<input id="paymentReference" name="transaction_reference" maxlength="160" required placeholder="Enter Binance transaction reference"></label></div>
+            <label>Optional note<textarea id="paymentNote" name="note" maxlength="500" placeholder="What are you activating or purchasing?"></textarea></label>
+            <div class="selector-actions"><button class="primary-action" id="submitPayment" type="submit">Submit for review</button><button class="secondary-action" type="button" id="cancelPayment">Cancel</button></div>
+          </form><p class="service-status" id="paymentStatus" role="status" aria-live="polite"></p>
+        </section>
+        <section class="service-form" id="buyerRequestPanel" hidden><h4>Post a buyer request</h4><p class="payment-hint">Buyer-defined service/account types are allowed. Only request legitimate services and listings that comply with provider rules.</p><form id="buyerRequestForm"><label>Countries needed (select all that apply)</label><div class="form-row" id="buyerCountryChoices"><label><input type="checkbox" name="buyerCountry" value="Kenya" style="width:auto;margin-right:6px">Kenya</label><label><input type="checkbox" name="buyerCountry" value="South Africa" style="width:auto;margin-right:6px">South Africa</label><label><input type="checkbox" name="buyerCountry" value="Portugal" style="width:auto;margin-right:6px">Portugal</label><label><input type="checkbox" name="buyerCountry" value="Poland" style="width:auto;margin-right:6px">Poland</label><label><input type="checkbox" name="buyerCountry" value="United States" style="width:auto;margin-right:6px">United States</label><label><input type="checkbox" name="buyerCountry" value="United Kingdom" style="width:auto;margin-right:6px">United Kingdom</label><label><input type="checkbox" name="buyerCountry" value="Canada" style="width:auto;margin-right:6px">Canada</label><label><input type="checkbox" name="buyerCountry" value="Nigeria" style="width:auto;margin-right:6px">Nigeria</label><label><input type="checkbox" name="buyerCountry" value="Ghana" style="width:auto;margin-right:6px">Ghana</label><label><input type="checkbox" name="buyerCountry" value="Tanzania" style="width:auto;margin-right:6px">Tanzania</label><label><input type="checkbox" name="buyerCountry" value="Uganda" style="width:auto;margin-right:6px">Uganda</label><label><input type="checkbox" name="buyerCountry" value="Other" style="width:auto;margin-right:6px">Other</label></div><div class="form-row"><label>Service/account type<input id="buyerRequestType" required maxlength="180" placeholder="Describe the legitimate service needed"></label><label>Quantity<input id="buyerRequestQuantity" type="number" min="1" max="100000" required value="1"></label></div><div class="form-row"><label>Budget amount<input id="buyerRequestBudget" type="number" min="0" step="0.01" placeholder="Optional"></label><label>Currency<select id="buyerRequestCurrency"><option>USD</option><option>KES</option><option>EUR</option><option>GBP</option><option>ZAR</option></select></label></div><label>Optional official registration URL<input id="buyerRequestUrl" type="url" maxlength="2048" placeholder="https://official-provider.example"></label><label>Country-specific instructions / delivery requirements<textarea id="buyerRequestNotes" maxlength="1500" placeholder="Explain local requirements, quality checks, delivery format, timing and any restrictions for each country."></textarea></label><div class="addon-checks"><label class="addon-check"><input id="buyerAddonCsv" type="checkbox"><span><strong>Country-specific contact CSV</strong><small>Ask admin for consented seller/business contact records for your selected countries. Price and availability confirmed before payment.</small></span></label><label class="addon-check"><input id="buyerAddonSheet" type="checkbox"><span><strong>Google Sheets tracking template</strong><small>Request a tracker for lead status, outreach date, follow-up, outcome and notes. Setup/price confirmed by admin.</small></span></label></div><div class="selector-actions"><button class="primary-action" type="submit">Submit buyer request</button><button class="secondary-action" type="button" data-close-panel="buyerRequestPanel">Cancel</button></div></form><p class="service-status" id="buyerRequestStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="withdrawalRequestPanel" hidden><h4>Weekly worker withdrawal request</h4><p class="payment-hint">Only approved task earnings are eligible. Requests are reviewed by Enemind and paid through Binance after approval. A request does not guarantee a payout.</p><form id="withdrawalRequestForm"><div class="form-row"><label>Amount requested (USD)<input id="withdrawalAmount" type="number" min="1" step="0.01" required placeholder="0.00"></label><label>Your Binance Pay ID / UID<input id="withdrawalBinanceUid" maxlength="100" required placeholder="Your own Binance identifier"></label></div><label>Note (optional)<textarea id="withdrawalNote" maxlength="500" placeholder="Week ending / task details"></textarea></label><div class="selector-actions"><button class="primary-action" type="submit">Submit withdrawal request</button><button class="secondary-action" type="button" data-close-panel="withdrawalRequestPanel">Cancel</button></div></form><p class="service-status" id="withdrawalStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="csvRequestPanel" hidden>
+          <h4>Request seller-data CSV</h4><p class="payment-hint">$10 per 20 records. Requests are subject to availability, admin review, and seller consent to share the requested fields.</p>
+          <form id="csvRequestForm"><div class="form-row"><label>Countries (comma-separated)<input id="csvCountries" required maxlength="500" placeholder="Kenya, South Africa, Portugal"></label><label>Number of records<select id="csvQuantity"><option value="20">20 records — $10</option><option value="40">40 records — $20</option><option value="60">60 records — $30</option><option value="100">100 records — $50</option></select></label></div><label>Seller capabilities / fields needed<textarea id="csvRequirements" maxlength="1000" placeholder="Describe the legitimate services or seller information needed"></textarea></label><div class="addon-checks"><label class="addon-check"><input id="csvAddonSheet" type="checkbox"><span><strong>Add a Google Sheets tracker</strong><small>Request an outreach and follow-up tracker with the CSV. Admin will confirm availability and any additional price.</small></span></label></div><div class="selector-actions"><button class="primary-action" type="submit">Create CSV request</button><button class="secondary-action" type="button" data-close-panel="csvRequestPanel">Cancel</button></div></form><p class="service-status" id="csvStatus" role="status" aria-live="polite"></p>
+        </section>
+        <section class="service-form" id="bwriteSubmissionPanel" hidden>
+          <h4>Today's Bwrite topics</h4><p class="payment-hint">Choose a topic published by Enemind admin today. Write your original work in Google Docs, share it with the admin as Viewer or Commenter, then submit the document link here. Do not make your document publicly editable.</p>
+          <div id="bwriteTopicsList" class="records-list"><div class="record-row">Loading today's topics…</div></div><p class="service-status" id="bwriteTopicsStatus" role="status" aria-live="polite"></p>
+          <form id="bwriteSubmissionForm"><div class="form-row"><label>Selected topic<select id="bwriteTopicSelect" required><option value="">Choose a topic first…</option></select></label><label>Document title<input id="bwriteTitle" required maxlength="180" placeholder="Title of your Google Doc"></label></div><label>Google Docs URL<input id="bwriteDocUrl" type="url" required maxlength="2048" placeholder="https://docs.google.com/document/d/…"></label><label>Short description<textarea id="bwriteDescription" required maxlength="1200" placeholder="Briefly describe what your document covers"></textarea></label><div class="selector-actions"><button class="primary-action" type="submit">Share document with admin for review</button><button class="secondary-action" type="button" data-close-panel="bwriteSubmissionPanel">Cancel</button></div></form><p class="service-status" id="bwriteStatus" role="status" aria-live="polite"></p>
+        </section>
+        <section class="service-form" id="referralPanel" hidden><h4>Your referral links</h4><p class="payment-hint">Each service has a separate link. A $1 reward is not guaranteed until the invitee qualifies, the transaction is verified, fraud checks pass and budget is available.</p><div id="referralLinks" class="referral-links"></div><p class="service-status" id="referralStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="myRequestsPanel"><h4>My submissions and requests</h4><p class="payment-hint">Records are retrieved from Supabase after the new migration is applied.</p><button type="button" class="mini-action" id="refreshMyRequests">Refresh my records</button><div id="myRequestsList" class="records-list"></div><p class="service-status" id="requestsStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="learningResourcesPanel"><h4>Learning library</h4><p class="payment-hint">Admin-curated YouTube lessons. Complete the practical exercise alongside each video; watching alone does not guarantee worker eligibility.</p><div id="learningResourcesList" class="records-list"></div><p class="service-status" id="learningResourcesStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="adminEarningsPanel" hidden><h4>Admin: record worker earnings</h4><p class="payment-hint">Only credit work that passed quality review. Use the worker's Firebase UID from the admin records; this does not send a payout.</p><form id="adminEarningsForm"><div class="form-row"><label>Worker UID<input id="earningWorkerUid" required maxlength="128"></label><label>Approved task amount (USD)<input id="earningAmount" type="number" min="0.01" step="0.01" required></label></div><div class="form-row"><label>Task reference<input id="earningTaskRef" maxlength="160"></label><label>Task description<input id="earningDescription" required maxlength="500"></label></div><div class="selector-actions"><button class="primary-action" type="submit">Record pending earning</button></div></form><p class="service-status" id="earningStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="adminBwriteTopicsPanel" hidden><h4>Admin: add today's Bwrite topics</h4><p class="payment-hint">Topics published today appear in the Bwrite workspace. Include a clear writing brief and any requirements.</p><form id="bwriteTopicForm"><div class="form-row"><label>Topic title<input id="adminBwriteTopicTitle" required maxlength="180" placeholder="e.g. How to build a weekly budget"></label><label>Category<select id="adminBwriteTopicCategory"><option>Health and wellness</option><option>Financial literacy</option><option>Daily life</option><option>Productivity</option><option>Education</option><option>Other</option></select></label></div><label>Writing brief and requirements<textarea id="adminBwriteTopicBrief" required maxlength="1500" placeholder="Explain what the writer should cover, audience, structure and expected length"></textarea></label><div class="selector-actions"><button class="primary-action" type="submit">Publish topic for today</button></div></form><p class="service-status" id="adminBwriteTopicStatus" role="status" aria-live="polite"></p><div id="adminBwriteTopicsList" class="records-list"></div></section>
+        <section class="service-form" id="adminLearningPanel" hidden><h4>Admin: publish a learning video</h4><form id="learningResourceForm"><div class="form-row"><label>Lesson title<input id="lessonTitle" required maxlength="180"></label><label>Skill category<select id="lessonCategory"><option>Google Sheets basics</option><option>Formulas and data validation</option><option>Buyer research</option><option>Seller research</option><option>Lead verification</option><option>Digital writing</option><option>Other</option></select></label></div><label>YouTube URL<input id="lessonUrl" type="url" required maxlength="2048" placeholder="https://www.youtube.com/watch?v=…"></label><label>Description / task<textarea id="lessonDescription" maxlength="1000"></textarea></label><div class="selector-actions"><button class="primary-action" type="submit">Publish lesson</button></div></form><p class="service-status" id="lessonStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="adminReviewPanel" hidden><h4>Enemind admin review queue</h4><p class="payment-hint">Verify Binance transactions independently before changing a payment status. Admin tools are restricted to the configured admin email.</p>
+          <div class="buyer-workspace" style="margin:14px 0"><h4>Publish a matched seller offer</h4><p>Only publish an offer after confirming the seller opted in to this specific request. The buyer will see it under Matched offers.</p><form id="adminBuyerOfferForm"><label>Buyer request<select id="adminOfferRequestId" required><option value="">Loading buyer requests…</option></select></label><div class="form-row"><label>Seller/business name<input id="adminOfferSeller" required maxlength="160" placeholder="Seller display name"></label><label>Country covered<input id="adminOfferCountry" required maxlength="100" placeholder="Country or countries"></label></div><label>Offer title<input id="adminOfferTitle" required maxlength="180" placeholder="Short title of the offer"></label><label>Description<textarea id="adminOfferDescription" maxlength="1200" required placeholder="What is included, quality checks and delivery format"></textarea></label><div class="form-row"><label>Price (USD)<input id="adminOfferPrice" type="number" min="0" step="0.01" required></label><label>Estimated delivery (days)<input id="adminOfferDays" type="number" min="0" step="1" placeholder="Optional"></label></div><label>Terms / exclusions<textarea id="adminOfferTerms" maxlength="1000" placeholder="Payment steps, limitations, refund terms and any conditions"></textarea></label><div class="selector-actions"><button class="primary-action" type="submit">Publish offer</button></div></form><p class="service-status" id="adminOfferStatus" role="status" aria-live="polite"></p></div>
+          <button type="button" class="mini-action" id="refreshAdminQueue">Refresh admin queue</button><div id="adminQueueList" class="records-list"></div><p class="service-status" id="adminQueueStatus" role="status" aria-live="polite"></p></section>
+      </section>
+      <section class="profile-summary" id="profileSummary" aria-labelledby="profileSummaryTitle" hidden>
+        <h3 id="profileSummaryTitle">Your contact links</h3>
+        <div class="profile-summary-list" id="profileSummaryList"></div>
+      </section>
+      <div class="selector-actions">
+        <button class="secondary-action" id="signOut" type="button">Sign out</button>
+      </div>
+      <p class="view-status" id="dashboardStatus" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script type="module" src="/main-app.js"></script>
+
+<script type="module" src="/store-app.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mindex f017fb6..8708b1f 100644[m
+[1m--- a/.gitignore[m
+[1m+++ b/.gitignore[m
+[36m@@ -1,7 +1,14 @@[m
+[31m-.DS_Store[m
+[32m+[m[32mnode_modules/[m
+[32m+[m[32mdist/[m
+ .env[m
+ .env.*[m
+ !.env.example[m
+[31m-node_modules/[m
+[31m-dist/[m
+[32m+[m[32m!.env.*.example[m
+ .firebase/[m
+[32m+[m[32m.branches/[m
+[32m+[m[32m.temp/[m
+[32m+[m[32m.DS_Store[m
+[32m+[m[32mfunctions/node_modules/[m
+[32m+[m[32m*-firebase-adminsdk-*.json[m
+[32m+[m[32mserviceAccount*.json[m
+[32m+[m[32mfirebase-debug.log[m

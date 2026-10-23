@@ -1,0 +1,1452 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09131b">
+  <meta name="description" content="Enemind connects people to digital opportunities, online services, and ways to earn online.">
+  <meta name="application-name" content="Enemind">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/jpeg" href="./icons/logo.jpg">
+  <link rel="apple-touch-icon" href="./icons/logo.jpg">
+  <title>Enemind — Find your way to earn online</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08111f;
+      --panel: rgba(255,255,255,.045);
+      --text: #f5f8ff;
+      --muted: #a8b5ca;
+      --line: rgba(255,255,255,.12);
+      --mint: #62f0c0;
+      --focus: #a8ffdf;
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 28px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 12%, rgba(68,118,255,.19), transparent 42%),
+        radial-gradient(ellipse at 12% 88%, rgba(43,218,171,.11), transparent 34%),
+        var(--bg);
+    }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .page { width: 100%; max-width: 540px; text-align: center; }
+    .brand-mark {
+      width: 142px; height: 142px; margin: 0 auto 20px;
+      border-radius: 50%; display: grid; place-items: center;
+      position: relative; overflow: hidden;
+      background: linear-gradient(145deg,#1b3150,#0d182b 70%);
+      border: 1px solid rgba(255,255,255,.2);
+      box-shadow: 0 0 0 8px rgba(255,255,255,.025), 0 18px 60px rgba(0,0,0,.35), 0 0 42px rgba(98,240,192,.12);
+    }
+    .brand-logo { width: 100%; height: 100%; display: block; object-fit: contain; border-radius: 50%; padding: 5px; }
+    .brand-fallback { display: none; font-size: 48px; line-height: 1; font-weight: 850; letter-spacing: -5px; color: var(--mint); }
+    .brand-fallback span { color: white; }
+    .wordmark { margin: 0; font-size: clamp(30px,7vw,39px); font-weight: 850; letter-spacing: .16em; text-indent: .16em; }
+    .tagline { margin: 11px 0 27px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+    .signin, .install-app {
+      width: 100%; max-width: 340px; min-height: 52px; padding: 0 18px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      border: 0; border-radius: 14px; font-weight: 750; cursor: pointer;
+      transition: transform .18s, box-shadow .18s, opacity .18s;
+    }
+    .signin { background: #fff; color: #172033; font-size: 15px; box-shadow: 0 10px 30px #0003; }
+    .install-app { display: none; margin-top: 12px; min-height: 48px; gap: 10px; background: linear-gradient(135deg,#62f0c0,#8baeff); color: #08111f; font-size: 14px; box-shadow: 0 10px 28px #0003; }
+    .signin:hover, .install-app:hover { transform: translateY(-2px); }
+    .signin:disabled { opacity: .65; cursor: wait; transform: none; }
+    .signin:focus-visible, .install-app:focus-visible, .social:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+    .google-g { width: 20px; height: 20px; flex: 0 0 auto; }
+    .install-app svg { width: 19px; height: 19px; fill: currentColor; }
+    .helper { min-height: 20px; margin: 11px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted); overflow-wrap: anywhere; }
+    .divider { display: flex; align-items: center; gap: 14px; margin: 31px 0 18px; color: #8291a9; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+    .divider::before, .divider::after { content: ""; height: 1px; background: var(--line); flex: 1; }
+    .socials { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 12px; }
+    .social {
+      min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 4px 11px; border-radius: 15px; border: 1px solid var(--line);
+      background: var(--panel); color: var(--muted); text-decoration: none; font-size: 11px;
+      transition: transform .18s, background .18s, border-color .18s;
+    }
+    .social:hover { transform: translateY(-3px); background: #ffffff14; border-color: #62f0c060; color: white; }
+    .social svg { width: 23px; height: 23px; fill: currentColor; flex: 0 0 auto; }
+    .binance-id { font-size: 9px; line-height: 1.2; color: #f3ba2f; overflow-wrap: anywhere; }
+    .whatsapp { color: #36d889; } .wechat { color: #7fe6a0; }
+    .instagram { color: #f7a1ca; } .facebook { color: #7baaff; }
+    .youtube { color: #ff6666; } .binance { color: #f3ba2f; } .telegram { color: #68c9ff; }
+    .note { margin: 24px auto 0; max-width: 400px; color: #78879f; font-size: 11px; line-height: 1.7; }
+    .footer { margin-top: 25px; color: #68768b; font-size: 11px; }
+    body.app-open { align-items: flex-start; padding-top: 44px; }
+    .page.app-mode { max-width: 1000px; text-align: left; }
+    .app-view { margin: 0 auto; width: 100%; }
+    .selector-panel, .dashboard-panel {
+      padding: clamp(22px, 5vw, 42px); border: 1px solid var(--line); border-radius: 26px;
+      background: linear-gradient(145deg, rgba(25,43,68,.94), rgba(11,22,39,.96));
+      box-shadow: 0 24px 70px #0005;
+    }
+    .selector-heading, .dashboard-heading { text-align: center; }
+    .selector-brand { display:flex; align-items:center; justify-content:center; gap:13px; margin:0 auto 22px; }
+    .selector-brand-logo { width:62px; height:62px; object-fit:cover; border-radius:18px; border:1px solid rgba(243,186,47,.55); box-shadow:0 8px 28px rgba(243,186,47,.12); background:#0b0e11; }
+    .selector-brand-name { margin:0; font-size:clamp(20px,4vw,27px); font-weight:900; letter-spacing:.08em; color:#f5f5f5; text-align:left; }
+    .selector-brand-name span { color:#f3ba2f; }
+    .selector-panel { border-color:rgba(243,186,47,.28); background:radial-gradient(ellipse at 50% 0%,rgba(243,186,47,.10),transparent 45%),linear-gradient(145deg,#171a20,#0b0e11 75%); }
+    .selector-panel .eyebrow { color:#f3ba2f; }
+    .selector-panel .account-option { background:rgba(255,255,255,.025); border-color:rgba(255,255,255,.12); }
+    .selector-panel .account-option:hover { border-color:rgba(243,186,47,.7); background:rgba(243,186,47,.06); }
+    .selector-panel .account-option[aria-pressed="true"] { border-color:#f3ba2f; background:rgba(243,186,47,.10); box-shadow:0 0 0 2px rgba(243,186,47,.12); }
+    .selector-panel .primary-action { background:#f3ba2f; color:#181a20; box-shadow:0 8px 24px rgba(243,186,47,.13); }
+    .selector-panel .primary-action:hover { background:#ffcf55; }
+    .selector-panel .secondary-action { border-color:rgba(243,186,47,.35); }
+    .selector-panel .account-badge { border-color:rgba(243,186,47,.4); color:#f3ba2f; background:rgba(243,186,47,.07); }
+    .eyebrow { margin: 0 0 10px; color: var(--mint); font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .view-title { margin: 0; font-size: clamp(27px, 5vw, 40px); letter-spacing: -.04em; }
+    .view-copy { margin: 12px auto 0; max-width: 590px; color: var(--muted); line-height: 1.65; }
+    .account-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 30px 0 24px; }
+    .account-option {
+      min-height: 178px; padding: 20px 15px; text-align: left; color: var(--text); cursor: pointer;
+      border: 1px solid var(--line); border-radius: 18px; background: #ffffff08;
+      transition: transform .18s, border-color .18s, background .18s, box-shadow .18s;
+    }
+    .account-option:hover { transform: translateY(-3px); border-color: #62f0c080; background: #ffffff10; }
+    .account-option[aria-pressed="true"] { border-color: var(--mint); background: #62f0c014; box-shadow: 0 0 0 2px #62f0c025; }
+    .account-option:focus-visible, .primary-action:focus-visible, .secondary-action:focus-visible, .starter-action:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .option-icon { display: block; margin-bottom: 15px; font-size: 28px; }
+    .option-title { display: block; margin-bottom: 7px; font-size: 16px; font-weight: 800; }
+    .option-copy { display: block; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .selector-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .primary-action, .secondary-action {
+      min-height: 48px; padding: 0 24px; border: 0; border-radius: 14px; font: inherit; font-weight: 800; cursor: pointer;
+    }
+    .primary-action { background: linear-gradient(135deg, #62f0c0, #8baeff); color: #08111f; }
+    .secondary-action { border: 1px solid var(--line); background: transparent; color: var(--text); }
+    .primary-action:disabled { opacity: .55; cursor: not-allowed; }
+    .view-status { min-height: 22px; margin: 16px 0 0; color: var(--muted); text-align: center; font-size: 13px; }
+    .view-status[data-state="error"] { color: #ff9b9b; }
+    .view-status[data-state="success"] { color: var(--mint); }
+    .dashboard-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+    .dashboard-heading { text-align: left; }
+    .account-badge { display: inline-flex; margin-top: 14px; padding: 7px 12px; border: 1px solid #62f0c055; border-radius: 999px; color: var(--mint); background: #62f0c010; font-size: 12px; font-weight: 800; }
+    .starter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 30px; }
+    .starter-action { display: block; min-height: 140px; padding: 21px; border: 1px solid var(--line); border-radius: 18px; color: var(--text); background: #ffffff08; text-align: left; }
+    .starter-action-icon { font-size: 25px; }
+    .starter-action strong { display: block; margin: 13px 0 7px; font-size: 16px; }
+    .starter-action span:last-child { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    [hidden] { display: none !important; }
+    @media (min-width: 801px) { .account-options { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 800px) { .account-options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 480px) {
+      body.app-open { padding: 22px 12px; }
+      .account-options { gap: 9px; margin-top: 22px; }
+      .account-option { min-height: 160px; padding: 15px 12px; }
+      .dashboard-top { display: block; }
+      .dashboard-top .secondary-action { margin-top: 18px; }
+    }
+    @media (max-width: 390px) {
+      body { padding: 24px 14px; }
+      .brand-mark { width: 124px; height: 124px; }
+      .socials { gap: 8px; }
+      .social { padding: 11px 2px 9px; font-size: 10px; }
+      .social svg { width: 21px; height: 21px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+    :root {
+      color-scheme: dark;
+      --bg: #09131b;
+      --panel: #111f29;
+      --text: #f3f8f8;
+      --muted: #a6b8bd;
+      --line: #29404a;
+      --mint: #45d6b0;
+      --focus: #8af2d4;
+    }
+    body {
+      background:
+        radial-gradient(ellipse at 50% 8%, rgba(26,101,94,.2), transparent 43%),
+        radial-gradient(ellipse at 10% 90%, rgba(24,91,77,.13), transparent 38%),
+        var(--bg);
+    }
+    .page { max-width: 580px; padding: 38px; border: 1px solid var(--line); border-radius: 28px; background: #0d1a23; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+    .brand-mark { background: #142630; border-color: #38515b; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+    .brand-fallback span { color: var(--text); }
+    .signin { background: #f8fbfb; color: #152a30; box-shadow: 0 8px 22px rgba(0,0,0,.24); }
+    .install-app { background: #155e50; color: #f2fffb; box-shadow: 0 8px 22px rgba(0,0,0,.24); }
+    .divider { color: #9bafb3; }
+    .social { background: #111f29; }
+    .social:hover { background: #1a3039; border-color: #45d6b080; color: var(--text); }
+    .note { color: #9bafb3; }
+    .footer { color: #83989d; }
+    .selector-panel, .dashboard-panel { background: #101e27; box-shadow: 0 18px 50px rgba(0,0,0,.3); }
+    .account-option { background: #14232d; box-shadow: 0 5px 16px rgba(0,0,0,.16); }
+    .account-option:hover { border-color: #45d6b080; background: #192d35; }
+    .account-option[aria-checked="true"] { border-color: var(--mint); background: #12352f; box-shadow: 0 0 0 2px #45d6b02b; }
+    .account-option:focus-visible, .primary-action:focus-visible, .secondary-action:focus-visible, .starter-action:focus-visible, .profile-field input:focus-visible, .profile-field select:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .primary-action { background: #18a982; color: #041b17; box-shadow: 0 8px 18px rgba(24,169,130,.2); }
+    .secondary-action { background: #14232d; border-color: #38515b; color: var(--text); }
+    .primary-action:disabled, .secondary-action:disabled { opacity: .55; cursor: wait; }
+    .view-status[data-state="error"] { color: #ff9b9b; }
+    .view-status[data-state="success"] { color: #72e5bf; }
+    .account-badge { border-color: #45d6b055; color: #7ce9c7; background: #12352f; }
+    .starter-action { background: #14232d; box-shadow: 0 5px 16px rgba(0,0,0,.16); }
+    .profile-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; margin-top: 25px; }
+    .profile-field { display: grid; gap: 7px; color: var(--text); font-size: 13px; font-weight: 750; }
+    .profile-field input, .profile-field select { width: 100%; min-height: 46px; padding: 11px 13px; border: 1px solid #38515b; border-radius: 12px; background: #0a171f; color: var(--text); font: inherit; font-weight: 450; }
+    .profile-field input::placeholder { color: #8da2a7; }
+    .profile-help { margin: 0; color: var(--muted); font-size: 12px; font-weight: 450; line-height: 1.5; }
+    .privacy-note { margin: 22px 0 0; padding: 15px 17px; border: 1px solid #294a48; border-radius: 14px; background: #132a2a; color: #c0d6d1; font-size: 12px; line-height: 1.65; }
+    .profile-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+    .profile-label { display: flex; align-items: center; gap: 9px; }
+    .brand-icon { width: 21px; height: 21px; display: inline-grid; place-items: center; flex: 0 0 auto; }
+    .brand-icon svg { width: 100%; height: 100%; display: block; }
+    .brand-whatsapp { color: #25d366; }
+    .brand-facebook { color: #0866ff; }
+    .brand-wechat { color: #07c160; }
+    .brand-instagram { color: #e1306c; }
+    .brand-x { color: #f3f5f5; }
+    .brand-paypal { color: #009cde; }
+    .brand-binance { color: #f0b90b; }
+    .profile-summary { margin-top: 24px; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: #0e1b24; }
+    .profile-summary h3 { margin: 0 0 15px; font-size: 16px; }
+    .profile-summary-list { display: flex; gap: 10px; flex-wrap: wrap; }
+    .profile-summary-link, .profile-summary-item { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; padding: 9px 12px; border: 1px solid #2b444d; border-radius: 12px; background: #14232d; color: #eaf5f3; font-size: 13px; text-decoration: none; overflow-wrap: anywhere; }
+    .profile-summary-link:hover { border-color: #45d6b0; }
+    .profile-summary-link .brand-icon, .profile-summary-item .brand-icon { width: 18px; height: 18px; }
+    @media (max-width: 700px) { .page { padding: 25px 18px; } .profile-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 390px) { .page { padding: 20px 14px; } }
+
+    /* Enemind service hub */
+    .service-hub { margin-top: 28px; padding-top: 25px; border-top: 1px solid var(--line); }
+    .section-heading { margin: 0 0 8px; font-size: 22px; letter-spacing: -.02em; }
+    .section-copy { margin: 0 0 18px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .service-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+    .service-card { position:relative; overflow:hidden; padding:20px; border:1px solid rgba(243,186,47,.20); border-radius:18px; background:linear-gradient(150deg,rgba(255,255,255,.055),rgba(255,255,255,.018)); transition:transform .18s,border-color .18s,box-shadow .18s; }
+    .service-card:hover { transform:translateY(-3px); border-color:rgba(243,186,47,.55); box-shadow:0 15px 35px #0003; }
+    .service-card h4 { margin:9px 0 7px; font-size:16px; }
+    .service-card p { margin:0 0 13px; color:var(--muted); font-size:12px; line-height:1.6; }
+    .service-icon { display:inline-grid; place-items:center; width:43px; height:43px; border-radius:13px; background:rgba(243,186,47,.10); border:1px solid rgba(243,186,47,.22); font-size:23px; }
+    .service-card button { margin:3px 4px 0 0; }
+    .service-card button:first-of-type { background:#f3ba2f; color:#17191e; border-color:#f3ba2f; }
+    .buyer-workspace { margin-top:22px; padding:20px; border:1px solid rgba(243,186,47,.28); border-radius:20px; background:radial-gradient(ellipse at 0 0,rgba(243,186,47,.09),transparent 50%),#0c1218; }
+    .buyer-workspace-head { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:16px; }
+    .buyer-workspace h3 { margin:0 0 7px; font-size:19px; }
+    .buyer-workspace p { margin:0; max-width:700px; color:var(--muted); font-size:12px; line-height:1.6; }
+    .buyer-feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:11px; }
+    .buyer-feature { padding:15px; border:1px solid var(--line); border-radius:14px; background:#ffffff04; }
+    .buyer-feature strong { display:block; margin:7px 0 5px; font-size:13px; }
+    .buyer-feature span { display:block; color:var(--muted); font-size:11px; line-height:1.55; }
+    .feature-mark { color:#f3ba2f; font-size:20px; }
+    .addon-checks { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; margin:12px 0; }
+    .addon-check { display:flex !important; align-items:flex-start; gap:9px; margin:0 !important; padding:12px; border:1px solid var(--line); border-radius:12px; background:#ffffff04; }
+    .addon-check input { width:auto !important; margin:3px 0 0 !important; accent-color:#f3ba2f; }
+    .addon-check strong { display:block; color:var(--text); font-size:12px; margin-bottom:4px; }
+    .addon-check small { display:block; color:var(--muted); font-size:11px; line-height:1.5; }
+    .service-price { color:var(--mint); font-size:13px; font-weight:800; margin:0 0 12px; }
+    .service-card button, .mini-action { min-height:39px; padding:8px 13px; border-radius:10px; border:1px solid var(--line); background:#17352f; color:var(--text); font:inherit; font-size:12px; font-weight:800; cursor:pointer; }
+    .payment-box { margin-top:20px; padding:18px; border:1px solid #d9ad2c66; border-radius:17px; background:linear-gradient(135deg,#3a3016aa,#17252a); }
+    .payment-destination { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:12px 0; }
+    .payment-id { color:#f3ba2f; font-size:22px; font-weight:900; letter-spacing:.02em; overflow-wrap:anywhere; }
+    .payment-hint { color:var(--muted); font-size:12px; line-height:1.55; }
+    .service-form { margin-top:16px; padding:18px; border:1px solid var(--line); border-radius:16px; background:#08151b; }
+    .service-form h4 { margin:0 0 12px; }
+    .form-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
+    .service-form label { display:block; margin:10px 0; color:var(--muted); font-size:12px; }
+    .service-form input,.service-form select,.service-form textarea { width:100%; margin-top:6px; padding:11px 12px; color:var(--text); background:#13242c; border:1px solid var(--line); border-radius:9px; font:inherit; }
+    .service-form textarea { min-height:85px; resize:vertical; }
+    .service-status { min-height:20px; margin:10px 0 0; color:var(--muted); font-size:12px; line-height:1.5; }
+    .service-status[data-state="error"] { color:#ff9b9b; } .service-status[data-state="success"] { color:var(--mint); }
+    .records-list { margin-top:14px; display:grid; gap:8px; }
+    .record-row { padding:11px 12px; border:1px solid var(--line); border-radius:10px; color:var(--muted); font-size:12px; line-height:1.5; }
+    .referral-links { display:grid; gap:8px; margin-top:10px; }
+    .referral-line { display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center; }
+    .referral-line code { overflow-wrap:anywhere; white-space:normal; color:var(--mint); font-size:11px; }
+    .privacy-inline { color:var(--muted); font-size:11px; line-height:1.5; }
+
+    /* Buyer dashboard: Binance-inspired dark surfaces with restrained gold accents */
+    .dashboard-panel { border-color:rgba(243,186,47,.22); background:radial-gradient(ellipse at 100% 0,rgba(243,186,47,.07),transparent 34%),linear-gradient(145deg,#111820,#090d12 80%); }
+    .dashboard-brandline { display:flex; align-items:center; gap:12px; margin-bottom:22px; padding-bottom:17px; border-bottom:1px solid rgba(243,186,47,.16); }
+    .dashboard-logo { width:46px;height:46px;object-fit:cover;border-radius:14px;border:1px solid rgba(243,186,47,.45);background:#090d12; }
+    .dashboard-brandname { margin:0;font-size:16px;letter-spacing:.12em;font-weight:900; }
+    .dashboard-brandname span { color:#f3ba2f; }
+    .dashboard-brandline small { display:block;margin-top:4px;color:var(--muted);font-size:11px; }
+    .dashboard-top { padding:21px;border:1px solid rgba(243,186,47,.17);border-radius:20px;background:linear-gradient(125deg,rgba(243,186,47,.075),rgba(255,255,255,.015)); }
+    .dashboard-heading .view-title { overflow-wrap:anywhere; }
+    .account-badge { border-color:rgba(243,186,47,.42);color:#f3ba2f;background:rgba(243,186,47,.07); }
+    .buyer-workspace { margin-top:22px;padding:clamp(16px,3vw,25px);border-color:rgba(243,186,47,.32);background:radial-gradient(ellipse at 0 0,rgba(243,186,47,.1),transparent 42%),linear-gradient(145deg,#131920,#0b1016); }
+    .buyer-hero { display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:18px;margin-bottom:20px; }
+    .buyer-hero h3 { font-size:clamp(21px,4vw,28px);letter-spacing:-.035em;margin:0 0 8px; }
+    .buyer-hero p { max-width:650px; }
+    .buyer-hero-mark { width:70px;height:70px;display:grid;place-items:center;border-radius:22px;border:1px solid rgba(243,186,47,.32);background:rgba(243,186,47,.09);font-size:36px; }
+    .buyer-quick-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0; }
+    .buyer-quick { padding:13px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(255,255,255,.025); }
+    .buyer-quick b { display:block;color:#f3ba2f;font-size:19px;margin-bottom:5px; }
+    .buyer-quick span { color:var(--muted);font-size:11px;line-height:1.4; }
+    .buyer-feature-grid { grid-template-columns:repeat(auto-fit,minmax(205px,1fr)); }
+    .buyer-feature { background:linear-gradient(140deg,rgba(255,255,255,.035),rgba(255,255,255,.012)); }
+    .buyer-tools { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px;margin-top:16px; }
+    .buyer-tool { display:flex;align-items:flex-start;gap:12px;padding:15px;border:1px solid rgba(243,186,47,.18);border-radius:15px;background:#ffffff03; }
+    .buyer-tool-icon { width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;border-radius:12px;background:rgba(243,186,47,.1);color:#f3ba2f;font-size:20px; }
+    .buyer-tool strong { display:block;font-size:13px;margin:1px 0 5px; }
+    .buyer-tool p { margin:0;color:var(--muted);font-size:11px;line-height:1.55; }
+    .buyer-panel-head { display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px; }
+    .buyer-panel-head h4 { margin:0; }
+    .buyer-list { display:grid;gap:9px;margin-top:12px; }
+    .buyer-item { padding:14px;border:1px solid rgba(243,186,47,.16);border-radius:13px;background:rgba(255,255,255,.025); }
+    .buyer-item-top { display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap; }
+    .buyer-item strong { font-size:13px; }
+    .buyer-item p { margin:6px 0 0;color:var(--muted);font-size:11px;line-height:1.55; }
+    .buyer-status-pill { display:inline-flex;padding:5px 8px;border-radius:999px;border:1px solid rgba(243,186,47,.28);color:#f3ba2f;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em; }
+    .buyer-item-actions { display:flex;gap:7px;flex-wrap:wrap;margin-top:12px; }
+    .buyer-empty { padding:18px;border:1px dashed rgba(243,186,47,.25);border-radius:13px;color:var(--muted);font-size:12px;line-height:1.6; }
+    .buyer-tabs { display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 10px; }
+    .buyer-tabs button { border:1px solid rgba(243,186,47,.2);border-radius:999px;padding:9px 13px;background:#111820;color:var(--muted);font:inherit;font-size:11px;font-weight:800;cursor:pointer; }
+    .buyer-tabs button[aria-pressed="true"] { background:#f3ba2f;color:#17191e;border-color:#f3ba2f; }
+    @media(max-width:640px){.buyer-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.buyer-hero{grid-template-columns:1fr}.buyer-hero-mark{display:none}.dashboard-top{padding:16px}}
+
+    @media(max-width:480px){ .payment-id{font-size:18px}.service-card{padding:15px}.referral-line{grid-template-columns:1fr} }
+
+  
+    .bwrite-only-options { grid-template-columns: minmax(0, 1fr); max-width: 520px; margin-inline: auto; }
+    .bwrite-only-options .account-option { min-height: 150px; border-color: rgba(240,185,11,.5); }
+    .bwrite-profile-grid { grid-template-columns: minmax(0, 1fr); max-width: 640px; margin-inline: auto; }
+    .bwrite-profile-grid .profile-field { padding: 18px; border: 1px solid rgba(240,185,11,.22); border-radius: 16px; background: rgba(255,255,255,.025); }
+
+</style>
+</head>
+<body>
+  <main class="page">
+    <div class="brand-mark">
+      <img class="brand-logo" id="brandLogo" src="./icons/logo.jpg" alt="Enemind logo">
+      <div class="brand-fallback" id="brandFallback" aria-hidden="true">e<span>n</span>.</div>
+    </div>
+    <h1 class="wordmark">ENEMIND</h1>
+    <p class="tagline">Find your way to earn online.<br>Connect to digital opportunities.</p>
+
+    <button class="signin" id="googleSignIn" type="button">
+      <svg class="google-g" viewBox="0 0 48 48" aria-hidden="true">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" transform="translate(0 4)"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.75 7.18l7.73 6C44.42 38.05 46.98 31.95 46.98 24.55z"/>
+        <path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.53 2.56 10.78l7.97-6.19z" transform="translate(0 4)"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.8l-7.73-6c-2.14 1.44-4.89 2.3-8.18 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" transform="translate(0 -2)"/>
+      </svg>
+      <span>Continue with Google</span>
+    </button>
+
+    <button class="install-app" id="installApp" type="button" aria-label="Install Enemind app">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 18H5v-2H3v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h-2v2ZM13 3h-2v8.17L8.41 8.59 7 10l5 5 5-5-1.41-1.41L13 11.17V3Z"/></svg>
+      Install Enemind App
+    </button>
+
+    <p class="helper" id="authMessage" role="status" aria-live="polite">One account to explore opportunities and services.</p>
+    <div class="divider">Connect with Enemind</div>
+
+    <nav class="socials" aria-label="Enemind social media">
+      <a class="social" data-social="whatsapp" href="https://wa.me/254180752220" aria-label="Enemind on WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.6 4.1 1.6 5.9L0 24l6.5-1.7a11.8 11.8 0 0 0 5.6 1.4h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.1-3.5-8.4ZM12.2 21.7c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.9 1 1-3.8-.3-.4a9.8 9.8 0 1 1 8.6 4.8Zm5.4-7.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-.3-.1-1.2-.5-2.3-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6s-.7-1.6-1-2.2c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.8s1.2 3.2 1.4 3.4c.2.2 2.4 3.7 5.8 5.1.8.3 1.4.5 1.9.6.8.2 1.5.2 2.1.1.7-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.6-.4Z"/></svg>
+        WhatsApp
+      </a>
+      <a class="social" data-social="wechat" href="#" aria-label="Enemind on WeChat">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.9 2C4.5 2 1 4.9 1 8.5c0 2 1.1 3.8 2.9 5L3 16.2l3.3-1.6c.8.2 1.7.4 2.6.4h.4a6.3 6.3 0 0 1-.5-2.5c0-3.7 3.5-6.6 7.9-6.6h.5C16.1 3.6 12.8 2 8.9 2Zm-2.6 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm5.2 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm5.4-1.7c-3.9 0-7.1 2.5-7.1 5.7s3.2 5.7 7.1 5.7c.8 0 1.6-.1 2.3-.4l3 1.4-.8-2.4c1.6-1.1 2.6-2.6 2.6-4.3 0-3.2-3.2-5.7-7.1-5.7Zm-2.4 6.1a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Zm4.8 0a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Z"/></svg>
+        WeChat
+      </a>
+      <a class="social" data-social="x" href="https://x.com/enemind" aria-label="Enemind on X">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l7.3-8.4L1.8 2h6.5l4.4 6.9L18.9 2Zm-1.1 17.9h1.7L7.3 4H5.5l12.3 15.9Z"/></svg>
+        X
+      </a>
+      <a class="social" data-social="instagram" href="https://www.instagram.com/enermindcom/" aria-label="Enemind on Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm5 2.3a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2.2a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6Zm5.8-3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6Z"/></svg>
+        Instagram
+      </a>
+      <a class="social" data-social="facebook" href="https://www.facebook.com/Enermindcom" aria-label="Enemind on Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.7 22v-9h3l.5-3.5h-3.5V7.2c0-1 .3-1.7 1.8-1.7h1.9V2.4c-.9-.1-1.9-.2-2.8-.2-2.9 0-4.9 1.8-4.9 5v2.3H6.5V13h3.2v9h4Z"/></svg>
+        Facebook
+      </a>
+      <a class="social" data-social="tiktok" href="https://www.tiktok.com/@enemindcomp" aria-label="Enemind on TikTok">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.6 5.6A6.4 6.4 0 0 1 16 2.1V1h-4.1v15.1a2.8 2.8 0 1 1-2-2.7V9.2a7 7 0 1 0 6.1 6.9V8.4a10.4 10.4 0 0 0 5.1 1.3V5.6h-1.5Z"/></svg>
+        TikTok
+      </a>
+      <a class="social" data-social="youtube" href="https://www.youtube.com/@Enemindcompany" aria-label="Enemind on YouTube">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.8V8.2l6.3 3.8-6.3 3.8Z"/></svg>
+        YouTube
+      </a>
+      <a class="social" data-social="binance" href="https://www.binance.com/" aria-label="Enemind Binance profile">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7.4 10.2 4.6-4.6 4.6 4.6 2.7-2.7L12 0 4.7 7.5l2.7 2.7Zm-4.7-.1L0 12.8l2.7 2.7 2.7-2.7-2.7-2.7Zm9.3 3.2-2.6-2.6-2.7 2.7 5.3 5.3 5.3-5.3-2.7-2.7-2.6 2.6Zm9.3-3.2-2.7 2.7 2.7 2.7 2.7-2.7-2.7-2.7ZM12 21.3l-2-2 2-2 2 2-2 2Z"/></svg>
+        <span>Binance</span><small class="binance-id">ID: 1236166874</small>
+      </a>
+      <a class="social" data-social="telegram" href="https://t.me/+254180752220" aria-label="Enemind on Telegram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.9 3.5 20.3 21c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.6.6-1.2.6l.4-5.6L19.5 6c.4-.4-.1-.6-.6-.2L6.2 13.9.8 12.2c-1.2-.4-1.2-1.2.3-1.8L22.2 2c1-.4 1.9.2 1.7 1.5Z"/></svg>
+        Telegram
+      </a>
+    </nav>
+
+    <p class="note">Connect with Enemind through the official social links. WeChat will be enabled when its official account link is available. By continuing, you agree to the platform’s Terms and Privacy Policy.</p>
+    <div class="footer">© <span id="year"></span> Enemind · The digital opportunity network</div>
+
+    <section class="app-view selector-panel" id="accountSelector" aria-labelledby="accountSelectorTitle" hidden>
+      <div class="selector-heading">
+        <div class="selector-brand" aria-label="Enemind">
+          <img class="selector-brand-logo" src="./icons/logo.jpg" alt="Enemind logo" width="62" height="62">
+          <p class="selector-brand-name">ENE<span>MIND</span></p>
+        </div>
+        <p class="eyebrow">Make Enemind yours</p>
+        <h2 class="view-title" id="accountSelectorTitle">Start with Bwrite</h2>
+        <p class="view-copy">We are starting with the Bwrite publishing program. Other account experiences will be introduced later.</p>
+      </div>
+      <div class="account-options bwrite-only-options" id="accountOptions" role="radiogroup" aria-label="Account type">
+        <button class="account-option selected" type="button" role="radio" aria-checked="true" data-account-type="bwrite">
+          <span class="option-icon" aria-hidden="true">✍️</span><span class="option-title">Bwrite</span><span class="option-copy">Create original digital products, submit them for review, and earn from eligible sales.</span>
+        </button>
+      </div>
+      <div class="selector-actions">
+        <button class="primary-action" id="continueAccountType" type="button" disabled>Continue</button>
+        <button class="secondary-action" id="cancelAccountType" type="button" hidden>Cancel</button>
+      </div>
+      <p class="view-status" id="accountTypeStatus" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="app-view selector-panel" id="profileSetup" aria-labelledby="profileSetupTitle" hidden>
+      <div class="selector-heading">
+        <p class="eyebrow">Complete registration</p>
+        <h2 class="view-title" id="profileSetupTitle">Set up your Bwrite account.</h2>
+        <p class="view-copy">Only two details are required to get started: your WhatsApp phone number and your own Binance ID/UID.</p>
+      </div>
+      <form id="profileSetupForm" novalidate>
+        <div class="profile-grid bwrite-profile-grid">
+          <label class="profile-field" for="whatsappPhone"><span class="profile-label"><span class="brand-icon brand-whatsapp" data-brand-icon="whatsapp" aria-hidden="true"></span>WhatsApp phone number</span>
+            <input id="whatsappPhone" name="whatsapp_phone" type="tel" inputmode="tel" maxlength="24" placeholder="+254 712 345 678" autocomplete="tel" aria-describedby="whatsappPhoneHelp" required>
+            <span class="profile-help" id="whatsappPhoneHelp">Required so the Bwrite team can contact you. Include your country calling code.</span>
+          </label>
+          <label class="profile-field" for="binanceUid"><span class="profile-label"><span class="brand-icon brand-binance" data-brand-icon="binance" aria-hidden="true"></span>Binance ID/UID</span>
+            <input id="binanceUid" name="binance_uid" type="text" maxlength="100" required placeholder="Your Binance Pay ID or UID" autocomplete="off" aria-describedby="paymentHelp">
+            <span class="profile-help" id="binanceOnboardingHelp">Used for eligible Enemind payments and payouts. Enter your ID/UID only—never your password, private key or recovery phrase.</span>
+          </label>
+        </div>
+        <p class="privacy-note" id="paymentHelp">Your WhatsApp number and Binance ID/UID are private profile details. Never enter payment passwords, OTPs, private keys, API secrets or recovery phrases.</p>
+        <div class="profile-actions">
+          <button class="secondary-action" id="backToAccountType" type="button">Back</button>
+          <button class="primary-action" id="saveProfile" type="submit">Save Profile</button>
+        </div>
+      </form>
+      <p class="view-status" id="profileStatus" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="app-view dashboard-panel" id="dashboard" aria-labelledby="dashboardTitle" hidden>
+      <div class="dashboard-brandline"><img class="dashboard-logo" src="./icons/logo.jpg" alt="Enemind logo" onerror="this.style.display='none'"><div><p class="dashboard-brandname">ENE<span>MIND</span></p><small>Digital services · opportunities · marketplace</small></div></div>
+      <div class="dashboard-top">
+        <div class="dashboard-heading">
+          <p class="eyebrow">Your Enemind dashboard</p>
+          <h2 class="view-title" id="dashboardTitle">Welcome</h2>
+          <p class="view-copy" id="dashboardCopy"></p>
+          <span class="account-badge" id="accountTypeBadge"></span>
+        </div>
+        <button class="secondary-action" id="changeAccountType" type="button">Change account type</button>
+      </div>
+      <div class="starter-grid" id="starterActions"></div>
+      <section class="service-hub" id="serviceHub" aria-labelledby="serviceHubTitle">
+        <h3 class="section-heading" id="serviceHubTitle">Your Enemind services</h3>
+        <p class="section-copy">One Enemind account, separate service activations. Activation payments are made directly to the Enemind Binance Pay ID shown below. Uploading a transaction reference requests review; it does not automatically confirm payment.</p>
+        <div class="buyer-workspace" id="buyerMarketplace">
+          <div class="buyer-hero"><div><p class="eyebrow">BUYER MARKETPLACE</p><h3>Find the right seller. Manage every request.</h3><p>Create a request with your service type, countries, quantity, budget and delivery instructions. Enemind can match it with participating sellers; compare offers and follow order progress here.</p><div class="buyer-item-actions"><button type="button" class="primary-action" id="buyerWorkspaceRequest">＋ Create buyer request</button><button type="button" class="secondary-action" id="buyerRefreshMarketplace">↻ Refresh marketplace</button></div></div><div class="buyer-hero-mark" aria-hidden="true">🛍️</div></div>
+          <div class="buyer-quick-grid"><div class="buyer-quick"><b>01</b><span>Describe what you need</span></div><div class="buyer-quick"><b>02</b><span>Match with opted-in sellers</span></div><div class="buyer-quick"><b>03</b><span>Compare seller offers</span></div><div class="buyer-quick"><b>04</b><span>Track delivery and order status</span></div></div>
+          <div class="buyer-feature-grid">
+            <div class="buyer-feature"><span class="feature-mark">⌕</span><strong>Request and match</strong><span>Specify a buyer-defined service type, country, quantity, budget, timeline and requirements. Sellers must opt in to receive matched requests.</span></div>
+            <div class="buyer-feature"><span class="feature-mark">🌍</span><strong>Country-specific instructions</strong><span>Choose multiple countries and include registration, eligibility, language, delivery format and quality checks.</span></div>
+            <div class="buyer-feature"><span class="feature-mark">▤</span><strong>Consent-based seller CSV</strong><span>Order eligible business contact data in batches of 20 for $10 per batch, subject to admin review and consent.</span></div>
+            <div class="buyer-feature"><span class="feature-mark">▦</span><strong>Google Sheets tracking</strong><span>Add a lead tracker for outreach, status, follow-up dates, outcome and notes. Admin confirms availability and any extra price.</span></div>
+          </div>
+          <div class="buyer-tools"><div class="buyer-tool"><span class="buyer-tool-icon">⇄</span><div><strong>Offer comparison</strong><p>Review matched seller pricing, country coverage, delivery estimate and terms before selecting an offer.</p></div></div><div class="buyer-tool"><span class="buyer-tool-icon">📦</span><div><strong>Orders and delivery</strong><p>Keep accepted offers, order status and delivery notes together. Do not mark a delivery complete until you have checked it.</p></div></div><div class="buyer-tool"><span class="buyer-tool-icon">▦</span><div><strong>Google Sheets workflow</strong><p>Optional tracker for seller research, buyer requests, offer comparisons and sales follow-up. Live Google Sheets sync still requires integration.</p></div></div></div>
+          <div class="buyer-tabs" aria-label="Buyer marketplace sections"><button type="button" data-buyer-tab="requests" aria-pressed="true">My requests</button><button type="button" data-buyer-tab="offers" aria-pressed="false">Matched offers</button><button type="button" data-buyer-tab="orders" aria-pressed="false">My orders</button></div>
+          <section class="service-form" id="buyerRequestsSection"><div class="buyer-panel-head"><h4>My buyer requests</h4><button type="button" class="mini-action" id="buyerLoadRequests">Refresh requests</button></div><p class="payment-hint">Requests show the status set by Enemind admin. Seller matching and offers appear here once an opted-in seller offer is recorded.</p><div id="buyerRequestsList" class="buyer-list"><div class="buyer-empty">Sign in and refresh to load your buyer requests.</div></div><p class="service-status" id="buyerRequestsStatus" role="status" aria-live="polite"></p></section>
+          <section class="service-form" id="buyerOffersSection" hidden><div class="buyer-panel-head"><h4>Matched seller offers</h4><button type="button" class="mini-action" id="buyerLoadOffers">Refresh offers</button></div><p class="payment-hint">Compare price, country, delivery estimate and offer terms. Placing an order records your selection; payment and delivery still require the agreed workflow and admin confirmation.</p><div id="buyerOffersList" class="buyer-list"><div class="buyer-empty">No matched offers loaded yet.</div></div><p class="service-status" id="buyerOffersStatus" role="status" aria-live="polite"></p></section>
+          <section class="service-form" id="buyerOrdersSection" hidden><div class="buyer-panel-head"><h4>My orders</h4><button type="button" class="mini-action" id="buyerLoadOrders">Refresh orders</button></div><p class="payment-hint">Track order status, delivery notes and the seller offer you accepted.</p><div id="buyerOrdersList" class="buyer-list"><div class="buyer-empty">No orders loaded yet.</div></div><p class="service-status" id="buyerOrdersStatus" role="status" aria-live="polite"></p></section>
+        </div>
+        <div class="service-grid" style="margin-top:14px">
+          <article class="service-card"><span class="service-icon">🛍️</span><h4>Buyer marketplace</h4><p>Submit detailed requests, get matched with participating sellers and follow request status from your dashboard.</p><div class="service-price">$10 weekly after 2-day trial</div><button type="button" data-pay-service="buyer_weekly">Activate buyer</button> <button type="button" id="openBuyerRequest">Post a buyer request</button></article>
+          <article class="service-card"><span class="service-icon">💼</span><h4>Worker program</h4><p>Complete research tasks, submit verified leads and request approved earnings weekly.</p><div class="service-price">$10 monthly</div><button type="button" data-pay-service="worker_monthly">Activate worker</button> <button type="button" id="openWithdrawalRequest">Request weekly withdrawal</button></article>
+          <article class="service-card"><span class="service-icon">📚</span><h4>Learner program</h4><p>Follow admin-curated YouTube lessons, complete exercises and assessments.</p><div class="service-price">$10 activation</div><button type="button" data-pay-service="learner_activation">Activate learner</button></article>
+          <article class="service-card"><span class="service-icon">✍️</span><h4>Bwrite publishing</h4><p>Write in Google Docs, share the document with admin, and submit it for review.</p><div class="service-price">$5 activation</div><button type="button" data-pay-service="bwrite_activation">Activate Bwrite</button></article>
+          <article class="service-card"><span class="service-icon">📄</span><h4>Seller-data CSV</h4><p>Request approved, consented seller records by country. Orders are sold in batches of 20.</p><div class="service-price">$10 per 20 records</div><button type="button" id="openCsvRequest">Request CSV data</button></article>
+          <article class="service-card"><span class="service-icon">🔗</span><h4>Referral program</h4><p>Each service has its own referral link. Qualified referrals may earn a fixed $1 after review and budget checks.</p><button type="button" id="showReferralLinks">View my referral links</button></article>
+        </div>
+        <div class="payment-box" aria-label="Enemind payment destination">
+          <strong>Enemind Binance payment destination</strong>
+          <div class="payment-destination"><span class="payment-id" data-admin-binance-id>1236166874</span><button class="mini-action" type="button" id="copyAdminBinance">Copy Binance Pay ID</button></div>
+          <p class="payment-hint">Use this ID for Enemind activation fees and CSV purchases. Enter the exact amount and include your Enemind email or request ID in the Binance payment note when supported. Never send passwords, OTPs, private keys or recovery phrases.</p>
+        </div>
+        <section class="service-form" id="paymentSubmissionPanel" hidden>
+          <h4 id="paymentFormTitle">Submit payment for verification</h4>
+          <p class="payment-hint" id="paymentFormDescription"></p>
+          <form id="paymentSubmissionForm">
+            <input type="hidden" id="paymentServiceCode" name="service_code">
+            <div class="form-row"><label>Amount (USD)<input id="paymentAmount" name="amount_usd" type="number" min="1" step="0.01" required readonly></label><label>Binance transaction/order reference<input id="paymentReference" name="transaction_reference" maxlength="160" required placeholder="Enter Binance transaction reference"></label></div>
+            <label>Optional note<textarea id="paymentNote" name="note" maxlength="500" placeholder="What are you activating or purchasing?"></textarea></label>
+            <div class="selector-actions"><button class="primary-action" id="submitPayment" type="submit">Submit for review</button><button class="secondary-action" type="button" id="cancelPayment">Cancel</button></div>
+          </form><p class="service-status" id="paymentStatus" role="status" aria-live="polite"></p>
+        </section>
+        <section class="service-form" id="buyerRequestPanel" hidden><h4>Post a buyer request</h4><p class="payment-hint">Buyer-defined service/account types are allowed. Only request legitimate services and listings that comply with provider rules.</p><form id="buyerRequestForm"><label>Countries needed (select all that apply)</label><div class="form-row" id="buyerCountryChoices"><label><input type="checkbox" name="buyerCountry" value="Kenya" style="width:auto;margin-right:6px">Kenya</label><label><input type="checkbox" name="buyerCountry" value="South Africa" style="width:auto;margin-right:6px">South Africa</label><label><input type="checkbox" name="buyerCountry" value="Portugal" style="width:auto;margin-right:6px">Portugal</label><label><input type="checkbox" name="buyerCountry" value="Poland" style="width:auto;margin-right:6px">Poland</label><label><input type="checkbox" name="buyerCountry" value="United States" style="width:auto;margin-right:6px">United States</label><label><input type="checkbox" name="buyerCountry" value="United Kingdom" style="width:auto;margin-right:6px">United Kingdom</label><label><input type="checkbox" name="buyerCountry" value="Canada" style="width:auto;margin-right:6px">Canada</label><label><input type="checkbox" name="buyerCountry" value="Nigeria" style="width:auto;margin-right:6px">Nigeria</label><label><input type="checkbox" name="buyerCountry" value="Ghana" style="width:auto;margin-right:6px">Ghana</label><label><input type="checkbox" name="buyerCountry" value="Tanzania" style="width:auto;margin-right:6px">Tanzania</label><label><input type="checkbox" name="buyerCountry" value="Uganda" style="width:auto;margin-right:6px">Uganda</label><label><input type="checkbox" name="buyerCountry" value="Other" style="width:auto;margin-right:6px">Other</label></div><div class="form-row"><label>Service/account type<input id="buyerRequestType" required maxlength="180" placeholder="Describe the legitimate service needed"></label><label>Quantity<input id="buyerRequestQuantity" type="number" min="1" max="100000" required value="1"></label></div><div class="form-row"><label>Budget amount<input id="buyerRequestBudget" type="number" min="0" step="0.01" placeholder="Optional"></label><label>Currency<select id="buyerRequestCurrency"><option>USD</option><option>KES</option><option>EUR</option><option>GBP</option><option>ZAR</option></select></label></div><label>Optional official registration URL<input id="buyerRequestUrl" type="url" maxlength="2048" placeholder="https://official-provider.example"></label><label>Country-specific instructions / delivery requirements<textarea id="buyerRequestNotes" maxlength="1500" placeholder="Explain local requirements, quality checks, delivery format, timing and any restrictions for each country."></textarea></label><div class="addon-checks"><label class="addon-check"><input id="buyerAddonCsv" type="checkbox"><span><strong>Country-specific contact CSV</strong><small>Ask admin for consented seller/business contact records for your selected countries. Price and availability confirmed before payment.</small></span></label><label class="addon-check"><input id="buyerAddonSheet" type="checkbox"><span><strong>Google Sheets tracking template</strong><small>Request a tracker for lead status, outreach date, follow-up, outcome and notes. Setup/price confirmed by admin.</small></span></label></div><div class="selector-actions"><button class="primary-action" type="submit">Submit buyer request</button><button class="secondary-action" type="button" data-close-panel="buyerRequestPanel">Cancel</button></div></form><p class="service-status" id="buyerRequestStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="withdrawalRequestPanel" hidden><h4>Weekly worker withdrawal request</h4><p class="payment-hint">Only approved task earnings are eligible. Requests are reviewed by Enemind and paid through Binance after approval. A request does not guarantee a payout.</p><form id="withdrawalRequestForm"><div class="form-row"><label>Amount requested (USD)<input id="withdrawalAmount" type="number" min="1" step="0.01" required placeholder="0.00"></label><label>Your Binance Pay ID / UID<input id="withdrawalBinanceUid" maxlength="100" required placeholder="Your own Binance identifier"></label></div><label>Note (optional)<textarea id="withdrawalNote" maxlength="500" placeholder="Week ending / task details"></textarea></label><div class="selector-actions"><button class="primary-action" type="submit">Submit withdrawal request</button><button class="secondary-action" type="button" data-close-panel="withdrawalRequestPanel">Cancel</button></div></form><p class="service-status" id="withdrawalStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="csvRequestPanel" hidden>
+          <h4>Request seller-data CSV</h4><p class="payment-hint">$10 per 20 records. Requests are subject to availability, admin review, and seller consent to share the requested fields.</p>
+          <form id="csvRequestForm"><div class="form-row"><label>Countries (comma-separated)<input id="csvCountries" required maxlength="500" placeholder="Kenya, South Africa, Portugal"></label><label>Number of records<select id="csvQuantity"><option value="20">20 records — $10</option><option value="40">40 records — $20</option><option value="60">60 records — $30</option><option value="100">100 records — $50</option></select></label></div><label>Seller capabilities / fields needed<textarea id="csvRequirements" maxlength="1000" placeholder="Describe the legitimate services or seller information needed"></textarea></label><div class="addon-checks"><label class="addon-check"><input id="csvAddonSheet" type="checkbox"><span><strong>Add a Google Sheets tracker</strong><small>Request an outreach and follow-up tracker with the CSV. Admin will confirm availability and any additional price.</small></span></label></div><div class="selector-actions"><button class="primary-action" type="submit">Create CSV request</button><button class="secondary-action" type="button" data-close-panel="csvRequestPanel">Cancel</button></div></form><p class="service-status" id="csvStatus" role="status" aria-live="polite"></p>
+        </section>
+        <section class="service-form" id="bwriteSubmissionPanel" hidden>
+          <h4>Submit a Google Docs writing project</h4><p class="payment-hint">Set the document to share with the designated Enemind admin account only. Do not make your working document publicly editable.</p>
+          <form id="bwriteSubmissionForm"><div class="form-row"><label>Product title<input id="bwriteTitle" required maxlength="180" placeholder="e.g. Monthly budget planner"></label><label>Category<select id="bwriteCategory"><option>Health and wellness</option><option>Financial literacy</option><option>Daily life</option><option>Productivity</option><option>Other</option></select></label></div><label>Google Docs URL<input id="bwriteDocUrl" type="url" required maxlength="2048" placeholder="https://docs.google.com/document/d/…"></label><label>Short description<textarea id="bwriteDescription" required maxlength="1200" placeholder="What will readers learn or be able to do?"></textarea></label><div class="selector-actions"><button class="primary-action" type="submit">Submit for admin review</button><button class="secondary-action" type="button" data-close-panel="bwriteSubmissionPanel">Cancel</button></div></form><p class="service-status" id="bwriteStatus" role="status" aria-live="polite"></p>
+        </section>
+        <section class="service-form" id="referralPanel" hidden><h4>Your referral links</h4><p class="payment-hint">Each service has a separate link. A $1 reward is not guaranteed until the invitee qualifies, the transaction is verified, fraud checks pass and budget is available.</p><div id="referralLinks" class="referral-links"></div><p class="service-status" id="referralStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="myRequestsPanel"><h4>My submissions and requests</h4><p class="payment-hint">Records are retrieved from Supabase after the new migration is applied.</p><button type="button" class="mini-action" id="refreshMyRequests">Refresh my records</button><div id="myRequestsList" class="records-list"></div><p class="service-status" id="requestsStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="learningResourcesPanel"><h4>Learning library</h4><p class="payment-hint">Admin-curated YouTube lessons. Complete the practical exercise alongside each video; watching alone does not guarantee worker eligibility.</p><div id="learningResourcesList" class="records-list"></div><p class="service-status" id="learningResourcesStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="adminEarningsPanel" hidden><h4>Admin: record worker earnings</h4><p class="payment-hint">Only credit work that passed quality review. Use the worker's Firebase UID from the admin records; this does not send a payout.</p><form id="adminEarningsForm"><div class="form-row"><label>Worker UID<input id="earningWorkerUid" required maxlength="128"></label><label>Approved task amount (USD)<input id="earningAmount" type="number" min="0.01" step="0.01" required></label></div><div class="form-row"><label>Task reference<input id="earningTaskRef" maxlength="160"></label><label>Task description<input id="earningDescription" required maxlength="500"></label></div><div class="selector-actions"><button class="primary-action" type="submit">Record pending earning</button></div></form><p class="service-status" id="earningStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="adminLearningPanel" hidden><h4>Admin: publish a learning video</h4><form id="learningResourceForm"><div class="form-row"><label>Lesson title<input id="lessonTitle" required maxlength="180"></label><label>Skill category<select id="lessonCategory"><option>Google Sheets basics</option><option>Formulas and data validation</option><option>Buyer research</option><option>Seller research</option><option>Lead verification</option><option>Digital writing</option><option>Other</option></select></label></div><label>YouTube URL<input id="lessonUrl" type="url" required maxlength="2048" placeholder="https://www.youtube.com/watch?v=…"></label><label>Description / task<textarea id="lessonDescription" maxlength="1000"></textarea></label><div class="selector-actions"><button class="primary-action" type="submit">Publish lesson</button></div></form><p class="service-status" id="lessonStatus" role="status" aria-live="polite"></p></section>
+        <section class="service-form" id="adminReviewPanel" hidden><h4>Enemind admin review queue</h4><p class="payment-hint">Verify Binance transactions independently before changing a payment status. Admin tools are restricted to the configured admin email.</p>
+          <div class="buyer-workspace" style="margin:14px 0"><h4>Publish a matched seller offer</h4><p>Only publish an offer after confirming the seller opted in to this specific request. The buyer will see it under Matched offers.</p><form id="adminBuyerOfferForm"><label>Buyer request<select id="adminOfferRequestId" required><option value="">Loading buyer requests…</option></select></label><div class="form-row"><label>Seller/business name<input id="adminOfferSeller" required maxlength="160" placeholder="Seller display name"></label><label>Country covered<input id="adminOfferCountry" required maxlength="100" placeholder="Country or countries"></label></div><label>Offer title<input id="adminOfferTitle" required maxlength="180" placeholder="Short title of the offer"></label><label>Description<textarea id="adminOfferDescription" maxlength="1200" required placeholder="What is included, quality checks and delivery format"></textarea></label><div class="form-row"><label>Price (USD)<input id="adminOfferPrice" type="number" min="0" step="0.01" required></label><label>Estimated delivery (days)<input id="adminOfferDays" type="number" min="0" step="1" placeholder="Optional"></label></div><label>Terms / exclusions<textarea id="adminOfferTerms" maxlength="1000" placeholder="Payment steps, limitations, refund terms and any conditions"></textarea></label><div class="selector-actions"><button class="primary-action" type="submit">Publish offer</button></div></form><p class="service-status" id="adminOfferStatus" role="status" aria-live="polite"></p></div>
+          <button type="button" class="mini-action" id="refreshAdminQueue">Refresh admin queue</button><div id="adminQueueList" class="records-list"></div><p class="service-status" id="adminQueueStatus" role="status" aria-live="polite"></p></section>
+      </section>
+      <section class="profile-summary" id="profileSummary" aria-labelledby="profileSummaryTitle" hidden>
+        <h3 id="profileSummaryTitle">Your contact links</h3>
+        <div class="profile-summary-list" id="profileSummaryList"></div>
+      </section>
+      <div class="selector-actions">
+        <button class="secondary-action" id="editProfile" type="button">Edit profile details</button>
+        <button class="secondary-action" id="signOut" type="button">Sign out</button>
+      </div>
+      <p class="view-status" id="dashboardStatus" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script type="module">
+    import { firebaseConfig, supabaseConfig, adminBinancePayId, binanceReferralUrl, bwriteAdminEmail } from './config.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signOut,
+      onAuthStateChanged
+    } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.57.0';
+
+    const message = document.getElementById('authMessage');
+    const signInButton = document.getElementById('googleSignIn');
+    const installButton = document.getElementById('installApp');
+    const page = document.querySelector('.page');
+    const selector = document.getElementById('accountSelector');
+    const profileSetup = document.getElementById('profileSetup');
+    const profileSetupForm = document.getElementById('profileSetupForm');
+    const dashboard = document.getElementById('dashboard');
+    const accountOptions = [...document.querySelectorAll('.account-option')];
+    const continueAccountType = document.getElementById('continueAccountType');
+    const cancelAccountType = document.getElementById('cancelAccountType');
+    const accountTypeStatus = document.getElementById('accountTypeStatus');
+    const profileStatus = document.getElementById('profileStatus');
+    const landingElements = [...document.querySelectorAll('.brand-mark, .wordmark, .tagline, #googleSignIn, #installApp, #authMessage, .divider, .socials, .note, .footer')];
+    const validAccountTypes = new Set(['bwrite']);
+    let selectedAccountType = null;
+    let isChangingAccountType = false;
+    let profileUser = null;
+    let currentAccountType = null;
+    let accountTypeSaving = false;
+    let profileFieldsSaving = false;
+    let currentProfile = null;
+    let currentTrial = null;
+    let profileDraft = null;
+    let editingProfileFromDashboard = false;
+
+    const profileFieldNames = ['whatsapp_phone', 'binance_uid'];
+    const brandIconPaths = {
+      whatsapp: '<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>',
+      facebook: '<path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/>',
+      wechat: '<path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/>',
+      instagram: '<path fill="url(#instagram-brand-gradient)" d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/>',
+      x: '<path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/>',
+      paypal: '<path d="M15.607 4.653H8.941L6.645 19.251H1.82L4.862 0h7.995c3.754 0 6.375 2.294 6.473 5.513-.648-.478-2.105-.86-3.722-.86m6.57 5.546c0 3.41-3.01 6.853-6.958 6.853h-2.493L11.595 24H6.74l1.845-11.538h3.592c4.208 0 7.346-3.634 7.153-6.949a5.24 5.24 0 0 1 2.848 4.686M9.653 5.546h6.408c.907 0 1.942.222 2.363.541-.195 2.741-2.655 5.483-6.441 5.483H8.714Z"/>',
+      binance: '<path d="M16.624 13.9202l2.7175 2.7154-7.353 7.353-7.353-7.352 2.7175-2.7164 4.6355 4.6595 4.6356-4.6595zm4.6366-4.6366L24 12l-2.7154 2.7164L18.5682 12l2.6924-2.7164zm-9.272.001l2.7163 2.6914-2.7164 2.7174v-.001L9.2721 12l2.7164-2.7154zm-9.2722-.001L5.4088 12l-2.6914 2.6924L0 12l2.7164-2.7164zM11.9885.0115l7.353 7.329-2.7174 2.7154-4.6356-4.6356-4.6355 4.6595-2.7174-2.7154 7.353-7.353z"/>'
+    };
+    let brandIconCount = 0;
+
+    function createBrandIcon(platform) {
+      const icon = document.createElement('span');
+      icon.className = `brand-icon brand-${platform}`;
+      icon.setAttribute('aria-hidden', 'true');
+      const instagramGradient = platform === 'instagram'
+        ? `<defs><linearGradient id="instagram-gradient-${++brandIconCount}" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#feda75"/><stop offset=".35" stop-color="#fa7e1e"/><stop offset=".65" stop-color="#d62976"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs>`
+        : '';
+      const paths = platform === 'instagram'
+        ? brandIconPaths.instagram.replaceAll('instagram-brand-gradient', `instagram-gradient-${brandIconCount}`)
+        : brandIconPaths[platform];
+      icon.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${instagramGradient}${paths}</svg>`;
+      return icon;
+    }
+
+    document.querySelectorAll('[data-brand-icon]').forEach((icon) => {
+      const generated = createBrandIcon(icon.dataset.brandIcon);
+      icon.replaceChildren(generated.firstElementChild);
+    });
+
+    const accountExperiences = {
+      buyer: {
+        title: 'Your buyer workspace is ready.',
+        actions: [
+          ['🔎', 'Explore services', 'Find trusted services and offerings for your needs.'],
+          ['✨', 'Discover opportunities', 'Browse new ways to connect and get things done.']
+        ]
+      },
+      seller: {
+        title: 'Your seller workspace is ready.',
+        actions: [
+          ['🏷️', 'Prepare your first offer', 'Describe your product or service for potential customers.'],
+          ['📣', 'Grow your reach', 'Get ready to share your business with the Enemind community.']
+        ]
+      },
+      both: {
+        title: 'Your buyer and seller workspace is ready.',
+        actions: [
+          ['🛍️', 'Explore services', 'Find trusted services and offerings for your needs.'],
+          ['🏪', 'Prepare your first offer', 'Get ready to showcase your product or service.'],
+          ['🤝', 'Build connections', 'Connect with people across the marketplace.']
+        ]
+      },
+      learner: {
+        title: 'Your learning workspace is ready.',
+        actions: [
+          ['📚', 'Explore learning resources', 'Discover practical content to build your skills.'],
+          ['🎯', 'Set a learning goal', 'Choose a skill you would like to develop next.']
+        ]
+      },
+      worker: {
+        title: 'Your worker workspace is ready.',
+        actions: [
+          ['🧰', 'Build your skills profile', 'Get ready to share the skills and experience you offer.'],
+          ['🧭', 'Explore work opportunities', 'Discover projects that could fit your skills.']
+        ]
+      },
+      bwrite: {
+        title: 'Your Bwrite workspace is ready.',
+        actions: [
+          ['✍️', 'Write in Google Docs', 'Create an original digital product using the Bwrite instructions.'],
+          ['📤', 'Submit to admin', 'Share your document for quality review before publication.']
+        ]
+      }
+    };
+
+    document.getElementById('year').textContent = String(new Date().getFullYear());
+    document.querySelectorAll('[data-admin-binance-id]').forEach((el) => { el.textContent = adminBinancePayId || 'Not configured'; });
+    const binanceHelp = document.getElementById('binanceOnboardingHelp');
+    if (binanceHelp && binanceReferralUrl) { binanceHelp.replaceChildren(document.createTextNode('Do not have Binance? ')); const referralAnchor=document.createElement('a'); referralAnchor.href=binanceReferralUrl; referralAnchor.target='_blank'; referralAnchor.rel='noopener noreferrer'; referralAnchor.textContent='Register using the Enemind admin referral link'; binanceHelp.append(referralAnchor); }
+    else if (binanceHelp) binanceHelp.textContent='A Binance account is needed for Enemind payments and payouts. The admin referral URL is not yet configured; add it to binanceReferralUrl in config.js before launch.';
+
+
+    // Show a fallback if the logo file cannot be loaded.
+    document.getElementById('brandLogo').addEventListener('error', () => {
+      document.getElementById('brandLogo').style.display = 'none';
+      document.getElementById('brandFallback').style.display = 'block';
+    }, { once: true });
+
+    const isConfiguredValue = (value) =>
+      typeof value === 'string' && value.trim() !== '' && !value.includes('YOUR_');
+
+    const firebaseReady = Boolean(
+      firebaseConfig &&
+      isConfiguredValue(firebaseConfig.apiKey) &&
+      isConfiguredValue(firebaseConfig.authDomain) &&
+      isConfiguredValue(firebaseConfig.projectId) &&
+      isConfiguredValue(firebaseConfig.appId)
+    );
+
+    const supabaseReady = Boolean(
+      supabaseConfig &&
+      isConfiguredValue(supabaseConfig.url) &&
+      isConfiguredValue(supabaseConfig.anonKey) &&
+      /^https:\/\/[a-zA-Z0-9-]+\.supabase\.co\/?$/.test(supabaseConfig.url)
+    );
+
+    let firebaseAuth = null;
+    let firebaseUser = null;
+    let supabase = null;
+
+    if (firebaseReady) {
+      try {
+        const app = initializeApp(firebaseConfig);
+        firebaseAuth = getAuth(app);
+        onAuthStateChanged(firebaseAuth, (user) => {
+          firebaseUser = user;
+        });
+      } catch (error) {
+        console.error('Firebase initialization failed:', error);
+        message.textContent = 'Firebase could not initialize. Check config.js and the browser console.';
+      }
+    } else {
+      message.textContent = 'Add your Firebase web configuration to config.js to enable Google sign-in.';
+    }
+
+    if (supabaseReady) {
+      try {
+        // Configure Firebase as a Supabase Third-Party Auth provider before enabling profile sync.
+        supabase = createClient(supabaseConfig.url, supabaseConfig.anonKey, {
+          accessToken: async () => {
+            const user = firebaseAuth?.currentUser || firebaseUser;
+            return user ? await user.getIdToken() : null;
+          }
+        });
+      } catch (error) {
+        console.error('Supabase initialization failed:', error);
+      }
+    }
+
+    // Sync the Firebase-authenticated profile through Supabase Edge Function.
+    // Firebase ID tokens are verified server-side by the Edge Function.
+    async function syncProfile(user, options = {}) {
+      try {
+        const token = await user.getIdToken(true);
+        const requestBody = {
+          displayName: user.displayName || null,
+          photoUrl: user.photoURL || null,
+          ...(options.accountType ? { accountType: options.accountType } : {}),
+          ...(options.profileFields ? { profileFields: options.profileFields } : {})
+        };
+
+        const response = await fetch(
+          `${supabaseConfig.url}/functions/v1/enemind-profile`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'apikey': supabaseConfig.anonKey
+            },
+            body: JSON.stringify(requestBody)
+          }
+        );
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          console.error('Supabase Edge Function failed:', response.status, result);
+          throw new Error(`Profile sync failed (${response.status}): ${result.error || 'Unknown error'}.`);
+        }
+
+        if (!result.ok || !result.profile) {
+          console.error('Unexpected profile-sync response:', result);
+          throw new Error('Supabase did not confirm profile synchronization.');
+        }
+
+        console.log('Supabase profile synced:', result.profile.firebase_uid);
+        return result.profile;
+      } catch (error) {
+        console.error('Supabase profile sync failed:', error);
+        throw error;
+      }
+    }
+
+    function showAppView(view) {
+      landingElements.forEach((element) => { element.hidden = true; });
+      selector.hidden = view !== 'selector';
+      profileSetup.hidden = view !== 'profileSetup';
+      dashboard.hidden = view !== 'dashboard';
+      page.classList.add('app-mode');
+      document.body.classList.add('app-open');
+    }
+
+    function showAccountSelector(currentType = null, editing = false) {
+      selectedAccountType = validAccountTypes.has(currentType) ? currentType : null;
+      isChangingAccountType = editing;
+      accountOptions.forEach((option) => {
+        const selected = option.dataset.accountType === selectedAccountType;
+        option.setAttribute('aria-checked', String(selected));
+      });
+      continueAccountType.disabled = !selectedAccountType;
+      continueAccountType.textContent = editing ? 'Save account type' : 'Continue';
+      cancelAccountType.hidden = !editing;
+      accountTypeStatus.textContent = '';
+      accountTypeStatus.dataset.state = '';
+      showAppView('selector');
+      (selectedAccountType
+        ? accountOptions.find((option) => option.dataset.accountType === selectedAccountType)
+        : accountOptions[0]).focus();
+    }
+
+    function populateProfileForm(profile = {}) {
+      profileFieldNames.forEach((name) => {
+        const field = profileSetupForm.elements.namedItem(name);
+        field.value = typeof profile[name] === 'string' ? profile[name] : '';
+        field.removeAttribute('aria-invalid');
+      });
+      profileStatus.textContent = '';
+      profileStatus.dataset.state = '';
+    }
+
+    function showProfileSetup(profile = currentProfile) {
+      editingProfileFromDashboard = dashboard.hidden === false;
+      populateProfileForm(profileDraft ? { ...profile, ...profileDraft } : profile);
+      profileDraft = null;
+      showAppView('profileSetup');
+      document.getElementById('whatsappPhone').focus();
+    }
+
+    function showProfileValidationError(field, text) {
+      field.setAttribute('aria-invalid', 'true');
+      profileStatus.textContent = text;
+      profileStatus.dataset.state = 'error';
+      field.focus();
+    }
+
+    function validateProfileForm(fields) {
+      const whatsappPhone = fields.whatsapp_phone;
+      if (!whatsappPhone) { showProfileValidationError(document.getElementById('whatsappPhone'), 'Your WhatsApp phone number is required.'); return false; }
+      if (whatsappPhone) {
+        const normalizedPhone = normalizeInternationalPhone(whatsappPhone);
+        if (!normalizedPhone) {
+          showProfileValidationError(
+            document.getElementById('whatsappPhone'),
+            'Enter an international number with a country code, such as +254 712 345 678.'
+          );
+          return false;
+        }
+      }
+      const binance = fields.binance_uid;
+      if (!binance) { showProfileValidationError(document.getElementById('binanceUid'), 'A Binance account and your own Binance ID/UID are required to complete Enemind registration.'); return false; }
+      if (!/^[A-Za-z0-9_-]{1,100}$/.test(binance)) {
+        showProfileValidationError(document.getElementById('binanceUid'), 'Enter a valid Binance ID/UID using up to 100 letters, numbers, underscores, or hyphens.');
+        return false;
+      }
+      return true;
+    }
+
+    function normalizeInternationalPhone(value) {
+      const normalized = value.replace(/[\s().-]/g, '');
+      return /^\+[1-9]\d{3,14}$/.test(normalized) ? normalized : null;
+    }
+
+    function normalizedProfileField(name, value) {
+      if (!value) return null;
+      if (name === 'whatsapp_phone') return normalizeInternationalPhone(value);
+      return value;
+    }
+
+    function showDashboard(user, accountType) {
+      if (!validAccountTypes.has(accountType)) {
+        showAccountSelector(null);
+        return;
+      }
+      const experience = accountExperiences[accountType];
+      document.getElementById('dashboardTitle').textContent = `Welcome, ${user.displayName || user.email?.split('@')[0] || 'to Enemind'}`;
+      document.getElementById('dashboardCopy').textContent = experience.title;
+      document.getElementById('accountTypeBadge').textContent = `Account type: ${accountType[0].toUpperCase()}${accountType.slice(1)}`;
+      const actions = document.getElementById('starterActions');
+      actions.replaceChildren(...experience.actions.map(([icon, title, description]) => {
+        const card = document.createElement('div');
+        card.className = 'starter-action';
+        const iconElement = document.createElement('span');
+        iconElement.className = 'starter-action-icon';
+        iconElement.setAttribute('aria-hidden', 'true');
+        iconElement.textContent = icon;
+        const titleElement = document.createElement('strong');
+        titleElement.textContent = title;
+        const descriptionElement = document.createElement('span');
+        descriptionElement.textContent = description;
+        card.append(iconElement, titleElement, descriptionElement);
+        return card;
+      }));
+      renderProfileSummary(currentProfile || {});
+      document.getElementById('dashboardStatus').textContent = '';
+      document.getElementById('dashboardStatus').dataset.state = '';
+      showAppView('dashboard');
+      loadMyRequests();
+      loadBuyerRequests();
+      loadAdminQueue();
+      loadLearningResources();
+    }
+
+    function renderProfileSummary(profile) {
+      const summary = document.getElementById('profileSummary');
+      const list = document.getElementById('profileSummaryList');
+      const contacts = [
+        ['whatsapp_phone', 'WhatsApp phone', 'whatsapp', (value) => {
+          const normalized = normalizeInternationalPhone(value);
+          return normalized ? `https://wa.me/${normalized.slice(1)}` : null;
+        }]
+      ];
+      const items = contacts.filter(([field]) => typeof profile[field] === 'string' && profile[field].trim());
+      list.replaceChildren(...items.map(([field, label, platform, linkFor]) => {
+        const value = profile[field];
+        const href = linkFor(value);
+        const item = document.createElement(href ? 'a' : 'span');
+        item.className = href ? 'profile-summary-link' : 'profile-summary-item';
+        if (href) {
+          item.href = href;
+          item.target = '_blank';
+          item.rel = 'noopener noreferrer';
+        }
+        item.append(createBrandIcon(platform));
+        const text = document.createElement('span');
+        text.textContent = `${label}: ${value}`;
+        item.append(text);
+        return item;
+      }));
+      summary.hidden = items.length === 0;
+    }
+
+    accountOptions.forEach((option, index) => {
+      option.addEventListener('click', () => {
+        selectedAccountType = option.dataset.accountType;
+        accountOptions.forEach((card) => {
+          const selected = card === option;
+          card.setAttribute('aria-checked', String(selected));
+        });
+        continueAccountType.disabled = !selectedAccountType;
+        accountTypeStatus.textContent = '';
+      });
+      option.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+        event.preventDefault();
+        const offset = event.key === 'ArrowLeft' || event.key === 'ArrowUp' ? -1 : 1;
+        const nextOption = accountOptions[(index + offset + accountOptions.length) % accountOptions.length];
+        nextOption.focus();
+        nextOption.click();
+      });
+    });
+
+    continueAccountType.addEventListener('click', async () => {
+      if (accountTypeSaving || !validAccountTypes.has(selectedAccountType) || !profileUser) return;
+      if (!supabaseReady || !supabase) {
+        accountTypeStatus.textContent = 'Profile storage is not configured. Please try again later.';
+        accountTypeStatus.dataset.state = 'error';
+        return;
+      }
+      accountTypeSaving = true;
+      continueAccountType.disabled = true;
+      cancelAccountType.disabled = true;
+      continueAccountType.textContent = 'Saving…';
+      accountTypeStatus.textContent = 'Saving your account type securely…';
+      accountTypeStatus.dataset.state = '';
+      try {
+        const profile = await syncProfile(profileUser, { accountType: selectedAccountType });
+        if (profile.account_type !== selectedAccountType) {
+          throw new Error('The saved account type could not be confirmed. Please try again.');
+        }
+        currentAccountType = profile.account_type;
+        accountTypeStatus.textContent = 'Account type saved. Continue with your optional profile details.';
+        accountTypeStatus.dataset.state = 'success';
+        currentProfile = profile;
+        showProfileSetup(profile);
+        profileStatus.textContent = 'Account type saved. Add profile details or skip for now.';
+        profileStatus.dataset.state = 'success';
+      } catch (error) {
+        console.error('Account type save failed:', error);
+        accountTypeStatus.textContent = error instanceof Error ? error.message : 'Could not save your account type. Please try again.';
+        accountTypeStatus.dataset.state = 'error';
+        continueAccountType.disabled = false;
+      } finally {
+        accountTypeSaving = false;
+        cancelAccountType.disabled = false;
+        continueAccountType.textContent = isChangingAccountType ? 'Save account type' : 'Continue';
+      }
+    });
+
+    cancelAccountType.addEventListener('click', () => {
+      if (accountTypeSaving || !isChangingAccountType || !profileUser) return;
+      showDashboard(profileUser, currentAccountType);
+    });
+
+    document.getElementById('changeAccountType').addEventListener('click', () => {
+      showAccountSelector(currentAccountType, true);
+    });
+
+    document.getElementById('backToAccountType').addEventListener('click', () => {
+      if (profileFieldsSaving) return;
+      if (editingProfileFromDashboard) {
+        showDashboard(profileUser, currentAccountType);
+        return;
+      }
+      showAccountSelector(currentAccountType, Boolean(currentAccountType));
+    });
+
+
+
+    document.getElementById('editProfile').addEventListener('click', () => {
+      showProfileSetup(currentProfile);
+    });
+
+    profileSetupForm.addEventListener('input', (event) => {
+      event.target.removeAttribute('aria-invalid');
+      profileDraft = Object.fromEntries(profileFieldNames.map((name) => [
+        name,
+        profileSetupForm.elements.namedItem(name).value
+      ]));
+      profileStatus.textContent = '';
+      profileStatus.dataset.state = '';
+    });
+
+    profileSetupForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (profileFieldsSaving || !profileUser || !currentAccountType) return;
+      const profileFields = Object.fromEntries(profileFieldNames.map((name) => {
+        const field = profileSetupForm.elements.namedItem(name);
+        return [name, field.value.trim()];
+      }));
+      if (!validateProfileForm(profileFields)) return;
+      if (!supabaseReady || !supabase) {
+        profileStatus.textContent = 'Profile storage is not configured. Please try again later.';
+        profileStatus.dataset.state = 'error';
+        return;
+      }
+
+      profileFieldsSaving = true;
+      const saveButton = document.getElementById('saveProfile');
+      const backButton = document.getElementById('backToAccountType');
+      saveButton.disabled = true;
+      saveButton.textContent = 'Saving…';
+      backButton.disabled = true;
+      profileStatus.textContent = 'Saving your profile securely…';
+      profileStatus.dataset.state = '';
+      try {
+        const profile = await syncProfile(profileUser, { profileFields });
+        const unconfirmedField = profileFieldNames.find((name) =>
+          !Object.prototype.hasOwnProperty.call(profile, name) ||
+          profile[name] !== normalizedProfileField(name, profileFields[name])
+        );
+        if (unconfirmedField) {
+          throw new Error('The profile service did not confirm your saved details. Ensure the latest database migration and Edge Function are active, then try again.');
+        }
+        currentProfile = profile;
+        profileDraft = null;
+        showDashboard(profileUser, currentAccountType);
+        const dashboardStatus = document.getElementById('dashboardStatus');
+        dashboardStatus.textContent = 'Your profile details were saved successfully.';
+        dashboardStatus.dataset.state = 'success';
+      } catch (error) {
+        console.error('Profile details save failed:', error);
+        profileStatus.textContent = error instanceof Error ? error.message : 'Could not save your profile details. Please try again.';
+        profileStatus.dataset.state = 'error';
+      } finally {
+        profileFieldsSaving = false;
+        saveButton.disabled = false;
+        saveButton.textContent = 'Save Profile';
+        backButton.disabled = false;
+      }
+    });
+
+    document.getElementById('signOut').addEventListener('click', async () => {
+      if (!firebaseAuth) return;
+      try {
+        await signOut(firebaseAuth);
+        location.reload();
+      } catch (error) {
+        console.error('Sign-out failed:', error);
+        const dashboardStatus = document.getElementById('dashboardStatus');
+        dashboardStatus.textContent = 'Could not sign out. Please try again.';
+        dashboardStatus.dataset.state = 'error';
+      }
+    });
+
+
+    // Enemind service operations. Payment proof is submitted for human review; the browser never marks a payment as paid.
+    const SERVICE_PRICES = {
+      buyer_weekly: { label: 'Buyer weekly activation', amount: 10, duration: 'weekly' },
+      worker_monthly: { label: 'Worker monthly activation', amount: 10, duration: 'monthly' },
+      learner_activation: { label: 'Learner activation', amount: 10, duration: 'activation' },
+      bwrite_activation: { label: 'Bwrite activation', amount: 5, duration: 'activation' }
+    };
+    const byId = (id) => document.getElementById(id);
+    const servicePanels = ['paymentSubmissionPanel','csvRequestPanel','bwriteSubmissionPanel','referralPanel','withdrawalRequestPanel','buyerRequestPanel'];
+    function closeServicePanels() { servicePanels.forEach((id) => { const el=byId(id); if(el) el.hidden=true; }); }
+    function setServiceStatus(id, messageText, state='') { const el=byId(id); if(el){el.textContent=messageText;el.dataset.state=state;} }
+    function showPaymentForm(serviceCode, amountOverride=null, labelOverride=null) {
+      if (!profileUser || !supabaseReady || !supabase) { setServiceStatus('dashboardStatus','Sign in and ensure Supabase is configured before submitting a payment reference.','error'); return; }
+      if (serviceCode !== 'csv_purchase' && currentTrial && new Date(currentTrial.ends_at).getTime() > Date.now()) {
+        const end = new Date(currentTrial.ends_at).toLocaleString();
+        setServiceStatus('dashboardStatus',`Your 2-day free trial is active until ${end}. Service activation payments open after the trial. CSV purchases are separate and can be ordered now.`,'success');
+        return;
+      }
+      closeServicePanels();
+      const service = SERVICE_PRICES[serviceCode];
+      if (!service && serviceCode !== 'csv_purchase') return;
+      const amount = amountOverride ?? service.amount;
+      byId('paymentServiceCode').value = serviceCode;
+      byId('paymentAmount').value = amount.toFixed(2);
+      byId('paymentReference').value = '';
+      byId('paymentNote').value = '';
+      byId('paymentFormTitle').textContent = `Payment verification — ${labelOverride || service.label}`;
+      byId('paymentFormDescription').textContent = `Send $${amount.toFixed(2)} USD to Binance Pay ID ${adminBinancePayId}. Then enter the Binance transaction/order reference below. Your request remains pending until an administrator verifies it.`;
+      byId('paymentSubmissionPanel').hidden = false;
+      byId('paymentSubmissionPanel').scrollIntoView({behavior:'smooth',block:'center'});
+      setServiceStatus('paymentStatus','', '');
+    }
+    document.querySelectorAll('[data-pay-service]').forEach((button) => button.addEventListener('click', () => showPaymentForm(button.dataset.payService)));
+    byId('copyAdminBinance').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(adminBinancePayId); byId('copyAdminBinance').textContent='Copied'; }
+      catch { setServiceStatus('dashboardStatus',`Binance Pay ID: ${adminBinancePayId}. Select and copy it manually.`,'success'); }
+      setTimeout(() => { byId('copyAdminBinance').textContent='Copy Binance Pay ID'; }, 1800);
+    });
+    byId('cancelPayment').addEventListener('click', () => { byId('paymentSubmissionPanel').hidden=true; });
+    byId('paymentSubmissionForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!profileUser || !supabase) return;
+      const ownBinance = currentProfile?.binance_uid;
+      if (!ownBinance) {
+        setServiceStatus('paymentStatus','Before continuing, add your own Binance ID/UID in Edit profile details. This is separate from Enemind’s payment destination. If you do not have Binance, ask the admin to configure the official referral link.','error');
+        return;
+      }
+      const serviceCode=byId('paymentServiceCode').value;
+      const amount=Number(byId('paymentAmount').value);
+      const transactionReference=byId('paymentReference').value.trim();
+      const note=byId('paymentNote').value.trim();
+      if (!transactionReference || transactionReference.length>160 || !Number.isFinite(amount) || amount<=0) { setServiceStatus('paymentStatus','Enter a valid transaction reference and amount.','error'); return; }
+      const submit=byId('submitPayment'); submit.disabled=true; submit.textContent='Submitting…';
+      try {
+        const {error}=await supabase.from('payment_submissions').insert({user_id:profileUser.uid,email:profileUser.email||'',service_code:serviceCode,amount_usd:amount,currency:'USD',transaction_reference:transactionReference,note:note||null,status:'pending'});
+        if(error) throw error;
+        setServiceStatus('paymentStatus','Submitted for admin review. Your service is not activated until payment is verified. Keep your Binance transaction details.','success');
+        byId('paymentReference').value=''; byId('paymentNote').value='';
+        await loadMyRequests();
+      } catch(error) {
+        console.error('Payment submission failed',error);
+        setServiceStatus('paymentStatus','Could not save the payment reference. Confirm that migration 202610230001_enemind_services.sql is applied and RLS is configured, then retry. No payment was confirmed by Enemind.','error');
+      } finally { submit.disabled=false; submit.textContent='Submit for review'; }
+    });
+    const openBuyerRequestPanel=()=>{closeServicePanels();byId('buyerRequestPanel').hidden=false;byId('buyerRequestPanel').scrollIntoView({behavior:'smooth',block:'center'});};
+    byId('openBuyerRequest').addEventListener('click',openBuyerRequestPanel);
+    byId('buyerWorkspaceRequest').addEventListener('click',openBuyerRequestPanel);
+    byId('buyerRequestForm').addEventListener('submit',async(event)=>{
+      event.preventDefault();if(!profileUser||!supabase)return;const countries=[...document.querySelectorAll('input[name="buyerCountry"]:checked')].map(x=>x.value);const type=byId('buyerRequestType').value.trim(),quantity=Number(byId('buyerRequestQuantity').value),budget=byId('buyerRequestBudget').value?Number(byId('buyerRequestBudget').value):null,currency=byId('buyerRequestCurrency').value,url=byId('buyerRequestUrl').value.trim(),notes=byId('buyerRequestNotes').value.trim();
+      if(!countries.length||!type||!Number.isInteger(quantity)||quantity<1){setServiceStatus('buyerRequestStatus','Select at least one country, enter the service type and a valid quantity.','error');return;}
+      if(url&&!/^https?:\/\//i.test(url)){setServiceStatus('buyerRequestStatus','Use a valid official/provider registration URL.','error');return;}
+      try{const {data,error}=await supabase.from('service_requests').insert({user_id:profileUser.uid,email:profileUser.email||'',request_type:'buyer_request',details:{countries,service_type:type,quantity,budget,currency,registration_url:url||null,requirements:notes,addons:{country_contact_csv:byId('buyerAddonCsv').checked,google_sheets_tracker:byId('buyerAddonSheet').checked},addons_pricing:'Admin to confirm availability and price before payment'},status:'submitted'}).select('id').single();if(error)throw error;setServiceStatus('buyerRequestStatus',`Buyer request ${data.id} submitted for admin review and partner matching. Selected add-ons are requests only; wait for admin confirmation before paying.`, 'success');byId('buyerRequestForm').reset();await loadMyRequests();}
+      catch(error){console.error(error);setServiceStatus('buyerRequestStatus','Could not save the request. Apply the Enemind services migration and retry.','error');}
+    });
+    byId('openWithdrawalRequest').addEventListener('click',()=>{
+      if(!profileUser||!currentProfile?.binance_uid){setServiceStatus('dashboardStatus','Add your own Binance Pay ID/UID in Edit profile details before requesting a payout.','error');return;}
+      closeServicePanels();byId('withdrawalBinanceUid').value=currentProfile.binance_uid;byId('withdrawalRequestPanel').hidden=false;byId('withdrawalRequestPanel').scrollIntoView({behavior:'smooth',block:'center'});
+    });
+    byId('withdrawalRequestForm').addEventListener('submit',async(event)=>{
+      event.preventDefault();if(!profileUser||!supabase)return;const amount=Number(byId('withdrawalAmount').value),uid=byId('withdrawalBinanceUid').value.trim(),note=byId('withdrawalNote').value.trim();
+      if(!Number.isFinite(amount)||amount<=0||!uid||uid!==currentProfile?.binance_uid){setServiceStatus('withdrawalStatus','Enter a positive amount and the Binance ID/UID saved in your Enemind profile.','error');return;}
+      try{const {error}=await supabase.from('withdrawal_requests').insert({user_id:profileUser.uid,email:profileUser.email||'',amount_usd:amount,payout_binance_uid:uid,note:note||null,status:'pending'});if(error)throw error;setServiceStatus('withdrawalStatus','Withdrawal request submitted for balance and fraud review. No payout has been sent yet.','success');byId('withdrawalRequestForm').reset();byId('withdrawalBinanceUid').value=currentProfile.binance_uid;await loadMyRequests();}
+      catch(error){console.error(error);setServiceStatus('withdrawalStatus','Request was not saved. Ensure the services migration is applied and that your approved earnings cover this amount.','error');}
+    });
+    byId('openCsvRequest').addEventListener('click', () => { closeServicePanels(); byId('csvRequestPanel').hidden=false; byId('csvRequestPanel').scrollIntoView({behavior:'smooth',block:'center'}); });
+    document.querySelectorAll('[data-close-panel]').forEach((button)=>button.addEventListener('click',()=>byId(button.dataset.closePanel).hidden=true));
+    byId('csvRequestForm').addEventListener('submit', async (event) => {
+      event.preventDefault(); if(!profileUser||!supabase)return;
+      const countries=byId('csvCountries').value.split(',').map(v=>v.trim()).filter(Boolean);
+      const quantity=Number(byId('csvQuantity').value); const requirements=byId('csvRequirements').value.trim();
+      if(!countries.length || ![20,40,60,100].includes(quantity)){setServiceStatus('csvStatus','Enter at least one country and a supported batch size.','error');return;}
+      const amount=quantity/2;
+      try {
+        const {data,error}=await supabase.from('service_requests').insert({user_id:profileUser.uid,email:profileUser.email||'',request_type:'seller_csv',details:{countries,quantity,requirements,price_usd:amount,currency:'USD',admin_binance_pay_id:adminBinancePayId,addons:{google_sheets_tracker:byId('csvAddonSheet').checked},addons_pricing:'Admin to confirm any add-on price before payment'},status:'submitted'}).select('id').single();
+        if(error)throw error;
+        setServiceStatus('csvStatus',`Request ${data.id} submitted. Base price: $${amount}.00 for ${quantity} records. ${byId('csvAddonSheet').checked?'Google Sheets tracker requested; wait for admin to confirm any add-on price. ':''}Pay only after reviewing the request details and confirmed total. Binance Pay ID ${adminBinancePayId}.`, 'success');
+        showPaymentForm('csv_purchase',amount,`CSV request ${data.id} — ${quantity} seller records`);
+        await loadMyRequests();
+      } catch(error){console.error(error);setServiceStatus('csvStatus','Could not save your CSV request. Apply the new Supabase migration and retry.','error');}
+    });
+    byId('bwriteSubmissionForm').addEventListener('submit', async (event) => {
+      event.preventDefault(); if(!profileUser||!supabase)return;
+      const title=byId('bwriteTitle').value.trim(),category=byId('bwriteCategory').value,url=byId('bwriteDocUrl').value.trim(),description=byId('bwriteDescription').value.trim();
+      if(!/^https:\/\/docs\.google\.com\/document\/d\//i.test(url)){setServiceStatus('bwriteStatus','Enter a valid Google Docs document URL.','error');return;}
+      if(!bwriteAdminEmail){setServiceStatus('bwriteStatus','Admin review email is not configured yet. Set bwriteAdminEmail in config.js, then share the document with that email before submitting.','error');return;}
+      try {
+        const {error}=await supabase.from('bwrite_submissions').insert({user_id:profileUser.uid,email:profileUser.email||'',title,category,document_url:url,description,status:'submitted'});
+        if(error)throw error;
+        setServiceStatus('bwriteStatus',`Submission saved for review. Share the Google Doc with ${bwriteAdminEmail} using Viewer or Commenter access; do not make it publicly editable.`,'success');
+        byId('bwriteSubmissionForm').reset(); await loadMyRequests();
+      } catch(error){console.error(error);setServiceStatus('bwriteStatus','Could not save the writing submission. Apply the new Supabase migration and retry.','error');}
+    });
+    function renderReferralLinks() {
+      closeServicePanels(); const panel=byId('referralPanel'); panel.hidden=false;
+      const base=`${location.origin}${location.pathname}`; const tracks=[['buyer','Buyer'],['worker','Worker'],['learner','Learner'],['bwrite','Bwrite']];
+      const holder=byId('referralLinks'); holder.replaceChildren();
+      for(const [track,label] of tracks){
+        const url=new URL(base); url.searchParams.set('ref',profileUser.uid); url.searchParams.set('track',track);
+        const row=document.createElement('div');row.className='referral-line';const code=document.createElement('code');code.textContent=`${label}: ${url.toString()}`;const button=document.createElement('button');button.type='button';button.className='mini-action';button.textContent='Copy link';button.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(url.toString());button.textContent='Copied';}catch{setServiceStatus('referralStatus','Select and copy the link manually.','error');}});row.append(code,button);holder.append(row);
+      }
+      const referralLink=binanceReferralUrl;
+      if(!referralLink){setServiceStatus('referralStatus','Your Enemind referral links are generated. The Binance account referral link is not configured; add your official referral URL to binanceReferralUrl in config.js before showing it to new users. Referral rewards still require backend attribution and admin fraud review.','');}
+      else {const link=document.createElement('p');link.className='payment-hint';link.textContent=`New Binance users: ${referralLink}`;holder.append(link);}
+      panel.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+    byId('showReferralLinks').addEventListener('click',renderReferralLinks);
+    async function loadMyRequests(){
+      if(!profileUser||!supabase)return;
+      const holder=byId('myRequestsList');holder.replaceChildren();
+      try{
+        const [payments,requests,writings,activations,withdrawals,earnings]=await Promise.all([
+          supabase.from('payment_submissions').select('id,service_code,amount_usd,transaction_reference,status,created_at').eq('user_id',profileUser.uid).order('created_at',{ascending:false}).limit(10),
+          supabase.from('service_requests').select('id,request_type,status,created_at,details').eq('user_id',profileUser.uid).order('created_at',{ascending:false}).limit(10),
+          supabase.from('bwrite_submissions').select('id,title,status,created_at').eq('user_id',profileUser.uid).order('created_at',{ascending:false}).limit(10),
+          supabase.from('service_activations').select('id,service_code,status,activated_at,expires_at').eq('user_id',profileUser.uid).order('activated_at',{ascending:false}).limit(10),
+          supabase.from('withdrawal_requests').select('id,amount_usd,status,created_at').eq('user_id',profileUser.uid).order('created_at',{ascending:false}).limit(10),
+          supabase.from('worker_earnings').select('id,amount_usd,status,description,created_at').eq('user_id',profileUser.uid).order('created_at',{ascending:false}).limit(20)
+        ]);
+        const failure=[payments,requests,writings,activations,withdrawals,earnings].find(x=>x.error); if(failure)throw failure.error;
+        const rows=[...(currentTrial?[{kind:'Trial',title:'2-day free trial',detail:`${new Date(currentTrial.ends_at).getTime()>Date.now()?'active until':'ended'} ${new Date(currentTrial.ends_at).toLocaleString()}`,date:currentTrial.started_at}]:[]),...(payments.data||[]).map(x=>({kind:'Payment',title:x.service_code,detail:`$${Number(x.amount_usd).toFixed(2)} · ${x.status} · ref ${x.transaction_reference}`,date:x.created_at})),...(requests.data||[]).map(x=>({kind:'Request',title:x.request_type,detail:`${x.status}${x.details?.quantity?` · ${x.details.quantity} records`:''}`,date:x.created_at})),...(writings.data||[]).map(x=>({kind:'Bwrite',title:x.title,detail:x.status,date:x.created_at})),...(activations.data||[]).map(x=>({kind:'Activation',title:x.service_code,detail:`${x.status}${x.expires_at?` · expires ${new Date(x.expires_at).toLocaleDateString()}`:' · no expiry configured'}`,date:x.activated_at})),...(withdrawals.data||[]).map(x=>({kind:'Withdrawal',title:`$${Number(x.amount_usd).toFixed(2)}`,detail:x.status,date:x.created_at})),...(earnings.data||[]).map(x=>({kind:'Worker earning',title:`$${Number(x.amount_usd).toFixed(2)}`,detail:`${x.status} · ${x.description}`,date:x.created_at}))].sort((a,b)=>new Date(b.date)-new Date(a.date));
+        if(!rows.length){const empty=document.createElement('div');empty.className='record-row';empty.textContent='No requests or payment submissions yet.';holder.append(empty);}
+        rows.forEach(x=>{const row=document.createElement('div');row.className='record-row';row.textContent=`${x.kind}: ${x.title} — ${x.detail} (${new Date(x.date).toLocaleDateString()})`;holder.append(row);});
+        setServiceStatus('requestsStatus','Records loaded from Supabase. Payment statuses are set by the review process.','success');
+      }catch(error){console.warn('Could not load service records',error);setServiceStatus('requestsStatus','Service records are not available yet. Apply supabase/migrations/202610230001_enemind_services.sql and ensure the latest Supabase client/auth configuration is deployed.','error');}
+    }
+    // Buyer marketplace records: offers are published by Enemind/admin for opted-in sellers.
+    const buyerTabIds = {requests:'buyerRequestsSection',offers:'buyerOffersSection',orders:'buyerOrdersSection'};
+    document.querySelectorAll('[data-buyer-tab]').forEach(button=>button.addEventListener('click',()=>{
+      const tab=button.dataset.buyerTab;
+      document.querySelectorAll('[data-buyer-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+      Object.entries(buyerTabIds).forEach(([key,id])=>byId(id).hidden=key!==tab);
+      if(tab==='requests')loadBuyerRequests(); if(tab==='offers')loadBuyerOffers(); if(tab==='orders')loadBuyerOrders();
+    }));
+    function buyerEmpty(holder,message){holder.replaceChildren();const el=document.createElement('div');el.className='buyer-empty';el.textContent=message;holder.append(el);}
+    function buyerCard(holder,{title,meta,status,description,actions=[]}){
+      const card=document.createElement('article');card.className='buyer-item';const top=document.createElement('div');top.className='buyer-item-top';const left=document.createElement('div');const strong=document.createElement('strong');strong.textContent=title;left.append(strong);const pill=document.createElement('span');pill.className='buyer-status-pill';pill.textContent=status||'submitted';top.append(left,pill);card.append(top);if(meta){const m=document.createElement('p');m.textContent=meta;card.append(m);}if(description){const d=document.createElement('p');d.textContent=description;card.append(d);}if(actions.length){const row=document.createElement('div');row.className='buyer-item-actions';actions.forEach(a=>row.append(a));card.append(row);}holder.append(card);return card;
+    }
+    function buyerAction(label,callback){const b=document.createElement('button');b.type='button';b.className='mini-action';b.textContent=label;b.addEventListener('click',callback);return b;}
+    async function loadBuyerRequests(){
+      const holder=byId('buyerRequestsList');if(!profileUser||!supabase){buyerEmpty(holder,'Sign in and connect Supabase to view your requests.');return;}
+      try{const {data,error}=await supabase.from('service_requests').select('id,request_type,status,created_at,updated_at,details,admin_note').eq('user_id',profileUser.uid).eq('request_type','buyer_request').order('created_at',{ascending:false}).limit(50);if(error)throw error;
+        if(!data?.length){buyerEmpty(holder,'No buyer requests yet. Create your first request to tell Enemind which service, country, quantity and budget you need.');setServiceStatus('buyerRequestsStatus','', '');return;}
+        holder.replaceChildren();data.forEach(r=>{const d=r.details||{};const countries=Array.isArray(d.countries)?d.countries.join(', '):'Countries not specified';const addons=[];if(d.addons?.country_contact_csv)addons.push('CSV requested');if(d.addons?.google_sheets_tracker)addons.push('Sheets tracker requested');buyerCard(holder,{title:d.service_type||r.request_type,meta:`${countries} · Qty ${d.quantity||1}${d.budget!==null&&d.budget!==undefined?' · Budget '+d.currency+' '+d.budget:''}`,status:r.status,description:`Request ${r.id} · Submitted ${new Date(r.created_at).toLocaleDateString()}${addons.length?' · '+addons.join(', '):''}${d.requirements?' · '+d.requirements:''}${r.admin_note?' · Admin note: '+r.admin_note:''}`,actions:[buyerAction('View matched offers',()=>{document.querySelector('[data-buyer-tab="offers"]').click();})]});});setServiceStatus('buyerRequestsStatus',`${data.length} buyer request(s) loaded.`, 'success');
+      }catch(e){console.warn('Buyer requests failed',e);buyerEmpty(holder,'Buyer requests could not load. Apply the latest Enemind marketplace migration and check Supabase RLS.');setServiceStatus('buyerRequestsStatus','Could not load buyer requests.','error');}
+    }
+    async function loadBuyerOffers(){
+      const holder=byId('buyerOffersList');if(!profileUser||!supabase){buyerEmpty(holder,'Sign in and connect Supabase to view matched offers.');return;}
+      try{const {data:reqs,error:reqError}=await supabase.from('service_requests').select('id,details').eq('user_id',profileUser.uid).eq('request_type','buyer_request').order('created_at',{ascending:false}).limit(100);if(reqError)throw reqError;
+        const ids=(reqs||[]).map(r=>r.id);if(!ids.length){buyerEmpty(holder,'Create a buyer request first. Matched offers will be attached to that request.');return;}
+        const {data,error}=await supabase.from('buyer_marketplace_offers').select('id,request_id,seller_name,country,offer_title,description,price_usd,delivery_days,status,terms,created_at').in('request_id',ids).eq('status','available').order('created_at',{ascending:false});if(error)throw error;
+        if(!data?.length){buyerEmpty(holder,'No offers are available yet. Enemind/admin must record offers from participating sellers who opted in to the request.');setServiceStatus('buyerOffersStatus','No matched offers found yet.','');return;}
+        holder.replaceChildren();data.forEach(o=>{const req=reqs.find(r=>r.id===o.request_id);const detail=req?.details||{};const place=buyerAction('Place order',async()=>{place.disabled=true;try{const {error:orderError}=await supabase.from('buyer_marketplace_orders').insert({buyer_user_id:profileUser.uid,buyer_email:profileUser.email||'',request_id:o.request_id,offer_id:o.id,quantity:Number(detail.quantity)||1,agreed_price_usd:Number(o.price_usd),status:'pending'});if(orderError)throw orderError;setServiceStatus('buyerOffersStatus','Order request recorded. Wait for Enemind/admin to confirm payment and order acceptance.','success');await loadBuyerOrders();}catch(e){console.error(e);setServiceStatus('buyerOffersStatus','Could not place order. Check the latest marketplace migration and your request ownership.','error');}finally{place.disabled=false;}});buyerCard(holder,{title:o.offer_title||`Offer from ${o.seller_name}`,meta:`${o.seller_name} · ${o.country||'Country not specified'} · $${Number(o.price_usd).toFixed(2)} · ${o.delivery_days??'—'} day(s) estimated`,status:o.status,description:[o.description,o.terms?'Terms: '+o.terms:'',`Request: ${detail.service_type||'Buyer request'} · quantity ${detail.quantity||1}`].filter(Boolean).join(' · '),actions:[place]});});setServiceStatus('buyerOffersStatus',`${data.length} available offer(s) loaded.`, 'success');
+      }catch(e){console.warn('Buyer offers failed',e);buyerEmpty(holder,'Offers could not load. Apply supabase/migrations/202610230003_buyer_marketplace.sql and check Supabase RLS.');setServiceStatus('buyerOffersStatus','Could not load matched offers.','error');}
+    }
+    async function loadBuyerOrders(){
+      const holder=byId('buyerOrdersList');if(!profileUser||!supabase){buyerEmpty(holder,'Sign in and connect Supabase to view orders.');return;}
+      try{const {data,error}=await supabase.from('buyer_marketplace_orders').select('id,request_id,offer_id,quantity,agreed_price_usd,status,delivery_note,created_at,updated_at').eq('buyer_user_id',profileUser.uid).order('created_at',{ascending:false}).limit(100);if(error)throw error;
+        if(!data?.length){buyerEmpty(holder,'You have no orders yet. When you select a matched seller offer, your order request will appear here.');setServiceStatus('buyerOrdersStatus','', '');return;}
+        const offerIds=[...new Set(data.map(x=>x.offer_id))];let offers=[];if(offerIds.length){const r=await supabase.from('buyer_marketplace_offers').select('id,seller_name,country,offer_title').in('id',offerIds);if(!r.error)offers=r.data||[];}
+        holder.replaceChildren();data.forEach(o=>{const offer=offers.find(x=>x.id===o.offer_id);buyerCard(holder,{title:offer?.offer_title||`Order ${o.id.slice(0,8)}`,meta:`${offer?.seller_name||'Seller offer'} · ${offer?.country||'Country'} · Qty ${o.quantity} · $${Number(o.agreed_price_usd).toFixed(2)}`,status:o.status,description:`Order ${o.id} · Placed ${new Date(o.created_at).toLocaleDateString()}${o.delivery_note?' · Delivery note: '+o.delivery_note:''}`,actions:[]});});setServiceStatus('buyerOrdersStatus',`${data.length} order(s) loaded.`, 'success');
+      }catch(e){console.warn('Buyer orders failed',e);buyerEmpty(holder,'Orders could not load. Apply the latest marketplace migration and check Supabase RLS.');setServiceStatus('buyerOrdersStatus','Could not load orders.','error');}
+    }
+    byId('buyerLoadRequests').addEventListener('click',loadBuyerRequests);byId('buyerLoadOffers').addEventListener('click',loadBuyerOffers);byId('buyerLoadOrders').addEventListener('click',loadBuyerOrders);
+    byId('buyerRefreshMarketplace').addEventListener('click',async()=>{await Promise.all([loadBuyerRequests(),loadBuyerOffers(),loadBuyerOrders()]);});
+
+    byId('refreshMyRequests').addEventListener('click',loadMyRequests);
+    async function loadLearningResources(){
+      if(!supabase||!profileUser)return;const holder=byId('learningResourcesList');holder.replaceChildren();
+      try{const {data,error}=await supabase.from('learning_resources').select('id,title,category,video_url,description,created_at').eq('status','published').order('created_at',{ascending:false}).limit(50);if(error)throw error;
+        if(!data.length){const empty=document.createElement('div');empty.className='record-row';empty.textContent='No lessons published yet. The admin will add approved YouTube lessons here.';holder.append(empty);}
+        data.forEach(x=>{const row=document.createElement('div');row.className='record-row';const title=document.createElement('strong');title.textContent=x.title;const meta=document.createElement('p');meta.textContent=`${x.category}${x.description?' — '+x.description:''}`;const link=document.createElement('a');link.href=x.video_url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Open lesson on YouTube';link.style.color='var(--mint)';row.append(title,meta,link);holder.append(row);});setServiceStatus('learningResourcesStatus','Learning library loaded.','success');
+      }catch(e){console.warn(e);setServiceStatus('learningResourcesStatus','Learning library needs the new Supabase migration.','error');}
+    }
+    byId('learningResourceForm').addEventListener('submit',async(event)=>{event.preventDefault();if(!profileUser||!supabase||String(profileUser.email||'').toLowerCase()!==ADMIN_EMAIL)return;const title=byId('lessonTitle').value.trim(),category=byId('lessonCategory').value,url=byId('lessonUrl').value.trim(),description=byId('lessonDescription').value.trim();if(!/^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(url)){setServiceStatus('lessonStatus','Enter a valid YouTube video URL.','error');return;}try{const {error}=await supabase.from('learning_resources').insert({title,category,video_url:url,description,status:'published',created_by:profileUser.uid});if(error)throw error;setServiceStatus('lessonStatus','Lesson published to the learning library.','success');byId('learningResourceForm').reset();await loadLearningResources();}catch(e){console.error(e);setServiceStatus('lessonStatus','Could not publish lesson. Confirm the new migration and admin email policy.','error');}});
+    const ADMIN_EMAIL='enemindcompany@gmail.com';
+    function statusSelect(table,id,currentStatus,options){
+      const wrap=document.createElement('div');wrap.className='form-row';const select=document.createElement('select');select.setAttribute('aria-label','Update status');options.forEach(status=>{const opt=document.createElement('option');opt.value=status;opt.textContent=status.replaceAll('_',' ');opt.selected=status===currentStatus;select.append(opt);});
+      const save=document.createElement('button');save.type='button';save.className='mini-action';save.textContent='Save status';save.addEventListener('click',async()=>{save.disabled=true;try{const update={status:select.value};if(['payment_submissions','referral_attributions','buyer_marketplace_orders'].includes(table))update.reviewed_at=new Date().toISOString();if(['service_requests','bwrite_submissions','buyer_marketplace_orders','buyer_marketplace_offers'].includes(table))update.updated_at=new Date().toISOString();const {error}=await supabase.from(table).update(update).eq('id',id);if(error)throw error;setServiceStatus('adminQueueStatus','Status updated.','success');await loadAdminQueue();await loadMyRequests();}catch(e){console.error(e);setServiceStatus('adminQueueStatus','Status update failed. Confirm the admin email and SQL migration policies.','error');}finally{save.disabled=false;}});wrap.append(select,save);return wrap;
+    }
+    async function loadAdminBuyerRequestOptions(){
+      const select=byId('adminOfferRequestId');if(!select||!supabase||!profileUser||String(profileUser.email||'').toLowerCase()!==ADMIN_EMAIL)return;
+      try{const {data,error}=await supabase.from('service_requests').select('id,email,details,status,created_at').eq('request_type','buyer_request').order('created_at',{ascending:false}).limit(100);if(error)throw error;select.replaceChildren();const first=document.createElement('option');first.value='';first.textContent=data?.length?'Choose buyer request…':'No buyer requests yet';select.append(first);(data||[]).forEach(r=>{const d=r.details||{};const option=document.createElement('option');option.value=r.id;option.textContent=`${String(d.service_type||'Buyer request').slice(0,70)} · ${(d.countries||[]).join(', ')} · ${r.email||r.id.slice(0,8)} · ${r.status}`;select.append(option);});}catch(e){console.warn('Admin buyer request options failed',e);select.replaceChildren(new Option('Could not load requests — check migration/RLS',''));}
+    }
+    byId('adminBuyerOfferForm').addEventListener('submit',async(event)=>{
+      event.preventDefault();if(!profileUser||!supabase||String(profileUser.email||'').toLowerCase()!==ADMIN_EMAIL){setServiceStatus('adminOfferStatus','Admin account required.','error');return;}
+      const request_id=byId('adminOfferRequestId').value,seller_name=byId('adminOfferSeller').value.trim(),country=byId('adminOfferCountry').value.trim(),offer_title=byId('adminOfferTitle').value.trim(),description=byId('adminOfferDescription').value.trim(),price_usd=Number(byId('adminOfferPrice').value),days=byId('adminOfferDays').value,terms=byId('adminOfferTerms').value.trim();
+      if(!request_id||!seller_name||!country||!offer_title||!description||!Number.isFinite(price_usd)||price_usd<0){setServiceStatus('adminOfferStatus','Complete the request, seller, country, offer description and valid price.','error');return;}
+      try{const {error}=await supabase.from('buyer_marketplace_offers').insert({request_id,seller_name,country,offer_title,description,price_usd,delivery_days:days===''?null:Number(days),terms:terms||null,status:'available'});if(error)throw error;setServiceStatus('adminOfferStatus','Offer published. The buyer can now compare it under Matched offers.','success');byId('adminBuyerOfferForm').reset();await loadAdminQueue();}catch(e){console.error(e);setServiceStatus('adminOfferStatus','Could not publish offer. Apply 202610230003_buyer_marketplace.sql and verify admin access.','error');}
+    });
+
+    async function loadAdminQueue(){
+      if(!profileUser||!supabase||String(profileUser.email||'').toLowerCase()!==ADMIN_EMAIL){byId('adminReviewPanel').hidden=true;byId('adminLearningPanel').hidden=true;byId('adminEarningsPanel').hidden=true;return;}
+      byId('adminLearningPanel').hidden=false;byId('adminEarningsPanel').hidden=false;
+      byId('adminReviewPanel').hidden=false;const holder=byId('adminQueueList');holder.replaceChildren();await loadAdminBuyerRequestOptions();
+      try{
+        const [payments,requests,writings,referrals,withdrawals,earnings,orders]=await Promise.all([
+          supabase.from('payment_submissions').select('*').order('created_at',{ascending:false}).limit(30),
+          supabase.from('service_requests').select('*').order('created_at',{ascending:false}).limit(30),
+          supabase.from('bwrite_submissions').select('*').order('created_at',{ascending:false}).limit(30),
+          supabase.from('referral_attributions').select('*').order('created_at',{ascending:false}).limit(30),
+          supabase.from('withdrawal_requests').select('*').order('created_at',{ascending:false}).limit(30),
+          supabase.from('worker_earnings').select('*').order('created_at',{ascending:false}).limit(30),
+          supabase.from('buyer_marketplace_orders').select('*').order('created_at',{ascending:false}).limit(30)
+        ]);const fail=[payments,requests,writings,referrals,withdrawals,earnings,orders].find(x=>x.error);if(fail)throw fail.error;
+        const groups=[
+          ...(payments.data||[]).map(x=>({table:'payment_submissions',id:x.id,title:`PAYMENT · ${x.service_code} · $${Number(x.amount_usd).toFixed(2)}`,detail:`${x.email} · ref ${x.transaction_reference} · ${x.note||''}`,status:x.status,options:['pending','approved','paid','rejected']})),
+          ...(requests.data||[]).map(x=>({table:'service_requests',id:x.id,title:`REQUEST · ${x.request_type}`,detail:`${x.email} · ${JSON.stringify(x.details).slice(0,400)}`,status:x.status,options:['submitted','under_review','approved','fulfilled','rejected']})),
+          ...(writings.data||[]).map(x=>({table:'bwrite_submissions',id:x.id,title:`BWRITE · ${x.title}`,detail:`${x.email} · ${x.category} · ${x.document_url}`,status:x.status,options:['submitted','under_review','revision_required','approved','published','rejected']})),
+          ...(referrals.data||[]).map(x=>({table:'referral_attributions',id:x.id,title:`REFERRAL · ${x.track} · $${Number(x.reward_usd).toFixed(2)}`,detail:`referrer ${x.referrer_uid} → referred ${x.referred_uid}`,status:x.status,options:['pending_review','qualified','rejected','paid']})),
+          ...(withdrawals.data||[]).map(x=>({table:'withdrawal_requests',id:x.id,title:`WITHDRAWAL · $${Number(x.amount_usd).toFixed(2)}`,detail:`${x.email} · Binance ${x.payout_binance_uid} · ${x.note||''}`,status:x.status,options:['pending','approved','paid','rejected']})),
+          ...(earnings.data||[]).map(x=>({table:'worker_earnings',id:x.id,title:`WORKER EARNING · $${Number(x.amount_usd).toFixed(2)}`,detail:`worker ${x.user_id} · ${x.task_reference||''} · ${x.description}`,status:x.status,options:['pending','approved','rejected']})),
+          ...(orders.data||[]).map(x=>({table:'buyer_marketplace_orders',id:x.id,title:`BUYER ORDER · $${Number(x.agreed_price_usd).toFixed(2)} · Qty ${x.quantity}`,detail:`${x.buyer_email} · request ${x.request_id} · offer ${x.offer_id} · ${x.delivery_note||''}`,status:x.status,options:['pending','accepted','awaiting_payment','in_progress','delivered','completed','cancelled','disputed']}))
+        ];
+        if(!groups.length){const empty=document.createElement('div');empty.className='record-row';empty.textContent='No review items yet.';holder.append(empty);}
+        groups.forEach(x=>{const row=document.createElement('div');row.className='record-row';const title=document.createElement('strong');title.textContent=x.title;const detail=document.createElement('p');detail.textContent=x.detail;detail.style.overflowWrap='anywhere';const state=document.createElement('p');state.textContent=`Current status: ${x.status}`;row.append(title,detail,state,statusSelect(x.table,x.id,x.status,x.options));holder.append(row);});
+        setServiceStatus('adminQueueStatus','Admin queue loaded. Verify transaction references in Binance before marking payments paid.','success');
+      }catch(e){console.error(e);setServiceStatus('adminQueueStatus','Could not load admin queue. Confirm the admin email, migration, and RLS policies.','error');}
+    }
+    byId('refreshAdminQueue').addEventListener('click',loadAdminQueue);
+    byId('adminEarningsForm').addEventListener('submit',async(event)=>{event.preventDefault();if(!profileUser||String(profileUser.email||'').toLowerCase()!==ADMIN_EMAIL||!supabase)return;const userId=byId('earningWorkerUid').value.trim(),amount=Number(byId('earningAmount').value),taskRef=byId('earningTaskRef').value.trim(),description=byId('earningDescription').value.trim();if(!userId||!Number.isFinite(amount)||amount<=0||!description){setServiceStatus('earningStatus','Enter worker UID, a positive amount and task description.','error');return;}try{const {error}=await supabase.from('worker_earnings').insert({user_id:userId,task_reference:taskRef||null,description,amount_usd:amount,status:'pending'});if(error)throw error;setServiceStatus('earningStatus','Earning recorded as pending. Approve it in the Supabase table after quality review before it can be withdrawn.','success');byId('adminEarningsForm').reset();await loadAdminQueue();}catch(e){console.error(e);setServiceStatus('earningStatus','Could not record earning. Confirm admin access and migration.','error');}});
+
+
+    async function ensureTrialForUser(user){
+      if(!user||!supabase)return null;
+      try{
+        const {data,error}=await supabase.from('user_trials').select('user_id,started_at,ends_at').eq('user_id',user.uid).maybeSingle();
+        if(error)throw error;
+        if(data){currentTrial=data;return data;}
+        const {data:created,error:insertError}=await supabase.from('user_trials').insert({user_id:user.uid}).select('user_id,started_at,ends_at').single();
+        if(insertError)throw insertError;currentTrial=created;return created;
+      }catch(error){console.warn('Could not initialize trial (apply Enemind services migration)',error);return null;}
+    }
+    // Capture a referral invite for admin review after the invited person signs in.
+    async function captureReferralForSignedInUser(user){
+      const params=new URLSearchParams(location.search);const referrer=params.get('ref');const track=params.get('track');
+      if(!referrer||!track||referrer===user.uid||!['buyer','worker','learner','bwrite'].includes(track)||!supabase)return;
+      try{const key=`enemind_ref_${user.uid}`;if(sessionStorage.getItem(key))return;
+        const {error}=await supabase.from('referral_attributions').insert({referrer_uid:referrer,referred_uid:user.uid,track,status:'pending_review'});
+        if(error && error.code!=='23505')throw error;sessionStorage.setItem(key,'1');
+      }catch(error){console.warn('Referral attribution awaiting setup/review',error);}
+    }
+    // Admin records are not auto-approved in the client. A privileged admin workflow must verify references and qualify rewards.
+
+    // Google sign-in
+    signInButton.addEventListener('click', async () => {
+      if (!firebaseAuth) {
+        message.textContent = 'Google sign-in is not configured yet. Check config.js and refresh the page.';
+        return;
+      }
+
+      signInButton.disabled = true;
+      const originalText = signInButton.querySelector('span').textContent;
+      signInButton.querySelector('span').textContent = 'Connecting to Google…';
+      message.textContent = 'Opening Google sign-in…';
+
+      try {
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const result = await signInWithPopup(firebaseAuth, provider);
+        firebaseUser = result.user;
+
+        const displayName = result.user.displayName || result.user.email || 'your account';
+        message.textContent = `Signed in as ${displayName}.`;
+
+        if (!supabaseReady || !supabase) {
+          message.textContent += ' Supabase is not configured yet; sign-in is working independently.';
+          return;
+        }
+
+        profileUser = result.user;
+        let profile;
+        try {
+          profile = await syncProfile(result.user);
+        } catch (error) {
+          console.error('Profile sync failed after Google sign-in:', error);
+          message.textContent = `Google sign-in succeeded, but profile synchronization failed: ${error instanceof Error ? error.message : 'Please try again.'}`;
+          return;
+        }
+
+        await ensureTrialForUser(result.user);
+        await captureReferralForSignedInUser(result.user);
+
+        if (validAccountTypes.has(profile.account_type)) {
+          currentAccountType = profile.account_type;
+          currentProfile = profile;
+          showDashboard(result.user, profile.account_type);
+        } else {
+          currentProfile = profile;
+          showAccountSelector();
+          accountTypeStatus.textContent = 'Choose an account type to finish setting up your profile.';
+        }
+      } catch (error) {
+        console.error('Google sign-in failed:', error);
+        if (error?.code === 'auth/unauthorized-domain') {
+          message.textContent = 'This domain is not authorized in Firebase. Add localhost (or your website domain) in Firebase Authentication settings.';
+        } else if (error?.code === 'auth/popup-closed-by-user') {
+          message.textContent = 'Sign-in was cancelled before it finished.';
+        } else if (error?.code === 'auth/popup-blocked' || error?.code === 'auth/cancelled-popup-request') {
+          message.textContent = 'The Google sign-in popup was blocked or interrupted. Allow popups for this site, close other sign-in popups, and try again.';
+        } else if (error?.code === 'auth/network-request-failed') {
+          message.textContent = 'A network error interrupted Google sign-in. Check your connection and try again.';
+        } else if (error?.code === 'auth/operation-not-allowed') {
+          message.textContent = 'Google sign-in is disabled in Firebase Authentication. Enable the Google provider and try again.';
+        } else {
+          message.textContent = 'Google sign-in failed. Check that Google is enabled in Firebase Authentication and review the browser console.';
+        }
+      } finally {
+        signInButton.disabled = false;
+        signInButton.querySelector('span').textContent = originalText;
+      }
+    });
+
+    // PWA install prompt: capture it here, then call prompt() only after the user clicks.
+    let installPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      installPrompt = event;
+      installButton.style.display = 'inline-flex';
+    });
+
+    installButton.addEventListener('click', async () => {
+      if (!installPrompt) {
+        message.textContent = 'To install Enemind, open your browser menu and choose “Install app” or “Add to Home screen”.';
+        return;
+      }
+
+      const promptEvent = installPrompt;
+      installPrompt = null;
+      installButton.disabled = true;
+
+      try {
+        await promptEvent.prompt();
+        const choice = await promptEvent.userChoice;
+
+        if (choice?.outcome === 'accepted') {
+          message.textContent = 'Thanks — Enemind is being installed.';
+        } else {
+          message.textContent = 'Installation was dismissed. You can install Enemind later from your browser menu.';
+        }
+      } catch (error) {
+        console.warn('PWA installation prompt could not be shown:', error);
+        message.textContent = 'The install prompt is no longer available. Use your browser menu to install Enemind.';
+      } finally {
+        installButton.disabled = false;
+        installButton.style.display = 'none';
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installPrompt = null;
+      installButton.style.display = 'none';
+      message.textContent = 'Enemind has been installed on this device.';
+    });
+
+    // Register the service worker only on secure contexts or localhost.
+    if ('serviceWorker' in navigator &&
+        (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .catch((error) => console.warn('Service worker registration failed:', error));
+      });
+    }
+
+    // Open configured social links safely; WeChat remains a placeholder until its real URL is supplied.
+    document.querySelectorAll('[data-social]').forEach((link) => {
+      const platform = link.dataset.social;
+      if (platform === 'wechat') {
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          message.textContent = 'Add Enemind’s official WeChat profile or QR-code link to enable this button.';
+        });
+      } else {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+    });
+  </script>
+</body>
+</html>

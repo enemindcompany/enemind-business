@@ -1,0 +1,18 @@
+{
+  "name": "enemind-business",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+ "scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview"
+},
+  "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
+    "firebase": "^11.10.0"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

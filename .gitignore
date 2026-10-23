@@ -1,7 +1,14 @@
-.DS_Store
+node_modules/
+dist/
 .env
 .env.*
 !.env.example
-node_modules/
-dist/
+!.env.*.example
 .firebase/
+.branches/
+.temp/
+.DS_Store
+functions/node_modules/
+*-firebase-adminsdk-*.json
+serviceAccount*.json
+firebase-debug.log

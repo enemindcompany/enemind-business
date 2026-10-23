@@ -1,0 +1,3 @@
+[functions.enemind-profile]
+# Firebase ID tokens are verified inside the function; they are not Supabase JWTs.
+verify_jwt = false

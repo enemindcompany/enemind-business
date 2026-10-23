@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5faf8">
+  <meta name="description" content="Enemind connects people to digital opportunities, online services, and ways to earn online.">
+  <meta name="application-name" content="Enemind">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/jpeg" href="./icons/logo.jpg">
+  <link rel="apple-touch-icon" href="./icons/logo.jpg">
+  <title>Enemind — Find your way to earn online</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08111f;
+      --panel: rgba(255,255,255,.045);
+      --text: #f5f8ff;
+      --muted: #a8b5ca;
+      --line: rgba(255,255,255,.12);
+      --mint: #62f0c0;
+      --focus: #a8ffdf;
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 28px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 12%, rgba(68,118,255,.19), transparent 42%),
+        radial-gradient(ellipse at 12% 88%, rgba(43,218,171,.11), transparent 34%),
+        var(--bg);
+    }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .page { width: 100%; max-width: 540px; text-align: center; }
+    .brand-mark {
+      width: 142px; height: 142px; margin: 0 auto 20px;
+      border-radius: 50%; display: grid; place-items: center;
+      position: relative; overflow: hidden;
+      background: linear-gradient(145deg,#1b3150,#0d182b 70%);
+      border: 1px solid rgba(255,255,255,.2);
+      box-shadow: 0 0 0 8px rgba(255,255,255,.025), 0 18px 60px rgba(0,0,0,.35), 0 0 42px rgba(98,240,192,.12);
+    }
+    .brand-logo { width: 100%; height: 100%; display: block; object-fit: contain; border-radius: 50%; padding: 5px; }
+    .brand-fallback { display: none; font-size: 48px; line-height: 1; font-weight: 850; letter-spacing: -5px; color: var(--mint); }
+    .brand-fallback span { color: white; }
+    .wordmark { margin: 0; font-size: clamp(30px,7vw,39px); font-weight: 850; letter-spacing: .16em; text-indent: .16em; }
+    .tagline { margin: 11px 0 27px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+    .signin, .install-app {
+      width: 100%; max-width: 340px; min-height: 52px; padding: 0 18px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      border: 0; border-radius: 14px; font-weight: 750; cursor: pointer;
+      transition: transform .18s, box-shadow .18s, opacity .18s;
+    }
+    .signin { background: #fff; color: #172033; font-size: 15px; box-shadow: 0 10px 30px #0003; }
+    .install-app { display: none; margin-top: 12px; min-height: 48px; gap: 10px; background: linear-gradient(135deg,#62f0c0,#8baeff); color: #08111f; font-size: 14px; box-shadow: 0 10px 28px #0003; }
+    .signin:hover, .install-app:hover { transform: translateY(-2px); }
+    .signin:disabled { opacity: .65; cursor: wait; transform: none; }
+    .signin:focus-visible, .install-app:focus-visible, .social:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+    .google-g { width: 20px; height: 20px; flex: 0 0 auto; }
+    .install-app svg { width: 19px; height: 19px; fill: currentColor; }
+    .helper { min-height: 20px; margin: 11px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted); overflow-wrap: anywhere; }
+    .divider { display: flex; align-items: center; gap: 14px; margin: 31px 0 18px; color: #8291a9; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+    .divider::before, .divider::after { content: ""; height: 1px; background: var(--line); flex: 1; }
+    .socials { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 12px; }
+    .social {
+      min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 4px 11px; border-radius: 15px; border: 1px solid var(--line);
+      background: var(--panel); color: var(--muted); text-decoration: none; font-size: 11px;
+      transition: transform .18s, background .18s, border-color .18s;
+    }
+    .social:hover { transform: translateY(-3px); background: #ffffff14; border-color: #62f0c060; color: white; }
+    .social svg { width: 23px; height: 23px; fill: currentColor; flex: 0 0 auto; }
+    .binance-id { font-size: 9px; line-height: 1.2; color: #f3ba2f; overflow-wrap: anywhere; }
+    .whatsapp { color: #36d889; } .wechat { color: #7fe6a0; }
+    .instagram { color: #f7a1ca; } .facebook { color: #7baaff; }
+    .youtube { color: #ff6666; } .binance { color: #f3ba2f; } .telegram { color: #68c9ff; }
+    .note { margin: 24px auto 0; max-width: 400px; color: #78879f; font-size: 11px; line-height: 1.7; }
+    .footer { margin-top: 25px; color: #68768b; font-size: 11px; }
+    body.app-open { align-items: flex-start; padding-top: 44px; }
+    .page.app-mode { max-width: 1000px; text-align: left; }
+    .app-view { margin: 0 auto; width: 100%; }
+    .selector-panel, .dashboard-panel {
+      padding: clamp(22px, 5vw, 42px); border: 1px solid var(--line); border-radius: 26px;
+      background: linear-gradient(145deg, rgba(25,43,68,.94), rgba(11,22,39,.96));
+      box-shadow: 0 24px 70px #0005;
+    }
+    .selector-heading, .dashboard-heading { text-align: center; }
+    .eyebrow { margin: 0 0 10px; color: var(--mint); font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .view-title { margin: 0; font-size: clamp(27px, 5vw, 40px); letter-spacing: -.04em; }
+    .view-copy { margin: 12px auto 0; max-width: 590px; color: var(--muted); line-height: 1.65; }
+    .account-options { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 30px 0 24px; }
+    .account-option {
+      min-height: 178px; padding: 20px 15px; text-align: left; color: var(--text); cursor: pointer;
+      border: 1px solid var(--line); border-radius: 18px; background: #ffffff08;
+      transition: transform .18s, border-color .18s, background .18s, box-shadow .18s;
+    }
+    .account-option:hover { transform: translateY(-3px); border-color: #62f0c080; background: #ffffff10; }
+    .account-option[aria-pressed="true"] { border-color: var(--mint); background: #62f0c014; box-shadow: 0 0 0 2px #62f0c025; }
+    .account-option:focus-visible, .primary-action:focus-visible, .secondary-action:focus-visible, .starter-action:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .option-icon { display: block; margin-bottom: 15px; font-size: 28px; }
+    .option-title { display: block; margin-bottom: 7px; font-size: 16px; font-weight: 800; }
+    .option-copy { display: block; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .selector-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .primary-action, .secondary-action {
+      min-height: 48px; padding: 0 24px; border: 0; border-radius: 14px; font: inherit; font-weight: 800; cursor: pointer;
+    }
+    .primary-action { background: linear-gradient(135deg, #62f0c0, #8baeff); color: #08111f; }
+    .secondary-action { border: 1px solid var(--line); background: transparent; color: var(--text); }
+    .primary-action:disabled { opacity: .55; cursor: not-allowed; }
+    .view-status { min-height: 22px; margin: 16px 0 0; color: var(--muted); text-align: center; font-size: 13px; }
+    .view-status[data-state="error"] { color: #ff9b9b; }
+    .view-status[data-state="success"] { color: var(--mint); }
+    .dashboard-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+    .dashboard-heading { text-align: left; }
+    .account-badge { display: inline-flex; margin-top: 14px; padding: 7px 12px; border: 1px solid #62f0c055; border-radius: 999px; color: var(--mint); background: #62f0c010; font-size: 12px; font-weight: 800; }
+    .starter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 30px; }
+    .starter-action { display: block; min-height: 140px; padding: 21px; border: 1px solid var(--line); border-radius: 18px; color: var(--text); background: #ffffff08; text-align: left; }
+    .starter-action-icon { font-size: 25px; }
+    .starter-action strong { display: block; margin: 13px 0 7px; font-size: 16px; }
+    .starter-action span:last-child { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    [hidden] { display: none !important; }
+    @media (max-width: 800px) { .account-options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 480px) {
+      body.app-open { padding: 22px 12px; }
+      .account-options { gap: 9px; margin-top: 22px; }
+      .account-option { min-height: 160px; padding: 15px 12px; }
+      .dashboard-top { display: block; }
+      .dashboard-top .secondary-action { margin-top: 18px; }
+    }
+    @media (max-width: 390px) {
+      body { padding: 24px 14px; }
+      .brand-mark { width: 124px; height: 124px; }
+      .socials { gap: 8px; }
+      .social { padding: 11px 2px 9px; font-size: 10px; }
+      .social svg { width: 21px; height: 21px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+    :root {
+      color-scheme: light;
+      --bg: #f5faf8;
+      --panel: #fff;
+      --text: #143c3c;
+      --muted: #587271;
+      --line: #dce9e5;
+      --mint: #188b68;
+      --focus: #087c59;
+    }
+    body { background: var(--bg); }
+    .page { max-width: 580px; padding: 38px; border: 1px solid var(--line); border-radius: 28px; background: #fff; box-shadow: 0 18px 56px rgba(20,60,60,.1); }
+    .brand-mark { background: #f2f8f5; border-color: var(--line); box-shadow: 0 10px 30px rgba(20,60,60,.1); }
+    .brand-fallback span { color: var(--text); }
+    .signin { background: #153e3c; color: #fff; box-shadow: 0 8px 22px rgba(20,60,60,.18); }
+    .install-app { background: #dff4e9; color: #143c3c; box-shadow: 0 8px 22px rgba(20,60,60,.1); }
+    .social { background: #f8fbfa; }
+    .social:hover { background: #eaf5f0; border-color: #188b6880; color: var(--text); }
+    .note { color: var(--muted); }
+    .footer { color: #667f7d; }
+    .selector-panel, .dashboard-panel { background: #fff; box-shadow: 0 18px 50px rgba(20,60,60,.1); }
+    .account-option { background: #fbfdfc; box-shadow: 0 5px 16px rgba(20,60,60,.045); }
+    .account-option:hover { border-color: #188b6880; background: #f5fbf7; }
+    .account-option[aria-checked="true"] { border-color: var(--mint); background: #eff9f3; box-shadow: 0 0 0 2px #188b6825; }
+    .account-option:focus-visible, .primary-action:focus-visible, .secondary-action:focus-visible, .starter-action:focus-visible, .profile-field input:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .primary-action { background: #188b68; color: #fff; box-shadow: 0 8px 18px rgba(24,139,104,.18); }
+    .secondary-action { background: #fff; }
+    .view-status[data-state="error"] { color: #a32626; }
+    .account-badge { border-color: #188b6855; color: #126e53; background: #eff9f3; }
+    .starter-action { background: #fbfdfc; box-shadow: 0 5px 16px rgba(20,60,60,.045); }
+    .profile-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; margin-top: 25px; }
+    .profile-field { display: grid; gap: 7px; color: var(--text); font-size: 13px; font-weight: 750; }
+    .profile-field input { width: 100%; min-height: 46px; padding: 11px 13px; border: 1px solid #cbdcd6; border-radius: 12px; background: #fff; color: var(--text); font: inherit; font-weight: 450; }
+    .profile-field input::placeholder { color: #738885; }
+    .profile-help { margin: 0; color: var(--muted); font-size: 12px; font-weight: 450; line-height: 1.5; }
+    .privacy-note { margin: 22px 0 0; padding: 15px 17px; border-radius: 14px; background: #f0f7f4; color: #385b57; font-size: 12px; line-height: 1.65; }
+    .profile-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+    @media (max-width: 700px) { .page { padding: 25px 18px; } .profile-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 390px) { .page { padding: 20px 14px; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="brand-mark">
+      <img class="brand-logo" id="brandLogo" src="./icons/logo.jpg" alt="Enemind logo">
+      <div class="brand-fallback" id="brandFallback" aria-hidden="true">e<span>n</span>.</div>
+    </div>
+    <h1 class="wordmark">ENEMIND</h1>
+    <p class="tagline">Find your way to earn online.<br>Connect to digital opportunities.</p>
+
+    <button class="signin" id="googleSignIn" type="button">
+      <svg class="google-g" viewBox="0 0 48 48" aria-hidden="true">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" transform="translate(0 4)"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.75 7.18l7.73 6C44.42 38.05 46.98 31.95 46.98 24.55z"/>
+        <path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.53 2.56 10.78l7.97-6.19z" transform="translate(0 4)"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.8l-7.73-6c-2.14 1.44-4.89 2.3-8.18 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" transform="translate(0 -2)"/>
+      </svg>
+      <span>Continue with Google</span>
+    </button>
+
+    <button class="install-app" id="installApp" type="button" aria-label="Install Enemind app">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 18H5v-2H3v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h-2v2ZM13 3h-2v8.17L8.41 8.59 7 10l5 5 5-5-1.41-1.41L13 11.17V3Z"/></svg>
+      Install Enemind App
+    </button>
+
+    <p class="helper" id="authMessage" role="status" aria-live="polite">One account to explore opportunities and services.</p>
+    <div class="divider">Connect with Enemind</div>
+
+    <nav class="socials" aria-label="Enemind social media">
+      <a class="social" data-social="whatsapp" href="https://wa.me/254180752220" aria-label="Enemind on WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.6 4.1 1.6 5.9L0 24l6.5-1.7a11.8 11.8 0 0 0 5.6 1.4h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.1-3.5-8.4ZM12.2 21.7c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.9 1 1-3.8-.3-.4a9.8 9.8 0 1 1 8.6 4.8Zm5.4-7.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-.3-.1-1.2-.5-2.3-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6s-.7-1.6-1-2.2c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.8s1.2 3.2 1.4 3.4c.2.2 2.4 3.7 5.8 5.1.8.3 1.4.5 1.9.6.8.2 1.5.2 2.1.1.7-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.6-.4Z"/></svg>
+        WhatsApp
+      </a>
+      <a class="social" data-social="wechat" href="#" aria-label="Enemind on WeChat">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.9 2C4.5 2 1 4.9 1 8.5c0 2 1.1 3.8 2.9 5L3 16.2l3.3-1.6c.8.2 1.7.4 2.6.4h.4a6.3 6.3 0 0 1-.5-2.5c0-3.7 3.5-6.6 7.9-6.6h.5C16.1 3.6 12.8 2 8.9 2Zm-2.6 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm5.2 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm5.4-1.7c-3.9 0-7.1 2.5-7.1 5.7s3.2 5.7 7.1 5.7c.8 0 1.6-.1 2.3-.4l3 1.4-.8-2.4c1.6-1.1 2.6-2.6 2.6-4.3 0-3.2-3.2-5.7-7.1-5.7Zm-2.4 6.1a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Zm4.8 0a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Z"/></svg>
+        WeChat
+      </a>
+      <a class="social" data-social="x" href="https://x.com/enemind" aria-label="Enemind on X">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l7.3-8.4L1.8 2h6.5l4.4 6.9L18.9 2Zm-1.1 17.9h1.7L7.3 4H5.5l12.3 15.9Z"/></svg>
+        X
+      </a>
+      <a class="social" data-social="instagram" href="https://www.instagram.com/enermindcom/" aria-label="Enemind on Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm5 2.3a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2.2a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6Zm5.8-3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6Z"/></svg>
+        Instagram
+      </a>
+      <a class="social" data-social="facebook" href="https://www.facebook.com/Enermindcom" aria-label="Enemind on Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.7 22v-9h3l.5-3.5h-3.5V7.2c0-1 .3-1.7 1.8-1.7h1.9V2.4c-.9-.1-1.9-.2-2.8-.2-2.9 0-4.9 1.8-4.9 5v2.3H6.5V13h3.2v9h4Z"/></svg>
+        Facebook
+      </a>
+      <a class="social" data-social="tiktok" href="https://www.tiktok.com/@enemindcomp" aria-label="Enemind on TikTok">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.6 5.6A6.4 6.4 0 0 1 16 2.1V1h-4.1v15.1a2.8 2.8 0 1 1-2-2.7V9.2a7 7 0 1 0 6.1 6.9V8.4a10.4 10.4 0 0 0 5.1 1.3V5.6h-1.5Z"/></svg>
+        TikTok
+      </a>
+      <a class="social" data-social="youtube" href="https://www.youtube.com/@Enemindcompany" aria-label="Enemind on YouTube">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.8V8.2l6.3 3.8-6.3 3.8Z"/></svg>
+        YouTube
+      </a>
+      <a class="social" data-social="binance" href="https://www.binance.com/" aria-label="Enemind Binance profile">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7.4 10.2 4.6-4.6 4.6 4.6 2.7-2.7L12 0 4.7 7.5l2.7 2.7Zm-4.7-.1L0 12.8l2.7 2.7 2.7-2.7-2.7-2.7Zm9.3 3.2-2.6-2.6-2.7 2.7 5.3 5.3 5.3-5.3-2.7-2.7-2.6 2.6Zm9.3-3.2-2.7 2.7 2.7 2.7 2.7-2.7-2.7-2.7ZM12 21.3l-2-2 2-2 2 2-2 2Z"/></svg>
+        <span>Binance</span><small class="binance-id">ID: 1236166874</small>
+      </a>
+      <a class="social" data-social="telegram" href="https://t.me/+254180752220" aria-label="Enemind on Telegram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.9 3.5 20.3 21c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.6.6-1.2.6l.4-5.6L19.5 6c.4-.4-.1-.6-.6-.2L6.2 13.9.8 12.2c-1.2-.4-1.2-1.2.3-1.8L22.2 2c1-.4 1.9.2 1.7 1.5Z"/></svg>
+        Telegram
+      </a>
+    </nav>
+
+    <p class="note">Connect with Enemind through the official social links. WeChat will be enabled when its official account link is available. By continuing, you agree to the platform’s Terms and Privacy Policy.</p>
+    <div class="footer">© <span id="year"></span> Enemind · The digital opportunity network</div>
+
+    <section class="app-view selector-panel" id="accountSelector" aria-labelledby="accountSelectorTitle" hidden>
+      <div class="selector-heading">
+        <p class="eyebrow">Make Enemind yours</p>
+        <h2 class="view-title" id="accountSelectorTitle">How would you like to use Enermind?</h2>
+        <p class="view-copy">Choose the experience that fits you. You can change this any time in your dashboard.</p>
+      </div>
+      <div class="account-options" id="accountOptions" role="radiogroup" aria-label="Account type">
+        <button class="account-option" type="button" role="radio" aria-checked="false" data-account-type="buyer">
+          <span class="option-icon" aria-hidden="true">🛍️</span><span class="option-title">Buyer</span><span class="option-copy">Discover services, products, and opportunities.</span>
+        </button>
+        <button class="account-option" type="button" role="radio" aria-checked="false" data-account-type="seller">
+          <span class="option-icon" aria-hidden="true">🏪</span><span class="option-title">Seller</span><span class="option-copy">Showcase what you offer and grow your business.</span>
+        </button>
+        <button class="account-option" type="button" role="radio" aria-checked="false" data-account-type="both">
+          <span class="option-icon" aria-hidden="true">🤝</span><span class="option-title">Both</span><span class="option-copy">Explore as a buyer and offer as a seller.</span>
+        </button>
+        <button class="account-option" type="button" role="radio" aria-checked="false" data-account-type="learner">
+          <span class="option-icon" aria-hidden="true">📚</span><span class="option-title">Learner</span><span class="option-copy">Build skills with practical learning resources.</span>
+        </button>
+        <button class="account-option" type="button" role="radio" aria-checked="false" data-account-type="worker">
+          <span class="option-icon" aria-hidden="true">💼</span><span class="option-title">Worker</span><span class="option-copy">Find projects and opportunities to put your skills to work.</span>
+        </button>
+      </div>
+      <div class="selector-actions">
+        <button class="primary-action" id="continueAccountType" type="button" disabled>Continue</button>
+        <button class="secondary-action" id="cancelAccountType" type="button" hidden>Cancel</button>
+      </div>
+      <p class="view-status" id="accountTypeStatus" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="app-view selector-panel" id="profileSetup" aria-labelledby="profileSetupTitle" hidden>
+      <div class="selector-heading">
+        <p class="eyebrow">Optional profile details</p>
+        <h2 class="view-title" id="profileSetupTitle">Connect your accounts.</h2>
+        <p class="view-copy">Add the ways people can connect with you. You can leave any field blank and update these details later.</p>
+      </div>
+      <form id="profileSetupForm" novalidate>
+        <div class="profile-grid">
+          <label class="profile-field" for="whatsappGroupLink">WhatsApp group invite link
+            <input id="whatsappGroupLink" name="whatsapp_group_link" type="url" inputmode="url" maxlength="2048" placeholder="https://chat.whatsapp.com/…" autocomplete="url" aria-describedby="whatsappHelp">
+            <span class="profile-help" id="whatsappHelp">Anyone with access to a shared invite link may be able to join the group.</span>
+          </label>
+          <label class="profile-field" for="facebookUrl">Facebook profile/page URL
+            <input id="facebookUrl" name="facebook_url" type="url" inputmode="url" maxlength="2048" placeholder="https://facebook.com/…" autocomplete="url">
+          </label>
+          <label class="profile-field" for="wechatContact">WeChat ID or profile link
+            <input id="wechatContact" name="wechat_contact" type="text" maxlength="2048" placeholder="WeChat ID or https:// profile link" autocomplete="off" aria-describedby="wechatHelp">
+            <span class="profile-help" id="wechatHelp">Enter an ID or a profile URL.</span>
+          </label>
+          <label class="profile-field" for="instagramUrl">Instagram profile URL
+            <input id="instagramUrl" name="instagram_url" type="url" inputmode="url" maxlength="2048" placeholder="https://instagram.com/…" autocomplete="url">
+          </label>
+          <label class="profile-field" for="xUrl">X profile URL
+            <input id="xUrl" name="x_url" type="url" inputmode="url" maxlength="2048" placeholder="https://x.com/…" autocomplete="url">
+          </label>
+          <label class="profile-field" for="paypalEmail">PayPal email (private)
+            <input id="paypalEmail" name="paypal_email" type="email" inputmode="email" maxlength="254" placeholder="you@example.com" autocomplete="email" aria-describedby="paymentHelp">
+          </label>
+          <label class="profile-field" for="binanceUid">Binance ID/UID (private)
+            <input id="binanceUid" name="binance_uid" type="text" maxlength="100" placeholder="Your Binance ID or UID" autocomplete="off" aria-describedby="paymentHelp">
+          </label>
+        </div>
+        <p class="privacy-note" id="paymentHelp">PayPal email and Binance ID/UID are private profile details and are not displayed publicly. Never enter payment passwords, seed or recovery phrases, private keys, or API secrets.</p>
+        <div class="profile-actions">
+          <button class="secondary-action" id="backToAccountType" type="button">Back</button>
+          <button class="primary-action" id="saveProfile" type="submit">Save Profile</button>
+          <button class="secondary-action" id="skipProfile" type="button">Skip for Now</button>
+        </div>
+      </form>
+      <p class="view-status" id="profileStatus" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="app-view dashboard-panel" id="dashboard" aria-labelledby="dashboardTitle" hidden>
+      <div class="dashboard-top">
+        <div class="dashboard-heading">
+          <p class="eyebrow">Your Enemind dashboard</p>
+          <h2 class="view-title" id="dashboardTitle">Welcome</h2>
+          <p class="view-copy" id="dashboardCopy"></p>
+          <span class="account-badge" id="accountTypeBadge"></span>
+        </div>
+        <button class="secondary-action" id="changeAccountType" type="button">Change account type</button>
+      </div>
+      <div class="starter-grid" id="starterActions"></div>
+      <div class="selector-actions">
+        <button class="secondary-action" id="editProfile" type="button">Edit profile details</button>
+        <button class="secondary-action" id="signOut" type="button">Sign out</button>
+      </div>
+      <p class="view-status" id="dashboardStatus" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script type="module">
+    import { firebaseConfig, supabaseConfig } from './config.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signOut,
+      onAuthStateChanged
+    } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.57.0';
+
+    const message = document.getElementById('authMessage');
+    const signInButton = document.getElementById('googleSignIn');
+    const installButton = document.getElementById('installApp');
+    const page = document.querySelector('.page');
+    const selector = document.getElementById('accountSelector');
+    const profileSetup = document.getElementById('profileSetup');
+    const profileSetupForm = document.getElementById('profileSetupForm');
+    const dashboard = document.getElementById('dashboard');
+    const accountOptions = [...document.querySelectorAll('.account-option')];
+    const continueAccountType = document.getElementById('continueAccountType');
+    const cancelAccountType = document.getElementById('cancelAccountType');
+    const accountTypeStatus = document.getElementById('accountTypeStatus');
+    const profileStatus = document.getElementById('profileStatus');
+    const landingElements = [...document.querySelectorAll('.brand-mark, .wordmark, .tagline, #googleSignIn, #installApp, #authMessage, .divider, .socials, .note, .footer')];
+    const validAccountTypes = new Set(['buyer', 'seller', 'both', 'learner', 'worker']);
+    let selectedAccountType = null;
+    let isChangingAccountType = false;
+    let profileUser = null;
+    let currentAccountType = null;
+    let accountTypeSaving = false;
+    let profileFieldsSaving = false;
+    let currentProfile = null;
+    let profileDraft = null;
+    let editingProfileFromDashboard = false;
+
+    const profileFieldNames = [
+      'whatsapp_group_link',
+      'facebook_url',
+      'wechat_contact',
+      'instagram_url',
+      'x_url',
+      'paypal_email',
+      'binance_uid'
+    ];
+
+    const accountExperiences = {
+      buyer: {
+        title: 'Your buyer workspace is ready.',
+        actions: [
+          ['🔎', 'Explore services', 'Find trusted services and offerings for your needs.'],
+          ['✨', 'Discover opportunities', 'Browse new ways to connect and get things done.']
+        ]
+      },
+      seller: {
+        title: 'Your seller workspace is ready.',
+        actions: [
+          ['🏷️', 'Prepare your first offer', 'Describe your product or service for potential customers.'],
+          ['📣', 'Grow your reach', 'Get ready to share your business with the Enemind community.']
+        ]
+      },
+      both: {
+        title: 'Your buyer and seller workspace is ready.',
+        actions: [
+          ['🛍️', 'Explore services', 'Find trusted services and offerings for your needs.'],
+          ['🏪', 'Prepare your first offer', 'Get ready to showcase your product or service.'],
+          ['🤝', 'Build connections', 'Connect with people across the marketplace.']
+        ]
+      },
+      learner: {
+        title: 'Your learning workspace is ready.',
+        actions: [
+          ['📚', 'Explore learning resources', 'Discover practical content to build your skills.'],
+          ['🎯', 'Set a learning goal', 'Choose a skill you would like to develop next.']
+        ]
+      },
+      worker: {
+        title: 'Your worker workspace is ready.',
+        actions: [
+          ['🧰', 'Build your skills profile', 'Get ready to share the skills and experience you offer.'],
+          ['🧭', 'Explore work opportunities', 'Discover projects that could fit your skills.']
+        ]
+      }
+    };
+
+    document.getElementById('year').textContent = String(new Date().getFullYear());
+
+    // Show a fallback if the logo file cannot be loaded.
+    document.getElementById('brandLogo').addEventListener('error', () => {
+      document.getElementById('brandLogo').style.display = 'none';
+      document.getElementById('brandFallback').style.display = 'block';
+    }, { once: true });
+
+    const isConfiguredValue = (value) =>
+      typeof value === 'string' && value.trim() !== '' && !value.includes('YOUR_');
+
+    const firebaseReady = Boolean(
+      firebaseConfig &&
+      isConfiguredValue(firebaseConfig.apiKey) &&
+      isConfiguredValue(firebaseConfig.authDomain) &&
+      isConfiguredValue(firebaseConfig.projectId) &&
+      isConfiguredValue(firebaseConfig.appId)
+    );
+
+    const supabaseReady = Boolean(
+      supabaseConfig &&
+      isConfiguredValue(supabaseConfig.url) &&
+      isConfiguredValue(supabaseConfig.anonKey) &&
+      /^https:\/\/[a-zA-Z0-9-]+\.supabase\.co\/?$/.test(supabaseConfig.url)
+    );
+
+    let firebaseAuth = null;
+    let firebaseUser = null;
+    let supabase = null;
+
+    if (firebaseReady) {
+      try {
+        const app = initializeApp(firebaseConfig);
+        firebaseAuth = getAuth(app);
+        onAuthStateChanged(firebaseAuth, (user) => {
+          firebaseUser = user;
+        });
+      } catch (error) {
+        console.error('Firebase initialization failed:', error);
+        message.textContent = 'Firebase could not initialize. Check config.js and the browser console.';
+      }
+    } else {
+      message.textContent = 'Add your Firebase web configuration to config.js to enable Google sign-in.';
+    }
+
+    if (supabaseReady) {
+      try {
+        // Configure Firebase as a Supabase Third-Party Auth provider before enabling profile sync.
+        supabase = createClient(supabaseConfig.url, supabaseConfig.anonKey, {
+          accessToken: async () => {
+            const user = firebaseAuth?.currentUser || firebaseUser;
+            return user ? await user.getIdToken() : null;
+          }
+        });
+      } catch (error) {
+        console.error('Supabase initialization failed:', error);
+      }
+    }
+
+    // Sync the Firebase-authenticated profile through Supabase Edge Function.
+    // Firebase ID tokens are verified server-side by the Edge Function.
+    async function syncProfile(user, options = {}) {
+      try {
+        const token = await user.getIdToken(true);
+        const requestBody = {
+          displayName: user.displayName || null,
+          photoUrl: user.photoURL || null,
+          ...(options.accountType ? { accountType: options.accountType } : {}),
+          ...(options.profileFields ? { profileFields: options.profileFields } : {})
+        };
+
+        const response = await fetch(
+          `${supabaseConfig.url}/functions/v1/enemind-profile`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'apikey': supabaseConfig.anonKey
+            },
+            body: JSON.stringify(requestBody)
+          }
+        );
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          console.error('Supabase Edge Function failed:', response.status, result);
+          throw new Error(`Profile sync failed (${response.status}): ${result.error || 'Unknown error'}.`);
+        }
+
+        if (!result.ok || !result.profile) {
+          console.error('Unexpected profile-sync response:', result);
+          throw new Error('Supabase did not confirm profile synchronization.');
+        }
+
+        console.log('Supabase profile synced:', result.profile.firebase_uid);
+        return result.profile;
+      } catch (error) {
+        console.error('Supabase profile sync failed:', error);
+        throw error;
+      }
+    }
+
+    function showAppView(view) {
+      landingElements.forEach((element) => { element.hidden = true; });
+      selector.hidden = view !== 'selector';
+      profileSetup.hidden = view !== 'profileSetup';
+      dashboard.hidden = view !== 'dashboard';
+      page.classList.add('app-mode');
+      document.body.classList.add('app-open');
+    }
+
+    function showAccountSelector(currentType = null, editing = false) {
+      selectedAccountType = validAccountTypes.has(currentType) ? currentType : null;
+      isChangingAccountType = editing;
+      accountOptions.forEach((option) => {
+        const selected = option.dataset.accountType === selectedAccountType;
+        option.setAttribute('aria-checked', String(selected));
+      });
+      continueAccountType.disabled = !selectedAccountType;
+      continueAccountType.textContent = editing ? 'Save account type' : 'Continue';
+      cancelAccountType.hidden = !editing;
+      accountTypeStatus.textContent = '';
+      accountTypeStatus.dataset.state = '';
+      showAppView('selector');
+      (selectedAccountType
+        ? accountOptions.find((option) => option.dataset.accountType === selectedAccountType)
+        : accountOptions[0]).focus();
+    }
+
+    function populateProfileForm(profile = {}) {
+      profileFieldNames.forEach((name) => {
+        const field = profileSetupForm.elements.namedItem(name);
+        field.value = typeof profile[name] === 'string' ? profile[name] : '';
+        field.removeAttribute('aria-invalid');
+      });
+      profileStatus.textContent = '';
+      profileStatus.dataset.state = '';
+    }
+
+    function showProfileSetup(profile = currentProfile) {
+      editingProfileFromDashboard = dashboard.hidden === false;
+      populateProfileForm(profileDraft ? { ...profile, ...profileDraft } : profile);
+      profileDraft = null;
+      showAppView('profileSetup');
+      document.getElementById('whatsappGroupLink').focus();
+    }
+
+    function showProfileValidationError(field, text) {
+      field.setAttribute('aria-invalid', 'true');
+      profileStatus.textContent = text;
+      profileStatus.dataset.state = 'error';
+      field.focus();
+    }
+
+    function validateProfileForm(fields) {
+      const urlFields = [
+        ['whatsapp_group_link', 'whatsappGroupLink', 'Enter a valid WhatsApp invite URL.'],
+        ['facebook_url', 'facebookUrl', 'Enter a valid Facebook URL.'],
+        ['instagram_url', 'instagramUrl', 'Enter a valid Instagram URL.'],
+        ['x_url', 'xUrl', 'Enter a valid X profile URL.']
+      ];
+      for (const [name, id, errorMessage] of urlFields) {
+        const value = fields[name];
+        if (!value) continue;
+        try {
+          const url = new URL(value);
+          if (!['http:', 'https:'].includes(url.protocol) || !url.hostname || url.username || url.password ||
+              (name === 'whatsapp_group_link' && url.hostname.toLowerCase() !== 'chat.whatsapp.com')) {
+            throw new Error('Invalid URL');
+          }
+        } catch {
+          showProfileValidationError(document.getElementById(id), errorMessage);
+          return false;
+        }
+      }
+      const wechat = fields.wechat_contact;
+      if (wechat) {
+        const wechatField = document.getElementById('wechatContact');
+        const looksLikeUrl = /^https?:\/\//i.test(wechat) || /^www\./i.test(wechat);
+        if (looksLikeUrl) {
+          try {
+            const url = new URL(/^www\./i.test(wechat) ? `https://${wechat}` : wechat);
+            if (!['http:', 'https:'].includes(url.protocol) || !url.hostname || url.username || url.password) throw new Error('Invalid URL');
+          } catch {
+            showProfileValidationError(wechatField, 'Enter a valid WeChat ID or profile URL.');
+            return false;
+          }
+        } else if (!/^[A-Za-z0-9_.-]{3,128}$/.test(wechat)) {
+          showProfileValidationError(wechatField, 'Enter a valid WeChat ID (3–128 letters, numbers, dots, underscores, or hyphens) or profile URL.');
+          return false;
+        }
+      }
+      const paypal = fields.paypal_email;
+      if (paypal && (paypal.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(paypal))) {
+        showProfileValidationError(document.getElementById('paypalEmail'), 'Enter a valid PayPal email address.');
+        return false;
+      }
+      const binance = fields.binance_uid;
+      if (binance && !/^[A-Za-z0-9_-]{1,100}$/.test(binance)) {
+        showProfileValidationError(document.getElementById('binanceUid'), 'Enter a valid Binance ID/UID using up to 100 letters, numbers, underscores, or hyphens.');
+        return false;
+      }
+      return true;
+    }
+
+    function normalizedProfileField(name, value) {
+      if (!value) return null;
+      if (name === 'wechat_contact') {
+        if (/^www\./i.test(value)) return new URL(`https://${value}`).toString();
+        if (/^https?:\/\//i.test(value)) return new URL(value).toString();
+      }
+      if (['whatsapp_group_link', 'facebook_url', 'instagram_url', 'x_url'].includes(name)) {
+        return new URL(value).toString();
+      }
+      return value;
+    }
+
+    function showDashboard(user, accountType) {
+      if (!validAccountTypes.has(accountType)) {
+        showAccountSelector(null);
+        return;
+      }
+      const experience = accountExperiences[accountType];
+      document.getElementById('dashboardTitle').textContent = `Welcome, ${user.displayName || user.email?.split('@')[0] || 'to Enemind'}`;
+      document.getElementById('dashboardCopy').textContent = experience.title;
+      document.getElementById('accountTypeBadge').textContent = `Account type: ${accountType[0].toUpperCase()}${accountType.slice(1)}`;
+      const actions = document.getElementById('starterActions');
+      actions.replaceChildren(...experience.actions.map(([icon, title, description]) => {
+        const card = document.createElement('div');
+        card.className = 'starter-action';
+        const iconElement = document.createElement('span');
+        iconElement.className = 'starter-action-icon';
+        iconElement.setAttribute('aria-hidden', 'true');
+        iconElement.textContent = icon;
+        const titleElement = document.createElement('strong');
+        titleElement.textContent = title;
+        const descriptionElement = document.createElement('span');
+        descriptionElement.textContent = description;
+        card.append(iconElement, titleElement, descriptionElement);
+        return card;
+      }));
+      document.getElementById('dashboardStatus').textContent = '';
+      document.getElementById('dashboardStatus').dataset.state = '';
+      showAppView('dashboard');
+    }
+
+    accountOptions.forEach((option, index) => {
+      option.addEventListener('click', () => {
+        selectedAccountType = option.dataset.accountType;
+        accountOptions.forEach((card) => {
+          const selected = card === option;
+          card.setAttribute('aria-checked', String(selected));
+        });
+        continueAccountType.disabled = !selectedAccountType;
+        accountTypeStatus.textContent = '';
+      });
+      option.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+        event.preventDefault();
+        const offset = event.key === 'ArrowLeft' || event.key === 'ArrowUp' ? -1 : 1;
+        const nextOption = accountOptions[(index + offset + accountOptions.length) % accountOptions.length];
+        nextOption.focus();
+        nextOption.click();
+      });
+    });
+
+    continueAccountType.addEventListener('click', async () => {
+      if (accountTypeSaving || !validAccountTypes.has(selectedAccountType) || !profileUser) return;
+      if (!supabaseReady || !supabase) {
+        accountTypeStatus.textContent = 'Profile storage is not configured. Please try again later.';
+        accountTypeStatus.dataset.state = 'error';
+        return;
+      }
+      accountTypeSaving = true;
+      continueAccountType.disabled = true;
+      cancelAccountType.disabled = true;
+      continueAccountType.textContent = 'Saving…';
+      accountTypeStatus.textContent = 'Saving your account type securely…';
+      accountTypeStatus.dataset.state = '';
+      try {
+        const profile = await syncProfile(profileUser, { accountType: selectedAccountType });
+        if (profile.account_type !== selectedAccountType) {
+          throw new Error('The saved account type could not be confirmed. Please try again.');
+        }
+        currentAccountType = profile.account_type;
+        accountTypeStatus.textContent = 'Account type saved. Continue with your optional profile details.';
+        accountTypeStatus.dataset.state = 'success';
+        currentProfile = profile;
+        showProfileSetup(profile);
+        profileStatus.textContent = 'Account type saved. Add profile details or skip for now.';
+        profileStatus.dataset.state = 'success';
+      } catch (error) {
+        console.error('Account type save failed:', error);
+        accountTypeStatus.textContent = error instanceof Error ? error.message : 'Could not save your account type. Please try again.';
+        accountTypeStatus.dataset.state = 'error';
+        continueAccountType.disabled = false;
+      } finally {
+        accountTypeSaving = false;
+        cancelAccountType.disabled = false;
+        continueAccountType.textContent = isChangingAccountType ? 'Save account type' : 'Continue';
+      }
+    });
+
+    cancelAccountType.addEventListener('click', () => {
+      if (accountTypeSaving || !isChangingAccountType || !profileUser) return;
+      showDashboard(profileUser, currentAccountType);
+    });
+
+    document.getElementById('changeAccountType').addEventListener('click', () => {
+      showAccountSelector(currentAccountType, true);
+    });
+
+    document.getElementById('backToAccountType').addEventListener('click', () => {
+      if (profileFieldsSaving) return;
+      if (editingProfileFromDashboard) {
+        showDashboard(profileUser, currentAccountType);
+        return;
+      }
+      showAccountSelector(currentAccountType, Boolean(currentAccountType));
+    });
+
+    document.getElementById('skipProfile').addEventListener('click', () => {
+      if (profileFieldsSaving || !profileUser || !currentAccountType) return;
+      profileDraft = null;
+      showDashboard(profileUser, currentAccountType);
+      const dashboardStatus = document.getElementById('dashboardStatus');
+      dashboardStatus.textContent = 'Profile details were skipped. You can add them any time from this dashboard.';
+      dashboardStatus.dataset.state = 'success';
+    });
+
+    document.getElementById('editProfile').addEventListener('click', () => {
+      showProfileSetup(currentProfile);
+    });
+
+    profileSetupForm.addEventListener('input', (event) => {
+      event.target.removeAttribute('aria-invalid');
+      profileDraft = Object.fromEntries(profileFieldNames.map((name) => [
+        name,
+        profileSetupForm.elements.namedItem(name).value
+      ]));
+      profileStatus.textContent = '';
+      profileStatus.dataset.state = '';
+    });
+
+    profileSetupForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (profileFieldsSaving || !profileUser || !currentAccountType) return;
+      const profileFields = Object.fromEntries(profileFieldNames.map((name) => {
+        const field = profileSetupForm.elements.namedItem(name);
+        return [name, field.value.trim()];
+      }));
+      if (!validateProfileForm(profileFields)) return;
+      if (!supabaseReady || !supabase) {
+        profileStatus.textContent = 'Profile storage is not configured. Please try again later.';
+        profileStatus.dataset.state = 'error';
+        return;
+      }
+
+      profileFieldsSaving = true;
+      const saveButton = document.getElementById('saveProfile');
+      const skipButton = document.getElementById('skipProfile');
+      const backButton = document.getElementById('backToAccountType');
+      saveButton.disabled = true;
+      saveButton.textContent = 'Saving…';
+      skipButton.disabled = true;
+      backButton.disabled = true;
+      profileStatus.textContent = 'Saving your profile securely…';
+      profileStatus.dataset.state = '';
+      try {
+        const profile = await syncProfile(profileUser, { profileFields });
+        const unconfirmedField = profileFieldNames.find((name) =>
+          !Object.prototype.hasOwnProperty.call(profile, name) ||
+          profile[name] !== normalizedProfileField(name, profileFields[name])
+        );
+        if (unconfirmedField) {
+          throw new Error('The profile service did not confirm your saved details. Ensure the latest database migration and Edge Function are active, then try again.');
+        }
+        currentProfile = profile;
+        profileDraft = null;
+        showDashboard(profileUser, currentAccountType);
+        const dashboardStatus = document.getElementById('dashboardStatus');
+        dashboardStatus.textContent = 'Your profile details were saved successfully.';
+        dashboardStatus.dataset.state = 'success';
+      } catch (error) {
+        console.error('Profile details save failed:', error);
+        profileStatus.textContent = error instanceof Error ? error.message : 'Could not save your profile details. Please try again.';
+        profileStatus.dataset.state = 'error';
+      } finally {
+        profileFieldsSaving = false;
+        saveButton.disabled = false;
+        saveButton.textContent = 'Save Profile';
+        skipButton.disabled = false;
+        backButton.disabled = false;
+      }
+    });
+
+    document.getElementById('signOut').addEventListener('click', async () => {
+      if (!firebaseAuth) return;
+      try {
+        await signOut(firebaseAuth);
+        location.reload();
+      } catch (error) {
+        console.error('Sign-out failed:', error);
+        const dashboardStatus = document.getElementById('dashboardStatus');
+        dashboardStatus.textContent = 'Could not sign out. Please try again.';
+        dashboardStatus.dataset.state = 'error';
+      }
+    });
+
+    // Google sign-in
+    signInButton.addEventListener('click', async () => {
+      if (!firebaseAuth) {
+        message.textContent = 'Google sign-in is not configured yet. Check config.js and refresh the page.';
+        return;
+      }
+
+      signInButton.disabled = true;
+      const originalText = signInButton.querySelector('span').textContent;
+      signInButton.querySelector('span').textContent = 'Connecting to Google…';
+      message.textContent = 'Opening Google sign-in…';
+
+      try {
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const result = await signInWithPopup(firebaseAuth, provider);
+        firebaseUser = result.user;
+
+        const displayName = result.user.displayName || result.user.email || 'your account';
+        message.textContent = `Signed in as ${displayName}.`;
+
+        if (!supabaseReady || !supabase) {
+          message.textContent += ' Supabase is not configured yet; sign-in is working independently.';
+          return;
+        }
+
+        profileUser = result.user;
+        let profile;
+        try {
+          profile = await syncProfile(result.user);
+        } catch (error) {
+          console.error('Profile sync failed after Google sign-in:', error);
+          message.textContent = `Google sign-in succeeded, but profile synchronization failed: ${error instanceof Error ? error.message : 'Please try again.'}`;
+          return;
+        }
+
+        if (validAccountTypes.has(profile.account_type)) {
+          currentAccountType = profile.account_type;
+          currentProfile = profile;
+          showDashboard(result.user, profile.account_type);
+        } else {
+          currentProfile = profile;
+          showAccountSelector();
+          accountTypeStatus.textContent = 'Choose an account type to finish setting up your profile.';
+        }
+      } catch (error) {
+        console.error('Google sign-in failed:', error);
+        if (error?.code === 'auth/unauthorized-domain') {
+          message.textContent = 'This domain is not authorized in Firebase. Add localhost (or your website domain) in Firebase Authentication settings.';
+        } else if (error?.code === 'auth/popup-closed-by-user') {
+          message.textContent = 'Sign-in was cancelled before it finished.';
+        } else if (error?.code === 'auth/popup-blocked' || error?.code === 'auth/cancelled-popup-request') {
+          message.textContent = 'The Google sign-in popup was blocked or interrupted. Allow popups for this site, close other sign-in popups, and try again.';
+        } else if (error?.code === 'auth/network-request-failed') {
+          message.textContent = 'A network error interrupted Google sign-in. Check your connection and try again.';
+        } else if (error?.code === 'auth/operation-not-allowed') {
+          message.textContent = 'Google sign-in is disabled in Firebase Authentication. Enable the Google provider and try again.';
+        } else {
+          message.textContent = 'Google sign-in failed. Check that Google is enabled in Firebase Authentication and review the browser console.';
+        }
+      } finally {
+        signInButton.disabled = false;
+        signInButton.querySelector('span').textContent = originalText;
+      }
+    });
+
+    // PWA install prompt: capture it here, then call prompt() only after the user clicks.
+    let installPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      installPrompt = event;
+      installButton.style.display = 'inline-flex';
+    });
+
+    installButton.addEventListener('click', async () => {
+      if (!installPrompt) {
+        message.textContent = 'To install Enemind, open your browser menu and choose “Install app” or “Add to Home screen”.';
+        return;
+      }
+
+      const promptEvent = installPrompt;
+      installPrompt = null;
+      installButton.disabled = true;
+
+      try {
+        await promptEvent.prompt();
+        const choice = await promptEvent.userChoice;
+
+        if (choice?.outcome === 'accepted') {
+          message.textContent = 'Thanks — Enemind is being installed.';
+        } else {
+          message.textContent = 'Installation was dismissed. You can install Enemind later from your browser menu.';
+        }
+      } catch (error) {
+        console.warn('PWA installation prompt could not be shown:', error);
+        message.textContent = 'The install prompt is no longer available. Use your browser menu to install Enemind.';
+      } finally {
+        installButton.disabled = false;
+        installButton.style.display = 'none';
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installPrompt = null;
+      installButton.style.display = 'none';
+      message.textContent = 'Enemind has been installed on this device.';
+    });
+
+    // Register the service worker only on secure contexts or localhost.
+    if ('serviceWorker' in navigator &&
+        (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .catch((error) => console.warn('Service worker registration failed:', error));
+      });
+    }
+
+    // Open configured social links safely; WeChat remains a placeholder until its real URL is supplied.
+    document.querySelectorAll('[data-social]').forEach((link) => {
+      const platform = link.dataset.social;
+      if (platform === 'wechat') {
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          message.textContent = 'Add Enemind’s official WeChat profile or QR-code link to enable this button.';
+        });
+      } else {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+    });
+  </script>
+</body>
+</html>
