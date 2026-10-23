@@ -37,12 +37,39 @@ function renderProducts(){
  $('storeStatus').textContent=`${items.length} published resource${items.length===1?'':'s'} · Browse without signing in`;
 }
 async function loadProducts(){
- setStatus('storeStatus','Loading published resources…');
- const {data,error}=await sb.from('store_products').select('id,slug,title,short_description,description,category,audience,curriculum,class_level,subject,career_area,price,currency,preview_image_url,preview_url,license_type').eq('status','published').order('featured',{ascending:false}).order('created_at',{ascending:false});
- if(error){storeState.products=[];renderProducts();setStatus('storeStatus','Catalogue connection is not ready yet. Apply the included Supabase migration, then publish products in the admin dashboard.',true);return;}
- storeState.products=data||[];renderProducts();
- const slug=new URLSearchParams(location.search).get('product');
- if(slug){const found=storeState.products.find(p=>p.slug===slug||p.id===slug);if(found){document.getElementById('product-'+(found.slug||found.id))?.scrollIntoView({behavior:'smooth',block:'center'});}}
+ const timeoutMs = 12000;
+ const controller = new AbortController();
+ const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+ setStatus('storeStatus','Connecting to the catalogue…');
+ const productsEl = $('storeProducts');
+ if (productsEl) productsEl.innerHTML = '<article class="store-empty">Connecting to the catalogue…</article>';
+ try {
+  const {data,error}=await sb.from('store_products')
+   .select('id,slug,title,short_description,description,category,audience,curriculum,class_level,subject,career_area,price,currency,preview_image_url,preview_url,license_type')
+   .eq('status','published')
+   .order('featured',{ascending:false})
+   .order('created_at',{ascending:false})
+   .abortSignal(controller.signal);
+  if(error) throw error;
+  storeState.products=data||[];
+  renderProducts();
+  if (!storeState.products.length) {
+   setStatus('storeStatus','No published resources are available yet. Please check back soon or ask Enemind on WhatsApp.');
+  }
+  const slug=new URLSearchParams(location.search).get('product');
+  if(slug){const found=storeState.products.find(p=>p.slug===slug||p.id===slug);if(found){document.getElementById('product-'+(found.slug||found.id))?.scrollIntoView({behavior:'smooth',block:'center'});}}
+ } catch(error) {
+  storeState.products=[];
+  renderProducts();
+  const timedOut = error?.name === 'AbortError' || controller.signal.aborted;
+  const detail = error?.message ? ` Details: ${error.message}` : '';
+  setStatus('storeStatus', timedOut
+   ? `The catalogue server did not respond within ${timeoutMs/1000} seconds. Check that Supabase is online and that its URL/key in config.js are correct. Also verify the public SELECT policy allows published rows in store_products.`
+   : `The catalogue could not load. Check the Supabase project URL/key in config.js and the public SELECT policy for published store_products.${detail}`, true);
+  console.error('[Enemind Store] Catalogue load failed:', error);
+ } finally {
+  window.clearTimeout(timeoutId);
+ }
 }
 function startCheckout(id){
  const p=storeState.products.find(x=>x.id===id);if(!p)return;
